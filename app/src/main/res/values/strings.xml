@@ -16,4 +16,9 @@
     <string name="mail_hint">Enter Your email address</string>
     <string name="date_hint">Date of birth</string>
     <string name="title_activity_activity__registration">Registration</string>
+    <string name="title_activity_login">Login</string>
+    <string name="strUser">Username</string>
+    <string name="strPass">Password</string>
+    <string name="strLogin">Login</string>
+    <string name="strRegister">Register here</string>
 </resources>
