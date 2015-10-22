@@ -22,8 +22,8 @@ public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
         url += params[0].service;
 
         String urlParameters = "";
-        //urlParameters += "hash=" + params[0].hash;
-        //urlParameters += "&" + "json=" + params[0].jsonParams;
+        urlParameters += "?type=" + params[0].type;
+        urlParameters += "&" + "params=" + params[0].params;
 
         byte[] postData = urlParameters.getBytes();
 

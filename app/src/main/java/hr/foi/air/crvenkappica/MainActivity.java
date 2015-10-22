@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
         WebParams webParamsInit = new WebParams();
         webParamsInit.service = "con_init.php";
         webParamsInit.hash = "";
-        webParamsInit.jsonParams = "";
+        webParamsInit.type = "";
+        webParamsInit.params = "";
         new WebRequest().execute(webParamsInit);
     }
 }
