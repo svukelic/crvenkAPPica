@@ -22,4 +22,5 @@
     <string name="strLogin">Login</string>
     <string name="strRegister">Register here</string>
     <string name="title_activity_logon">Logon</string>
+    <string name="string_registerme">Register me</string>
 </resources>

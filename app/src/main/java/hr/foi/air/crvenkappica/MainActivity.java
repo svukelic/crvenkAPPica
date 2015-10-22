@@ -28,11 +28,6 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(MainActivity.this,Login.class);
         startActivity(i);
 
-        WebParams webParamsInit = new WebParams();
-        webParamsInit.service = "con_init.php";
-        webParamsInit.hash = "";
-        webParamsInit.type = "";
-        webParamsInit.params = "";
-        new WebRequest().execute(webParamsInit);
+
     }
 }
