@@ -12,6 +12,7 @@ public class Registracija extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registracija);
         //ovdje je listener za button
+
         Button b1 = (Button) findViewById(R.id.button_reg);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override

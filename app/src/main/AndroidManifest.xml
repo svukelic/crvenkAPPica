@@ -19,9 +19,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Login"
-            android:label="crvenkappica">
+            android:label="@string/title_activity_login">
         </activity>
-        <activity android:name=".Registracija" />
+        <activity
+            android:name=".Registracija"
+            android:label="@string/title_activity_activity__registration" />
     </application>
 
 </manifest>
