@@ -1,6 +1,8 @@
 package hr.foi.air.crvenkappica.web;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -22,8 +24,7 @@ public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
         url += params[0].service;
 
         String urlParameters = "";
-        urlParameters += "?type=" + params[0].type;
-        urlParameters += "&" + "params=" + params[0].params;
+        urlParameters += params[0].params;
 
         byte[] postData = urlParameters.getBytes();
 
@@ -64,7 +65,6 @@ public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
     @Override
     protected void onPostExecute(TaskResult taskResult) {
         super.onPostExecute(taskResult);
-
         RequestResponse.StaticResponse.setFinalResponse(taskResult.webResult);
     }
 }
