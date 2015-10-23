@@ -2,14 +2,14 @@
     <string name="app_name">crvenkappica</string>
     <string name="action_settings">Settings</string>
     <string name="name">Name:</string>
-    <string name="surname">Surname:</string>
+    <string name="surname">Last name:</string>
     <string name="username">Username:</string>
     <string name="password">Password:</string>
     <string name="password_rp">Repeat password:</string>
     <string name="mail">Email address:</string>
     <string name="date">DOB:</string>
     <string name="name_hint">Enter your name</string>
-    <string name="surname_hint">Enter your surname</string>
+    <string name="surname_hint">Enter your last name</string>
     <string name="username_hint">Enter desired username</string>
     <string name="password_hint">Enter desired password</string>
     <string name="password_rp_hint">Repeat password</string>
@@ -23,4 +23,6 @@
     <string name="strRegister">Register here</string>
     <string name="title_activity_logon">Logon</string>
     <string name="string_registerme">Register me</string>
+    <string name="string_registration_progress">Registration in progress...</string>
+
 </resources>
