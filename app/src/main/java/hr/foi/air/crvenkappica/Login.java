@@ -29,6 +29,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        WebParams paramsInit = new WebParams();
+        paramsInit.params = "";
+        paramsInit.service = "con_init.php";
+
+        new WebRequest().execute(paramsInit);
+
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
         btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -42,14 +48,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.btnLogin:
                 String userName = etUsername.getText().toString();
+                if (userName.isEmpty()) userName = "empty";
                 String password = etPassword.getText().toString();
+                if (password.isEmpty()) password = "empty";
                 String hash = "";
                 String type = "";
-                WebRequest request = new WebRequest();
-                WebParams params = new WebParams();
-                params.params = "?UserName=" + userName + "&Password=" + password;
-                params.service = "/prijava_app.php/";
-                request.execute(params);
+                WebParams paramsLogin = new WebParams();
+                paramsLogin.params = "?UserName=" + userName + "&Password=" + password;
+                paramsLogin.service = "prijava_app.php";
+
+                new WebRequest().execute(paramsLogin);
+
                 String resp = RequestResponse.StaticResponse.getFinalResponse();
                 Toast.makeText(getApplicationContext(), resp, Toast.LENGTH_LONG).show();
                 break;

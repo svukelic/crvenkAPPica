@@ -22,11 +22,9 @@ public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
 
         String url = WebParams.WebInfo.getUrl();
         url += params[0].service;
+        url += params[0].params;
 
-        String urlParameters = "";
-        urlParameters += params[0].params;
-
-        byte[] postData = urlParameters.getBytes();
+        byte[] postData = url.getBytes();
 
         HttpURLConnection c = null;
 
