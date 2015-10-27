@@ -60,7 +60,7 @@ public class Registracija extends AppCompatActivity implements View.OnClickListe
                 webParamsInit.hash = "";
                 webParamsInit.type = "";
                 webParamsInit.params = gson.toJson(data);
-                new WebRequest().execute(webParamsInit);
+                new WebRequest(Registracija.this).execute(webParamsInit);
             }
         });
         DOB_EditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {

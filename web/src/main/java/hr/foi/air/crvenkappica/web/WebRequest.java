@@ -1,5 +1,8 @@
 package hr.foi.air.crvenkappica.web;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -14,6 +17,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
+
+    private Context context;
+    private Dialog progressdialog;
+
+    public WebRequest(Context ctx){
+        context = ctx;
+    }
 
     @Override
     protected TaskResult doInBackground(WebParams... params) {

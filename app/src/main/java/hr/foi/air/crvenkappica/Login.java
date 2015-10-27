@@ -1,6 +1,7 @@
 package hr.foi.air.crvenkappica;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     Button btnLogin;
     EditText etUsername,etPassword;
     TextView register;
+    ProgressDialog progressdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         paramsInit.params = "";
         paramsInit.service = "con_init.php";
 
-        new WebRequest().execute(paramsInit);
+        new WebRequest(getApplicationContext()).execute(paramsInit);
 
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -47,6 +49,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnLogin:
+                progressdialog = new ProgressDialog(Login.this);
+                progressdialog.setTitle("Processing...");
+                progressdialog.setMessage("Please wait.");
+                progressdialog.setCancelable(false);
+                progressdialog.show();
+
                 String userName = etUsername.getText().toString();
                 if (userName.isEmpty()) userName = "empty";
                 String password = etPassword.getText().toString();
@@ -57,11 +65,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 paramsLogin.params = "?UserName=" + userName + "&Password=" + password;
                 paramsLogin.service = "prijava_app.php";
 
-                new WebRequest().execute(paramsLogin);
+                btnLogin.setEnabled(false);
+                new WebRequest(Login.this).execute(paramsLogin);
+                progressdialog.dismiss();
 
                 String resp = RequestResponse.StaticResponse.getFinalResponse();
                 Toast.makeText(getApplicationContext(), resp, Toast.LENGTH_LONG).show();
                 break;
+
             case R.id.tvRegister:
                 Intent intent = new Intent(Login.this,Registracija.class);
                 startActivity(intent);
@@ -72,4 +83,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
     }
+
+
 }
