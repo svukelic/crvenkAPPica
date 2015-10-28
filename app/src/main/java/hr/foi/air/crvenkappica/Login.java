@@ -19,7 +19,7 @@ import hr.foi.air.crvenkappica.web.RequestResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class Login extends AppCompatActivity{
 
     Button btnLogin;
     EditText etUsername,etPassword;
@@ -41,14 +41,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         etPassword = (EditText) findViewById(R.id.etPassword);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         register = (TextView) findViewById(R.id.tvRegister);
-        btnLogin.setOnClickListener(this);
-        register.setOnClickListener(this);
-    }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btnLogin:
+        btnLogin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
                 progressdialog = new ProgressDialog(Login.this);
                 progressdialog.setTitle("Processing...");
                 progressdialog.setMessage("Please wait.");
@@ -71,12 +67,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 String resp = RequestResponse.StaticResponse.getFinalResponse();
                 Toast.makeText(getApplicationContext(), resp, Toast.LENGTH_LONG).show();
-                break;
+            }
+        });
 
-            case R.id.tvRegister:
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent(Login.this,Registracija.class);
                 startActivity(intent);
-        }
+            }
+        });
     }
 
     @Override
