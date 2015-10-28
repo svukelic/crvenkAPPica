@@ -4,7 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/crvenkappica.iml" filepath="$PROJECT_DIR$/crvenkappica.iml" />
-      <module fileurl="file://$PROJECT_DIR$/hash/hash.iml" filepath="$PROJECT_DIR$/hash/hash.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crvenkappica2.iml" filepath="$PROJECT_DIR$/crvenkappica2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sigurnost/sigurnost.iml" filepath="$PROJECT_DIR$/sigurnost/sigurnost.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
     </modules>
   </component>
