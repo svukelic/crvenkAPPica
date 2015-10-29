@@ -48,6 +48,7 @@ public class Login extends AppCompatActivity{
                 progressdialog = new ProgressDialog(Login.this);
                 progressdialog.setTitle("Processing...");
                 progressdialog.setMessage("Please wait.");
+                progressdialog.setIndeterminate(true);
                 progressdialog.setCancelable(false);
                 progressdialog.show();
 
@@ -61,10 +62,8 @@ public class Login extends AppCompatActivity{
                 paramsLogin.params = "?UserName=" + userName + "&Password=" + password;
                 paramsLogin.service = "prijava_app.php";
 
-                btnLogin.setEnabled(false);
                 new WebRequest(Login.this).execute(paramsLogin);
                 progressdialog.dismiss();
-
                 String resp = RequestResponse.StaticResponse.getFinalResponse();
                 Toast.makeText(getApplicationContext(), resp, Toast.LENGTH_LONG).show();
             }
