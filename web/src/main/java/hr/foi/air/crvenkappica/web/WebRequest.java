@@ -19,22 +19,18 @@ import java.net.URL;
 public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
 
     public AsyncResponse delegate = null;
-
-    private Context context;
     private Dialog progressdialog;
-
-    public WebRequest(Context ctx){
-        context = ctx;
-    }
 
     @Override
     protected TaskResult doInBackground(WebParams... params) {
         TaskResult taskResult = new TaskResult();
         taskResult.webResult = "";
 
-        String url = WebParams.WebInfo.getUrl();
+        String url = "http://www.redtesseract.sexy/crvenkappica/";
         url += params[0].service;
         url += params[0].params;
+
+        delegate = params[0].listener;
 
         byte[] postData = url.getBytes();
 
@@ -76,7 +72,5 @@ public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
     protected void onPostExecute(TaskResult taskResult) {
         super.onPostExecute(taskResult);
         delegate.processFinish(taskResult.webResult);
-
-        //RequestResponse.StaticResponse.setFinalResponse(taskResult.webResult);
     }
 }

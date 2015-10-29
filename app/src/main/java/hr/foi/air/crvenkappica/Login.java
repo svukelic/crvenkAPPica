@@ -1,8 +1,6 @@
 package hr.foi.air.crvenkappica;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,13 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import hr.foi.air.crvenkappica.web.RequestResponse;
+import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
 
-public class Login extends AppCompatActivity{
+public class Login extends AppCompatActivity {
 
     Button btnLogin;
     EditText etUsername,etPassword;
@@ -30,12 +26,6 @@ public class Login extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        WebParams paramsInit = new WebParams();
-        paramsInit.params = "";
-        paramsInit.service = "con_init.php";
-
-        new WebRequest(getApplicationContext()).execute(paramsInit);
 
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -60,11 +50,10 @@ public class Login extends AppCompatActivity{
                 WebParams paramsLogin = new WebParams();
                 paramsLogin.params = "?UserName=" + userName + "&Password=" + password;
                 paramsLogin.service = "prijava_app.php";
+                paramsLogin.listener = response;
 
-                new WebRequest(Login.this).execute(paramsLogin);
+                new WebRequest().execute(paramsLogin);
                 progressdialog.dismiss();
-                String resp = RequestResponse.StaticResponse.getFinalResponse();
-                Toast.makeText(getApplicationContext(), resp, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -76,6 +65,13 @@ public class Login extends AppCompatActivity{
             }
         });
     }
+
+    AsyncResponse response = new AsyncResponse() {
+        @Override
+        public void processFinish(String output) {
+            //tu ide sve kad se dobije odgovor
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
