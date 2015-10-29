@@ -18,6 +18,8 @@ import java.net.URL;
 
 public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
 
+    public AsyncResponse delegate = null;
+
     private Context context;
     private Dialog progressdialog;
 
@@ -73,6 +75,8 @@ public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
     @Override
     protected void onPostExecute(TaskResult taskResult) {
         super.onPostExecute(taskResult);
-        RequestResponse.StaticResponse.setFinalResponse(taskResult.webResult);
+        delegate.processFinish(taskResult.webResult);
+
+        //RequestResponse.StaticResponse.setFinalResponse(taskResult.webResult);
     }
 }

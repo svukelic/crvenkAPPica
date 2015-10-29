@@ -15,27 +15,34 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.RequestResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
 
-public class Login extends AppCompatActivity{
+public class Login extends AppCompatActivity implements AsyncResponse{
+
+    WebRequest webRequest = new WebRequest(Login.this);
 
     Button btnLogin;
     EditText etUsername,etPassword;
     TextView register;
     ProgressDialog progressdialog;
 
+    String resp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        WebParams paramsInit = new WebParams();
-        paramsInit.params = "";
-        paramsInit.service = "con_init.php";
+        //WebParams paramsInit = new WebParams();
+        //paramsInit.params = "";
+        //paramsInit.service = "con_init.php";
 
-        new WebRequest(getApplicationContext()).execute(paramsInit);
+        //new WebRequest(getApplicationContext()).execute(paramsInit);
+
+        webRequest.delegate = this;
 
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -62,10 +69,10 @@ public class Login extends AppCompatActivity{
                 paramsLogin.service = "prijava_app.php";
 
                 btnLogin.setEnabled(false);
-                new WebRequest(Login.this).execute(paramsLogin);
+                webRequest.execute(paramsLogin);
                 progressdialog.dismiss();
 
-                String resp = RequestResponse.StaticResponse.getFinalResponse();
+                //String resp = RequestResponse.StaticResponse.getFinalResponse();
                 Toast.makeText(getApplicationContext(), resp, Toast.LENGTH_LONG).show();
             }
         });
@@ -77,6 +84,10 @@ public class Login extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+    }
+
+    public void processFinish(String output){
+        resp = output;
     }
 
     @Override
