@@ -51,7 +51,6 @@ public class Login extends AppCompatActivity{
                 progressdialog.setIndeterminate(true);
                 progressdialog.setCancelable(false);
                 progressdialog.show();
-
                 String userName = etUsername.getText().toString();
                 if (userName.isEmpty()) userName = "empty";
                 String password = etPassword.getText().toString();
