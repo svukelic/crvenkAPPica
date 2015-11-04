@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
 import hr.foi.air.crvenkappica.Registration_Data;
@@ -48,19 +49,21 @@ public class Registracija extends AppCompatActivity implements View.OnClickListe
                 data.setDOB(DOB_EditText.getText().toString());
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
-                ProgressDialog dialog = new ProgressDialog(Registracija.this);
-                dialog.setTitle(R.string.title_activity_activity__registration);
-                dialog.setMessage("Registration in progress"); //treba provjeriti da se iz strings.xml ucitava
-                dialog.setIndeterminate(false);
-                dialog.setCancelable(true);
-                dialog.show();
+                //ProgressDialog dialog = new ProgressDialog(Registracija.this);
+                //dialog.setTitle(R.string.title_activity_activity__registration);
+                //dialog.setMessage("Registration in progress"); //treba provjeriti da se iz strings.xml ucitava
+                //dialog.setIndeterminate(false);
+                //dialog.setCancelable(true);
+                //dialog.show();
                 //System.out.println(gson.toJson(data));
-                WebParams webParamsInit = new WebParams();
-                webParamsInit.service = "con_init.php";
-                webParamsInit.hash = "";
-                webParamsInit.type = "";
-                webParamsInit.params = gson.toJson(data);
-                new WebRequest().execute(webParamsInit);
+                WebParams webParamsReg = new WebParams();
+                webParamsReg.service = "reg_app.php";
+                //webParamsReg.hash = "";
+                //webParamsReg.type = "";
+                webParamsReg.params = "?json="+ gson.toJson(data) ;
+                //webParamsReg.params = "?Name=" + data.getName().toString();
+                webParamsReg.listener = response;
+                new WebRequest().execute(webParamsReg);
             }
         });
         DOB_EditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -71,6 +74,13 @@ public class Registracija extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
+    AsyncResponse response = new AsyncResponse() {
+        @Override
+        public void processFinish(String output) {
+            System.out.println(output);
+        }
+    };
 
     private void findViewsById() {
         DOB_EditText = (EditText) findViewById(R.id.dob_editText);

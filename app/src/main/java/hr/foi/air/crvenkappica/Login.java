@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity {
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
-            //tu ide sve kad se dobije odgovor
+            System.out.println(output);
         }
     };
 
