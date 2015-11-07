@@ -1,7 +1,9 @@
 package hr.foi.air.crvenkappica;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -57,14 +59,23 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        btnLogin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(Login.this,Navigacija.class);
+                startActivity(intent);
+            }
+        });
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Login.this,Registracija.class);
+                Intent intent = new Intent(Login.this, Registracija.class);
                 startActivity(intent);
             }
         });
     }
+
 
     AsyncResponse response = new AsyncResponse() {
         @Override
@@ -79,4 +90,9 @@ public class Login extends AppCompatActivity {
     }
 
 
+
+
 }
+
+
+
