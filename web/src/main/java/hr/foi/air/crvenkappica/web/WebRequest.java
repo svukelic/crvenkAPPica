@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
@@ -26,7 +27,7 @@ public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
         TaskResult taskResult = new TaskResult();
         taskResult.webResult = "";
 
-        String url = "http://www.redtesseract.sexy/crvenkappica/";
+        String url = WebSite.WebAdress.getAdresa();
         url += params[0].service;
         url += params[0].params;
 

@@ -59,14 +59,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        btnLogin.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(Login.this,Navigacija.class);
-                startActivity(intent);
-            }
-        });
-
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +72,12 @@ public class Login extends AppCompatActivity {
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
-            System.out.println(output);
+            //System.out.println(output);
+            Intent intent = new Intent(Login.this,Navigacija.class);
+
+            if(output.equals("login_uspjeh")) startActivity(intent);
+            if(output.equals("login_neuspjeh")) Toast.makeText(getApplicationContext(), "Login neuspješan", Toast.LENGTH_LONG).show();
+            if(output.equals("nepostojeci_korisnik")) Toast.makeText(getApplicationContext(), "Nepostojeći korisnik", Toast.LENGTH_LONG).show();
         }
     };
 
