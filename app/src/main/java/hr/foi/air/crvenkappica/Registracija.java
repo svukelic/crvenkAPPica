@@ -2,8 +2,6 @@ package hr.foi.air.crvenkappica;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -15,27 +13,39 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
-import hr.foi.air.crvenkappica.Registration_Data;
 
 public class Registracija extends AppCompatActivity implements View.OnClickListener {
     private EditText DOB_EditText, User, Pass, Email, Name, Lastname;
     private DatePickerDialog DOB_Picker;
     private SimpleDateFormat dateFormatter;
+    private ProgressDialog dialog;
+    AsyncResponse response = new AsyncResponse() {
+        @Override
+        public void processFinish(String output) {
+            if (output.equals("uspjeh")) {
+                dialog.hide();
+                Toast.makeText(getApplicationContext(), "Registracija uspješna", Toast.LENGTH_LONG).show();
+            }
+            if (output.equals("greska prilikom upisa")) {
+                dialog.hide();
+                Toast.makeText(getApplicationContext(), "Greška prilikom registracije", Toast.LENGTH_LONG).show();
+            }
+        }
+    };
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registracija);
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMAN);
+        dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         findViewsById();
         setDateTimeField();
         Button b1 = (Button) findViewById(R.id.button_reg);
@@ -51,19 +61,15 @@ public class Registracija extends AppCompatActivity implements View.OnClickListe
                 data.setDOB(DOB_EditText.getText().toString());
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
-                //ProgressDialog dialog = new ProgressDialog(Registracija.this);
-                //dialog.setTitle(R.string.title_activity_activity__registration);
-                //dialog.setMessage("Registration in progress"); //treba provjeriti da se iz strings.xml ucitava
-                //dialog.setIndeterminate(false);
-                //dialog.setCancelable(true);
-                //dialog.show();
-                //System.out.println(gson.toJson(data));
+                dialog = new ProgressDialog(Registracija.this);
+                dialog.setTitle(R.string.title_activity_activity__registration);
+                dialog.setMessage("Registration in progress"); //treba provjeriti da se iz strings.xml ucitava
+                dialog.setIndeterminate(false);
+                dialog.setCancelable(false);
+                dialog.show();
                 WebParams webParamsReg = new WebParams();
                 webParamsReg.service = "reg_app.php";
-                //webParamsReg.hash = "";
-                //webParamsReg.type = "";
                 webParamsReg.params = "?json="+ gson.toJson(data) ;
-                //webParamsReg.params = "?Name=" + data.getName().toString();
                 webParamsReg.listener = response;
                 new WebRequest().execute(webParamsReg);
             }
@@ -76,17 +82,6 @@ public class Registracija extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
-
-    AsyncResponse response = new AsyncResponse() {
-        @Override
-        public void processFinish(String output) {
-            //System.out.println(output);
-            //Intent intent = new Intent(Login.this,Navigacija.class);
-
-            if(output.equals("uspjeh")) Toast.makeText(getApplicationContext(), "Registracija uspješna", Toast.LENGTH_LONG).show();
-            if(output.equals("greska prilikom upisa")) Toast.makeText(getApplicationContext(), "Greška prilikom registracije", Toast.LENGTH_LONG).show();
-        }
-    };
 
     private void findViewsById() {
         DOB_EditText = (EditText) findViewById(R.id.dob_editText);
