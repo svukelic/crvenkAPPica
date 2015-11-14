@@ -19,10 +19,10 @@ import hr.foi.air.crvenkappica.web.WebRequest;
 
 public class Login extends AppCompatActivity {
 
-    Button btnLogin;
-    EditText etUsername,etPassword;
-    TextView register;
-    ProgressDialog progressdialog;
+    private Button btnLogin;
+    private EditText etUsername,etPassword;
+    private TextView register;
+    private ProgressDialog progressdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +38,9 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 progressdialog = new ProgressDialog(Login.this);
-                progressdialog.setTitle("Processing...");
-                progressdialog.setMessage("Please wait.");
-                progressdialog.setIndeterminate(true);
+                progressdialog.setTitle(R.string.title_activity_login);
+                progressdialog.setMessage("Login in progress"); //treba provjeriti da se iz strings.xml ucitava
+                progressdialog.setIndeterminate(false);
                 progressdialog.setCancelable(false);
                 progressdialog.show();
                 String userName = etUsername.getText().toString();
@@ -55,7 +55,6 @@ public class Login extends AppCompatActivity {
                 paramsLogin.listener = response;
 
                 new WebRequest().execute(paramsLogin);
-                progressdialog.dismiss();
             }
         });
 
