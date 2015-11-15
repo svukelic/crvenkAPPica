@@ -32,6 +32,7 @@ public class Registracija extends AppCompatActivity implements View.OnClickListe
             if (output.equals("uspjeh")) {
                 dialog.hide();
                 Toast.makeText(getApplicationContext(), "Registracija uspješna", Toast.LENGTH_LONG).show();
+                finish();
             }
             if (output.equals("greska prilikom upisa")) {
                 dialog.hide();
