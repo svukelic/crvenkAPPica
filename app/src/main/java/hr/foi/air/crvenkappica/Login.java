@@ -74,9 +74,25 @@ public class Login extends AppCompatActivity {
             //System.out.println(output);
             Intent intent = new Intent(Login.this,Navigacija.class);
 
-            if(output.equals("login_uspjeh")) startActivity(intent);
-            if(output.equals("login_neuspjeh")) Toast.makeText(getApplicationContext(), "Login neuspješan", Toast.LENGTH_LONG).show();
-            if(output.equals("nepostojeci_korisnik")) Toast.makeText(getApplicationContext(), "Nepostojeći korisnik", Toast.LENGTH_LONG).show();
+            if(output == null || output.isEmpty()) {
+                progressdialog.hide();
+                Toast.makeText(getApplicationContext(), "Error with internet connection", Toast.LENGTH_LONG).show();
+            } else {
+
+                if (output.equals("login_uspjeh")) {
+                    progressdialog.hide();
+                    Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
+                    startActivity(intent);
+                }
+                if (output.equals("login_neuspjeh")) {
+                    progressdialog.hide();
+                    Toast.makeText(getApplicationContext(), "Login unsuccessful", Toast.LENGTH_LONG).show();
+                }
+                if (output.equals("nepostojeci_korisnik")) {
+                    progressdialog.hide();
+                    Toast.makeText(getApplicationContext(), "User doesn't exist", Toast.LENGTH_LONG).show();
+                }
+            }
         }
     };
 

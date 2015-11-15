@@ -31,13 +31,14 @@ public class Registracija extends AppCompatActivity implements View.OnClickListe
         public void processFinish(String output) {
             if (output.equals("uspjeh")) {
                 dialog.hide();
-                Toast.makeText(getApplicationContext(), "Registracija uspješna", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_LONG).show();
                 finish();
             }
             if (output.equals("greska prilikom upisa")) {
                 dialog.hide();
-                Toast.makeText(getApplicationContext(), "Greška prilikom registracije", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error during registration", Toast.LENGTH_LONG).show();
             }
+            if(output == null || output.isEmpty()) Toast.makeText(getApplicationContext(), "Problem with internet connection", Toast.LENGTH_LONG).show();
         }
     };
 
