@@ -4,9 +4,10 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/linear_layout">
     <TextView
+        android:editable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/testTv"
-
+        android:text=""
         />
 </LinearLayout>

@@ -29,12 +29,13 @@ public class Navigacija extends AppCompatActivity
     private int numberOfElements;
 
     private static final String url = "http://www.hls.com.hr/";
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigacija);
-
+        showData();
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -45,7 +46,6 @@ public class Navigacija extends AppCompatActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         //getData();
-        showData();
     }
 
     private void getData(){
@@ -64,15 +64,17 @@ public class Navigacija extends AppCompatActivity
     private void showData(){
         ArrayList<String> textList = new ArrayList<>();
         Document doc;
-        TextView textView = (TextView)findViewById(R.id.testTv);
+
+        textView = (TextView)findViewById(R.id.testTv);;
         try{
-            doc = Jsoup.connect(url).get();
+            doc = Jsoup.parse(url);
             Elements elements = doc.select("div.post-content p");
 
             for (Element e : elements){
                 textList.add(e.text());
-                textView.setText(textList.get(0).toString());
+                textView.setText(e.text());
             }
+
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -110,11 +112,6 @@ public class Navigacija extends AppCompatActivity
             case 2:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new TestFragment())
-                        .commit();
-                break;
-            case 3:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container352, new ObavijestiFragment())
                         .commit();
                 break;
                 default:
