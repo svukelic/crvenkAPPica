@@ -1,11 +1,9 @@
 package hr.foi.air.crvenkappica;
 
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;

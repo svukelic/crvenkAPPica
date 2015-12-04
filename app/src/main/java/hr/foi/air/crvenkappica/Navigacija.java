@@ -1,35 +1,34 @@
 package hr.foi.air.crvenkappica;
 
-import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
 
 public class Navigacija extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
     private CharSequence mTitle;
+
+    //private ArrayList imageList;
+    //private ArrayList textList;
+    private int numberOfElements;
+
+    private static final String url = "http://www.hls.com.hr/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,36 +43,85 @@ public class Navigacija extends AppCompatActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        //getData();
+        showData();
+    }
+
+    private void getData(){
+        try{
+            NewsFeed newsFeed = new NewsFeed(url);
+            //textList = new ArrayList<String>(newsFeed.getText());
+            //imageList = new ArrayList<String>(newsFeed.getImages());
+           // numberOfElements = imageList.size();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showData(){
+        ArrayList<String> textList = new ArrayList<>();
+        Document doc;
+        TextView textView = (TextView)findViewById(R.id.testTv);
+        try{
+            doc = Jsoup.connect(url).get();
+            Elements elements = doc.select("div.post-content p");
+
+            for (Element e : elements){
+                textList.add(e.text());
+                textView.setText(textList.get(0).toString());
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        /*
+        final TextView[] textViews = new TextView[numberOfElements];
+        String text;
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout layout = (LinearLayout)findViewById(R.id.linear_layout);
+        TextView textView = (TextView)findViewById(R.id.testTv);
+        textView.setText(textList.get(0).toString());
+
+        for(int i=0;i<numberOfElements;i++){
+            final TextView rowTextView = new TextView(this);
+            rowTextView.setLayoutParams(layoutParams);
+            text = textList.get(i).toString();
+            rowTextView.setText(text);
+            layout.addView(rowTextView);
+        }
+        */
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
-    }
-
-    public void onSectionAttached(int number) {
-        switch (number) {
+        switch (position){
             case 1:
-                mTitle = getString(R.string.title_section1);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container352, new ObavijestiFragment())
+                        .commit();
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container352, new TestFragment())
+                        .commit();
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container352, new ObavijestiFragment())
+                        .commit();
                 break;
+                default:
+                    break;
         }
-    }
 
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+
     }
 
 
@@ -84,7 +132,6 @@ public class Navigacija extends AppCompatActivity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.navigacija, menu);
-            restoreActionBar();
             return true;
         }
         return super.onCreateOptionsMenu(menu);
@@ -103,46 +150,6 @@ public class Navigacija extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_navigacija, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((Navigacija) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
     }
 
 }

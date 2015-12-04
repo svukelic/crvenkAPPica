@@ -1,8 +1,5 @@
 package hr.foi.air.crvenkappica;
 
-import java.util.Date;
-
-
 public class Registration_Data {
     private String Name;
     private String Lastname;
