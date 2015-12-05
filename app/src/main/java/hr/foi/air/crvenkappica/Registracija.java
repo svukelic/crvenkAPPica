@@ -61,8 +61,9 @@ public class Registracija extends AppCompatActivity implements View.OnClickListe
                 data.setPassword(Pass.getText().toString());
                 data.setEmail(Email.getText().toString());
                 data.setDOB(DOB_EditText.getText().toString());
-                GsonBuilder builder = new GsonBuilder();
-                Gson gson = builder.create();
+                JSONParser j = new JSONParser(data);
+              //  GsonBuilder builder = new GsonBuilder();
+             //   Gson gson = builder.create();
                 dialog = new ProgressDialog(Registracija.this);
                 dialog.setTitle(R.string.title_activity_activity__registration);
                 dialog.setMessage("Registration in progress"); //treba provjeriti da se iz strings.xml ucitava
@@ -71,7 +72,7 @@ public class Registracija extends AppCompatActivity implements View.OnClickListe
                 dialog.show();
                 WebParams webParamsReg = new WebParams();
                 webParamsReg.service = "reg_app.php";
-                webParamsReg.params = "?json="+ gson.toJson(data) ;
+                webParamsReg.params = j.getString();
                 webParamsReg.listener = response;
                 new WebRequest().execute(webParamsReg);
             }

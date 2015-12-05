@@ -61,6 +61,7 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new TestFragment())
                         .commit();
+                System.out.println("Ulazim u profil.");
                 break;
             default:
                 break;
