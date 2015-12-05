@@ -43,7 +43,7 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
 
     public void onTaskCompleted(ArrayList<String> list) {
         for (String temp : list) {
-            //Log.e("ERROR",temp);
+            Log.e("ERROR",temp);
         }
     }
 
