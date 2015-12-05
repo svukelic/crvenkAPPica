@@ -6,7 +6,12 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="hr.foi.air.crvenkappica.Navigacija$PlaceholderFragment">
 
-    <TextView android:id="@+id/section_label" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/section_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Navigacija"
+        android:layout_centerInParent="true"
+        android:textSize="20sp"/>
 
 </RelativeLayout>

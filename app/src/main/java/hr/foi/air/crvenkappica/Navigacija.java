@@ -1,26 +1,18 @@
 package hr.foi.air.crvenkappica;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class Navigacija extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks,OnTaskCompleted{
+public class Navigacija extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, OnTaskCompleted {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
@@ -40,36 +32,39 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction()
+                .add(R.id.container352, new ObavijestiFragment())
+                .commit();
+
         cssQuery = "div.post-content p";
         new NewsFeed(this, new Navigacija()).execute();
     }
 
-    public void onTaskCompleted(ArrayList<String> list){
-        for(String temp : list){
-            Log.e("ERROR",temp);
+    public void onTaskCompleted(ArrayList<String> list) {
+        for (String temp : list) {
+            //Log.e("ERROR",temp);
         }
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        switch (position){
-            case 1:
+        switch (position) {
+            case 0:
+                //startActivity(new Intent(this, MainActivity.class));
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new ObavijestiFragment())
                         .commit();
                 break;
-            case 2:
+            case 1:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new TestFragment())
                         .commit();
                 break;
-                default:
-                    break;
+            default:
+                break;
         }
-
-
     }
 
 
