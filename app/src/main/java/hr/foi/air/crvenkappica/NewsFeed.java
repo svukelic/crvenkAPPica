@@ -1,54 +1,69 @@
 package hr.foi.air.crvenkappica;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Created by domagoj on 04.12.15..
  */
-public class NewsFeed {
+public class NewsFeed extends AsyncTask<Void,Void,ArrayList<String>>{
 
-    private Document doc;
+    private String cssQueryText = "div.post-content p";
+    private String cssQueryImage = "img[class=post-image]";
+    private OnTaskCompleted listener;
+    private Context context;
+    private static final String url = "http://www.hls.com.hr/";
 
-    public NewsFeed(String url) throws IOException{
-        doc = Jsoup.connect(url).get();
+    public NewsFeed(Context context,OnTaskCompleted listener) {
+        this.listener = listener;
+        this.context = context;
     }
 
-    //Get all images for posts
-    public ArrayList<String> getImages(){
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
 
-        ArrayList<String> imageList = new ArrayList<>();
+    @Override
+    protected ArrayList<String> doInBackground(Void... params) {
+        ArrayList<String> list = new ArrayList<String>();
 
-        //Get all elements with class .post-image
-        Elements elements = doc.getElementsByClass("post-image");
-        int index = 0;
+        try {
+            Document doc = Jsoup.connect(url).get();
+            Elements elements = doc.select(cssQueryText);
 
-        for(Element el : elements){
-            String src = el.absUrl("src");
-            imageList.add(index,src);
-            index = index + 1;
+            for(Element el : elements){
+                if(el!=null && el.text()!=null){
+                    list.add(el.text());
+                }
+            }
+            Elements image = doc.select(cssQueryImage);
+
+            for(Element elem: image){
+                if (elem!=null && elem.absUrl("src")!=null){
+                    list.add(elem.absUrl("src"));
+                }
+            }
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
         }
 
-        return imageList;
+        return list;
     }
 
-    public ArrayList<String> getText(){
-
-        ArrayList<String> textList = new ArrayList<>();
-
-        Elements elements = doc.select("div.post-content p");
-        textList.add("test");
-        for (Element e : elements){
-            textList.add(e.text());
-        }
-
-        return  textList;
+    @Override
+    protected void onPostExecute(ArrayList<String> list) {
+        super.onPostExecute(list);
+        listener.onTaskCompleted(list);
     }
+
 }

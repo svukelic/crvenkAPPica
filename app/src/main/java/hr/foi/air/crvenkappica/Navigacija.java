@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -15,27 +16,21 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class Navigacija extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class Navigacija extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks,OnTaskCompleted{
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
     private CharSequence mTitle;
-
-    //private ArrayList imageList;
-    //private ArrayList textList;
-    private int numberOfElements;
-
-    private static final String url = "http://www.hls.com.hr/";
-    private TextView textView;
+    private String cssQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigacija);
-        showData();
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -45,58 +40,14 @@ public class Navigacija extends AppCompatActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        //getData();
+        cssQuery = "div.post-content p";
+        new NewsFeed(this, new Navigacija()).execute();
     }
 
-    private void getData(){
-        try{
-            NewsFeed newsFeed = new NewsFeed(url);
-            //textList = new ArrayList<String>(newsFeed.getText());
-            //imageList = new ArrayList<String>(newsFeed.getImages());
-           // numberOfElements = imageList.size();
+    public void onTaskCompleted(ArrayList<String> list){
+        for(String temp : list){
+            Log.e("ERROR",temp);
         }
-        catch (Exception ex){
-            ex.printStackTrace();
-            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void showData(){
-        ArrayList<String> textList = new ArrayList<>();
-        Document doc;
-
-        textView = (TextView)findViewById(R.id.testTv);;
-        try{
-            doc = Jsoup.parse(url);
-            Elements elements = doc.select("div.post-content p");
-
-            for (Element e : elements){
-                textList.add(e.text());
-                textView.setText(e.text());
-            }
-
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
-        /*
-        final TextView[] textViews = new TextView[numberOfElements];
-        String text;
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        LinearLayout layout = (LinearLayout)findViewById(R.id.linear_layout);
-        TextView textView = (TextView)findViewById(R.id.testTv);
-        textView.setText(textList.get(0).toString());
-
-        for(int i=0;i<numberOfElements;i++){
-            final TextView rowTextView = new TextView(this);
-            rowTextView.setLayoutParams(layoutParams);
-            text = textList.get(i).toString();
-            rowTextView.setText(text);
-            layout.addView(rowTextView);
-        }
-        */
     }
 
     @Override
