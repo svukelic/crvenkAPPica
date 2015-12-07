@@ -1,5 +1,6 @@
 package hr.foi.air.crvenkappica;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
 
-public class Registracija extends AppCompatActivity implements View.OnClickListener {
+public class Registracija extends Activity implements View.OnClickListener {
     private EditText DOB_EditText, User, Pass, Email, Name, Lastname;
     private DatePickerDialog DOB_Picker;
     private SimpleDateFormat dateFormatter;

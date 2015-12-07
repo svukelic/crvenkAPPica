@@ -1,5 +1,6 @@
 package hr.foi.air.crvenkappica;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
 
-public class Login extends AppCompatActivity {
+public class Login extends Activity {
 
     private Button btnLogin;
     private EditText etUsername,etPassword;

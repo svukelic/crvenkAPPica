@@ -43,7 +43,6 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {
             case 0:
-                //startActivity(new Intent(this, MainActivity.class));
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new ObavijestiFragment())
                         .commit();
