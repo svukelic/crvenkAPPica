@@ -1,22 +1,21 @@
 package hr.foi.air.crvenkappica;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
-public class Navigacija extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, OnTaskCompleted {
+public class Navigacija extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
-    private String cssQuery;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +36,6 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
                 .add(R.id.container352, new ObavijestiFragment())
                 .commit();
 
-        cssQuery = "div.post-content p";
-        new NewsFeed(this, new Navigacija()).execute();
-    }
-
-    public void onTaskCompleted(ArrayList<String> list) {
-        for (String temp : list) {
-            Log.e("ERROR",temp);
-        }
     }
 
     @Override
