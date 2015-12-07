@@ -27,14 +27,13 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private ObavijestiAdapter adapter;
-    private NewsFeed newsFeed;
+    private View view;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.obavijestiList = new ArrayList<Obavijesti_item>();
-        newsFeed = (NewsFeed) new NewsFeed(getActivity(),new ObavijestiFragment()).execute();
     }
 
     @Nullable
@@ -42,13 +41,8 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view;
         view = inflater.inflate(R.layout.obavijesti, container, false);
-
-        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_obavijesti);
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new ObavijestiAdapter(obavijestiList,getActivity());
-        recyclerView.setAdapter(adapter);
-
+        this.view = view;
+        new NewsFeed(getActivity(),this).execute();
         return view;
     }
 
@@ -63,7 +57,9 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
             obavijestiItem.setThumbnail(list.get(i + 6));
             arrayList.add(obavijestiItem);
         }
-
+        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_obavijesti);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
         ObavijestiAdapter obavijestiAdapter = new ObavijestiAdapter(arrayList,context);
         recyclerView.setAdapter(obavijestiAdapter);
         obavijestiAdapter.notifyDataSetChanged();

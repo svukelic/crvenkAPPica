@@ -55,8 +55,8 @@ public class ObavijestiAdapter extends RecyclerView.Adapter<ObavijestiAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
             Log.d("VIEWHOLDER","UNUTRA SAM");
-            imageView = (ImageView) imageView.findViewById(R.id.image_hls);
-            textView = (TextView) textView.findViewById(R.id.textView_hls);
+            imageView = (ImageView) itemView.findViewById(R.id.image_hls);
+            textView = (TextView) itemView.findViewById(R.id.textView_hls);
         }
 
     }
