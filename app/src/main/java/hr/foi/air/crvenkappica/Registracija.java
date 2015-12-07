@@ -11,9 +11,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
