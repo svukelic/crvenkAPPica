@@ -27,8 +27,6 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private ObavijestiAdapter adapter;
-    private View view;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +39,9 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view;
         view = inflater.inflate(R.layout.obavijesti, container, false);
-        this.view = view;
+        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_obavijesti);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
         new NewsFeed(getActivity(),this).execute();
         return view;
     }
@@ -49,20 +49,13 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
     public void onTaskCompleted(final ArrayList<String> list, final Context context) {
         Obavijesti_item obavijestiItem;
 
-        ArrayList<Obavijesti_item> arrayList = new ArrayList<Obavijesti_item>();
-
         for (int i = 0; i <= 5; i++) {
             obavijestiItem = new Obavijesti_item();
             obavijestiItem.setDescription(list.get(i));
             obavijestiItem.setThumbnail(list.get(i + 6));
-            arrayList.add(obavijestiItem);
+            obavijestiList.add(obavijestiItem);
         }
-        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_obavijesti);
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        ObavijestiAdapter obavijestiAdapter = new ObavijestiAdapter(arrayList,context);
-        recyclerView.setAdapter(obavijestiAdapter);
-        obavijestiAdapter.notifyDataSetChanged();
-        recyclerView.refreshDrawableState();
+        adapter = new ObavijestiAdapter(obavijestiList,getActivity());
+        recyclerView.setAdapter(adapter);
     }
 }

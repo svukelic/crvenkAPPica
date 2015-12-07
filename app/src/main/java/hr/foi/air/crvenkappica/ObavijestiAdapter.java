@@ -22,7 +22,6 @@ public class ObavijestiAdapter extends RecyclerView.Adapter<ObavijestiAdapter.Vi
     private Context context;
 
     public ObavijestiAdapter(ArrayList<Obavijesti_item> items, Context context) {
-        Log.d("CONSTRUCTOR","---------->in");
         this.items = items;
         this.context = context;
     }
@@ -35,7 +34,6 @@ public class ObavijestiAdapter extends RecyclerView.Adapter<ObavijestiAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.e("ONBIND","UNUTRA SAM");
         Glide.with(context)
                 .load(items.get(position).getThumbnail())
                 .into(holder.imageView);
@@ -44,7 +42,6 @@ public class ObavijestiAdapter extends RecyclerView.Adapter<ObavijestiAdapter.Vi
 
     @Override
     public int getItemCount() {
-        Log.d("ITEMCOUNT",items.size() + "");
         return items.size();
     }
 
@@ -54,10 +51,8 @@ public class ObavijestiAdapter extends RecyclerView.Adapter<ObavijestiAdapter.Vi
 
         public ViewHolder(View itemView) {
             super(itemView);
-            Log.d("VIEWHOLDER","UNUTRA SAM");
             imageView = (ImageView) itemView.findViewById(R.id.image_hls);
             textView = (TextView) itemView.findViewById(R.id.textView_hls);
         }
-
     }
 }
