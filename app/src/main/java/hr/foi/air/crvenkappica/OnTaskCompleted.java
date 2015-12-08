@@ -8,5 +8,5 @@ import java.util.ArrayList;
  * Created by domagoj on 05.12.15..
  */
 public interface OnTaskCompleted {
-    void onTaskCompleted(ArrayList<String> result,Context context);
+    void onTaskCompleted(ArrayList<String> result);
 }

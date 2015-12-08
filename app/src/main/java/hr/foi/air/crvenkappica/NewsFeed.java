@@ -20,6 +20,8 @@ public class NewsFeed extends AsyncTask<Void, Void, ArrayList<String>> {
 
     private String cssQueryText = "div.post-content p";
     private String cssQueryImage = "img[class=post-image]";
+    private String cssQueryLinks = "div[class=post-content] a";
+
     private OnTaskCompleted listener;
     private Context context;
     private static final String url = "http://www.hls.com.hr/";
@@ -49,19 +51,25 @@ public class NewsFeed extends AsyncTask<Void, Void, ArrayList<String>> {
                     list.add(elem.absUrl("src"));
                 }
             }
+            Elements links = doc.select("div[class=post-content] a");
+
+            for (Element link : links){
+                if (link != null && link.attr("abs:href") != null){
+                    list.add(link.attr("abs:href"));
+                }
+            }
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
 
-        Log.e("LISTA","TU SAM");
         return list;
     }
 
     @Override
     protected void onPostExecute(ArrayList<String> list) {
-        Log.e("LISTA2","TU SAM");
         //super.onPostExecute(list);
-        listener.onTaskCompleted(list, context);
+        listener.onTaskCompleted(list);
     }
 
 }
