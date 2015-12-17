@@ -22,6 +22,7 @@ public class Login extends Activity {
     private EditText etUsername,etPassword;
     private TextView register;
     private ProgressDialog progressdialog;
+    private String userNameStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class Login extends Activity {
                 progressdialog.setCancelable(false);
                 progressdialog.show();
                 String userName = etUsername.getText().toString();
+                userNameStatus = userName;
                 if (userName.isEmpty()) userName = "empty";
                 String password = etPassword.getText().toString();
                 if (password.isEmpty()) password = "empty";
@@ -82,6 +84,8 @@ public class Login extends Activity {
 
                 if (output.equals("login_uspjeh")) {
                     progressdialog.hide();
+                    LoginStatus.LoginInfo.setLoginName(userNameStatus);
+                    LoginStatus.LoginInfo.setLoginState(true);
                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 }

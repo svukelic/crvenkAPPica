@@ -7,11 +7,67 @@
     tools:context="hr.foi.air.crvenkappica.Navigacija$PlaceholderFragment">
 
     <TextView
-        android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Navigacija"
-        android:layout_centerInParent="true"
-        android:textSize="20sp"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Ime:"
+        android:id="@+id/tvIme"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="37dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Prezime:"
+        android:id="@+id/tvPrezime"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/tvIme"
+        android:layout_alignLeft="@+id/tvIme"
+        android:layout_alignStart="@+id/tvIme" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Datum rođenja:"
+        android:id="@+id/tvDOB"
+        android:layout_below="@+id/tvUsername"
+        android:layout_alignLeft="@+id/tvUsername"
+        android:layout_alignStart="@+id/tvUsername"
+        android:layout_marginTop="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Username:"
+        android:id="@+id/tvUsername"
+        android:layout_below="@+id/tvPrezime"
+        android:layout_alignLeft="@+id/tvPrezime"
+        android:layout_alignStart="@+id/tvPrezime"
+        android:layout_marginTop="25dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prijatelji"
+        android:id="@+id/btnPrijatelji"
+        android:layout_below="@+id/tvDOB"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="71dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Album"
+        android:id="@+id/btnAlbum"
+        android:layout_below="@+id/btnPrijatelji"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp" />
 
 </RelativeLayout>
