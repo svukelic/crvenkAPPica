@@ -38,5 +38,6 @@
 
     <string name="action_example">Example action</string>
     <string name="title_activity_jedigovna">JEdigovna</string>
+    <string name="camerainit">Choose a picture from:</string>
 
 </resources>
