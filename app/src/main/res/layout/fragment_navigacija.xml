@@ -1,6 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -57,7 +59,7 @@
         android:layout_height="wrap_content"
         android:text="Prijatelji"
         android:id="@+id/btnPrijatelji"
-        android:layout_marginTop="67dp"
+        android:layout_marginTop="55dp"
         android:layout_below="@+id/tvDOB"
         android:layout_alignLeft="@+id/btnAlbum"
         android:layout_alignStart="@+id/btnAlbum" />
@@ -67,10 +69,21 @@
         android:layout_height="wrap_content"
         android:text="Album"
         android:id="@+id/btnAlbum"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="44dp"
         android:layout_below="@+id/btnPrijatelji"
         android:layout_alignLeft="@+id/tvDOB"
         android:layout_alignStart="@+id/tvDOB" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload"
+        android:id="@+id/UPslika"
+        android:layout_marginTop="366dp"
+        android:layout_marginLeft="110dp"
+        />
+
+
 
     <ImageView
         android:layout_width="wrap_content"
