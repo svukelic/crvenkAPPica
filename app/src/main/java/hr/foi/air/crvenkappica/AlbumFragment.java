@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,9 +22,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -42,8 +50,11 @@ public class AlbumFragment extends Fragment {
     private GridView gridView;
     private GridViewAdapter gridAdapter;
     private String selectedImagePath;
+    private String[] lista;
     String upLoadServerUri = "http://www.redtesseract.sexy/crvenkappica/upload_images.php";
     int serverResponseCode = 0;
+    private Bitmap[] bitmap;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_album,container,false);
         b = (Button) view.findViewById(R.id.odabir);
@@ -53,8 +64,17 @@ public class AlbumFragment extends Fragment {
                 onPickImage(view);
             }
         });
+        WebParams webParamsReg = new WebParams();
+        webParamsReg.service = "image_list.php";
+        webParamsReg.params = "?id=" +LoginStatus.LoginInfo.getLoginID();
+        webParamsReg.listener = response2;
+        new WebRequest().execute(webParamsReg);
         gridView = (GridView) view.findViewById(R.id.gridView);
-        gridAdapter = new GridViewAdapter(getActivity().getApplicationContext(), R.layout.grid_item_layout, getData());
+        try {
+            gridAdapter = new GridViewAdapter(getActivity().getApplicationContext(), R.layout.grid_item_layout, getData());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         gridView.setAdapter(gridAdapter);
         return view;
     }
@@ -62,16 +82,33 @@ public class AlbumFragment extends Fragment {
         Intent chooseImageIntent = ImagePicker.getPickImageIntent(getActivity());
         startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
     }
+    AsyncResponse response2 = new AsyncResponse() {
+        @Override
+        public void processFinish(String output) {
+            try {
+                JSONObject jsonObject = new JSONObject(output);
+                JSONArray jArray = jsonObject.getJSONArray("List");
+                lista = new String[jArray.length()];
+                for(int i=0; i<jArray.length(); i++) {
+                    JSONObject json_data = jArray.getJSONObject(i);
+                    lista[i] = json_data.getString("Link");
+                    System.out.println(lista[i]);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
             if (output.equals("uspjeh")) {
-                //dialog.hide();
+
                 Toast.makeText(getActivity().getApplicationContext(), "Image upload done.", Toast.LENGTH_LONG).show();
-                //getActivity().finish();
+
             }
             if (output.equals("greska prilikom upisa")) {
-               // dialog.hide();
+
                 Toast.makeText(getActivity().getApplicationContext(), "Error during image upload.", Toast.LENGTH_LONG).show();
             }
             if(output == null || output.isEmpty()) Toast.makeText(getActivity().getApplicationContext(), "Problem with internet connection", Toast.LENGTH_LONG).show();
@@ -81,17 +118,15 @@ public class AlbumFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         switch(requestCode){
             case PICK_IMAGE_ID:
-               // Bitmap bitmab = ImagePicker.getImageFromResult(getActivity(),resultCode,data);
-                //String id = LoginStatus.LoginInfo.getLoginID();
+                String id = LoginStatus.LoginInfo.getLoginID();
                 Toast.makeText(getActivity(), "Image chosen.", Toast.LENGTH_LONG).show();
                 Uri selectedImageUri = data.getData();
                 selectedImagePath = getPath(selectedImageUri);
                 File file = new File(selectedImagePath);
                 String nesto = file.getName();
                 ImageItem i = new ImageItem();
-                i.setId("6");
+                i.setId(id);
                 i.setTitle(nesto);
-
                 System.out.println(i.getId() +  i.getTitle());
                 JSONParser j = new JSONParser(i);
                 System.out.println(selectedImagePath);
@@ -112,15 +147,55 @@ public class AlbumFragment extends Fragment {
                 super.onActivityResult(requestCode,resultCode,data);
         }
     }
-    private ArrayList<ImageItem> getData() {
+    private ArrayList<ImageItem> getData() throws InterruptedException {
         final ArrayList<ImageItem> imageItems = new ArrayList<>();
-        //TypedArray imgs = getResources().obtainTypedArray(R.array.image_ids);
-        //for (int i = 0; i < imgs.length(); i++) {
-        //    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), imgs.getResourceId(i, -1));
-       //     imageItems.add(new ImageItem(bitmap, "Image#" + i));
-      //  }
+        Bitmap mIcon11[] = new Bitmap[3];
+        for (int i=0;i<3;i++){
+            try{
+                InputStream in = new URL(lista[i]).openStream();
+                mIcon11[i] =  BitmapFactory.decodeStream(new SanInputStream(in));
+                imageItems.add(new ImageItem(mIcon11[i]));
+
+            }
+
+            catch(Exception e){}
+        }
+
         return imageItems;
     }
+    public class SanInputStream extends FilterInputStream {
+        public SanInputStream(InputStream in) {
+            super(in);
+        }
+        public long skip(long n) throws IOException {
+            long m = 0L;
+            while (m < n) {
+                long _m = in.skip(n-m);
+                if (_m == 0L) break;
+                m += _m;
+            }
+
+            return m;
+        }
+    }
+    public Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            connection.disconnect();
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+
+        }
+    }
+
     public String getPath(Uri uri) {
         String res = null;
         String[] proj = { MediaStore.Images.Media.DATA };

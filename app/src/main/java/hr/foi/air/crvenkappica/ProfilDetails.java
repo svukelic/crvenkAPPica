@@ -27,7 +27,7 @@ public class ProfilDetails extends Fragment  {
     private TextView tvDob;
     private ProgressDialog progressdialog;
     private String userName;
-
+    private Button b;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +61,16 @@ public class ProfilDetails extends Fragment  {
             paramsProfil.listener = response;
             new WebRequest().execute(paramsProfil);
         }
-
+        b = (Button) view.findViewById(R.id.btnAlbum);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                manager.beginTransaction()
+                        .replace(R.id.container352, new AlbumFragment())
+                        .commit();
+            }
+        });
         return view;
     }
 
