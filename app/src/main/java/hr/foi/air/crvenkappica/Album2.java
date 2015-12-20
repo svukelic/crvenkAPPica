@@ -31,29 +31,29 @@ public class Album2 extends AppCompatActivity implements View.OnClickListener {
 
     private int PICK_IMAGE_REQUEST = 1;
 
-    private Button buttonChoose;
-    private Button buttonUpload;
-    private Button buttonView;
+    private Button odaberi;
+    private Button uploadaj;
+    private Button pregled;
 
-    private ImageView imageView;
+    private ImageView pregledSlika;
 
     private Bitmap bitmap;
 
-    private Uri filePath;
+    private Uri putanja;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttonChoose = (Button) findViewById(R.id.buttonChoose);
-        buttonUpload = (Button) findViewById(R.id.buttonUpload);
-        buttonView = (Button) findViewById(R.id.buttonViewImage);
+        odaberi = (Button) findViewById(R.id.buttonChoose);
+        uploadaj = (Button) findViewById(R.id.buttonUpload);
+        pregled = (Button) findViewById(R.id.buttonViewImage);
 
-        imageView = (ImageView) findViewById(R.id.imageView);
+        pregledSlika = (ImageView) findViewById(R.id.imageView);
 
-        buttonChoose.setOnClickListener(this);
-        buttonUpload.setOnClickListener(this);
+        odaberi.setOnClickListener(this);
+        uploadaj.setOnClickListener(this);
     }
 
     private void showFileChooser() {
@@ -69,10 +69,10 @@ public class Album2 extends AppCompatActivity implements View.OnClickListener {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            filePath = data.getData();
+            putanja = data.getData();
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), putanja);
+                pregledSlika.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -126,10 +126,10 @@ public class Album2 extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v == buttonChoose) {
+        if (v == odaberi) {
             showFileChooser();
         }
-        if(v == buttonUpload){
+        if(v == uploadaj){
             uploadImage();
         }
     }
