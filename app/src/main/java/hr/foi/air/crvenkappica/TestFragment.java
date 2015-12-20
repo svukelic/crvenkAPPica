@@ -30,7 +30,14 @@ public class TestFragment extends Fragment {
     private TextView tvDob;
     private ProgressDialog progressdialog;
     private String userName;
+<<<<<<< HEAD
     private Button b;
+=======
+    private static final int PICK_IMAGE_ID = 234;
+    private Button b, btnPretraga;
+    private ImageView i;
+
+>>>>>>> origin/master
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +49,7 @@ public class TestFragment extends Fragment {
         tvDob = (TextView) view.findViewById(R.id.tvDOB);
 
         progressdialog = new ProgressDialog(getActivity());
-        progressdialog.setTitle(R.string.title_activity_login);
+        progressdialog.setTitle("Profil");
         progressdialog.setMessage("Loading profile");
         progressdialog.setIndeterminate(false);
         progressdialog.setCancelable(false);
@@ -58,6 +65,7 @@ public class TestFragment extends Fragment {
             paramsProfil.listener = response;
             new WebRequest().execute(paramsProfil);
         }
+
         b = (Button) view.findViewById(R.id.btnAlbum);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +76,19 @@ public class TestFragment extends Fragment {
                         .commit();
             }
         });
+
+        btnPretraga = (Button) view.findViewById(R.id.btnPrijatelji);
+        btnPretraga.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new ProfilSearchFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container352, fragment)
+                        .commit();
+            }
+        });
+
         return view;
     }
 
@@ -76,10 +97,11 @@ public class TestFragment extends Fragment {
         public void processFinish(String output) {
             //System.out.println(output);
             progressdialog.hide();
-            Toast.makeText(getActivity(), output, Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(output);
                 tvIme.setText("Ime: " + jsonObject.getString("Ime"));
+                tvPrezime.setText("Prezime: " + jsonObject.getString("Prezime"));
+                tvDob.setText("DOB: " + jsonObject.getString("Dob"));
             } catch (JSONException e) {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
             }

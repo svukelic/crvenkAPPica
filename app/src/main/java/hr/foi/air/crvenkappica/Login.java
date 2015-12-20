@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
@@ -82,19 +85,31 @@ public class Login extends Activity {
                 Toast.makeText(getApplicationContext(), "Error with internet connection", Toast.LENGTH_LONG).show();
             } else {
 
-                if (output.equals("login_uspjeh")) {
+                String status = new String();
+                String user_id = new String();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(output);
+                    status = jsonObject.getString("Status");
+                    user_id = jsonObject.getString("Id");
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                }
+
+                if (status.equals("login_uspjeh")) {
                     progressdialog.hide();
                     LoginStatus.LoginInfo.setLoginName(userNameStatus);
 
                     LoginStatus.LoginInfo.setLoginState(true);
+                    LoginStatus.LoginInfo.setLoginID(user_id);
                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 }
-                if (output.equals("login_neuspjeh")) {
+                if (status.equals("login_neuspjeh")) {
                     progressdialog.hide();
                     Toast.makeText(getApplicationContext(), "Login unsuccessful", Toast.LENGTH_LONG).show();
                 }
-                if (output.equals("nepostojeci_korisnik")) {
+                if (status.equals("nepostojeci_korisnik")) {
                     progressdialog.hide();
                     Toast.makeText(getApplicationContext(), "User doesn't exist", Toast.LENGTH_LONG).show();
                 }
