@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,7 @@ public class TestFragment extends Fragment {
     private TextView tvDob;
     private ProgressDialog progressdialog;
     private String userName;
-    private static final int PICK_IMAGE_ID = 234;
     private Button b;
-    private ImageView i;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,7 +62,10 @@ public class TestFragment extends Fragment {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPickImage(view);
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                manager.beginTransaction()
+                        .replace(R.id.container352, new AlbumFragment())
+                        .commit();
             }
         });
         return view;
@@ -84,20 +85,4 @@ public class TestFragment extends Fragment {
             }
         }
     };
-    public void onPickImage(View view){
-        Intent chooseImageIntent = ImagePicker.getPickImageIntent(getActivity());
-        startActivityForResult(chooseImageIntent,PICK_IMAGE_ID);
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        switch(requestCode){
-            case PICK_IMAGE_ID:
-                Bitmap bitmab = ImagePicker.getImageFromResult(getActivity(),resultCode,data);
-                i = (ImageView) getView().findViewById(R.id.imageView);
-                i.setImageBitmap(bitmab);
-                break;
-            default:
-                super.onActivityResult(requestCode,resultCode,data);
-        }
-    }
 }

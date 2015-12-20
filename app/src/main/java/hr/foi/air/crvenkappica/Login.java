@@ -85,6 +85,7 @@ public class Login extends Activity {
                 if (output.equals("login_uspjeh")) {
                     progressdialog.hide();
                     LoginStatus.LoginInfo.setLoginName(userNameStatus);
+
                     LoginStatus.LoginInfo.setLoginState(true);
                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
                     startActivity(intent);

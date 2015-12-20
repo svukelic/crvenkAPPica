@@ -13,6 +13,12 @@ public class JSONParser {
         Gson gson = builder.create();
         JSON_object = "?json="+ gson.toJson(r) ;
     }
+    public JSONParser(ImageItem i){
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        JSON_object = "?json="+ gson.toJson(i) ;
+        System.out.println ("OVo: " + i.getId() + ", " + i.getTitle());
+    }
     public String getString(){
         return JSON_object;
     }
