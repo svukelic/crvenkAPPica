@@ -57,31 +57,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pretraga"
-        android:id="@+id/btnPrijatelji"
-        android:layout_marginTop="55dp"
-        android:layout_below="@+id/tvDOB"
-        android:layout_alignLeft="@+id/btnAlbum"
-        android:layout_alignStart="@+id/btnAlbum" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Album"
         android:id="@+id/btnAlbum"
         android:layout_marginTop="44dp"
-        android:layout_below="@+id/btnPrijatelji"
         android:layout_alignLeft="@+id/tvDOB"
-        android:layout_alignStart="@+id/tvDOB" />
+        android:layout_alignStart="@+id/tvDOB"
+        android:layout_below="@+id/tvDOB" />
 
-
-
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_alignTop="@+id/btnAlbum"
-        android:layout_toRightOf="@+id/tvDOB" />
 
 </RelativeLayout>

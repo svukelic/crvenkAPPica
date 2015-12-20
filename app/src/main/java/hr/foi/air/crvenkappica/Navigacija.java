@@ -48,10 +48,15 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
                         .commit();
                 break;
             case 1:
+                LoginStatus.LoginInfo.setProfilSearch(LoginStatus.LoginInfo.getLoginName());
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container352, new TestFragment())
+                        .replace(R.id.container352, new ProfilDetails())
                         .commit();
-                //System.out.println("Ulazim u profil.");
+                break;
+            case 2:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container352, new ProfilSearchFragment())
+                        .commit();
                 break;
             default:
                 break;

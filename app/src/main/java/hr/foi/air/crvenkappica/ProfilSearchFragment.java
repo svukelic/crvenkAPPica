@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,10 +111,22 @@ public class ProfilSearchFragment extends Fragment {
                         // ListView Clicked item value
                         String  itemValue    = (String) listView.getItemAtPosition(position);
 
-                        // Show Alert
+                        Fragment fragment = new ProfilDetails();
+                        FragmentManager fragmentManager = getFragmentManager();
+
+                        //Bundle bundle = new Bundle();
+                        //bundle.putString("Username", itemValue);
+                        //fragment.setArguments(bundle);
+                        LoginStatus.LoginInfo.setProfilSearch(itemValue);
+
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.container352, fragment)
+                                .commit();
+
+                        /* Show Alert
                         Toast.makeText(getActivity(),
                                 "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
-                                .show();
+                                .show();*/
 
                     }
 

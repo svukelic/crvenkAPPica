@@ -7,6 +7,7 @@ public class LoginStatus {
         public static String loginName;
         public static Boolean loginState;
         public static String loginID;
+        public static String profilSearch;
 
 
         public static String getLoginName() {
@@ -31,6 +32,14 @@ public class LoginStatus {
 
         public static void setLoginID(String loginID) {
             LoginInfo.loginID = loginID;
+        }
+
+        public static String getProfilSearch() {
+            return profilSearch;
+        }
+
+        public static void setProfilSearch(String profilSearch) {
+            LoginInfo.profilSearch = profilSearch;
         }
     }
 
