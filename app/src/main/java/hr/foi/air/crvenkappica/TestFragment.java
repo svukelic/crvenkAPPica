@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class TestFragment extends Fragment {
     private ProgressDialog progressdialog;
     private String userName;
     private static final int PICK_IMAGE_ID = 234;
-    private Button b;
+    private Button b, btnPretraga;
     private ImageView i;
 
     @Nullable
@@ -44,7 +45,7 @@ public class TestFragment extends Fragment {
         tvDob = (TextView) view.findViewById(R.id.tvDOB);
 
         progressdialog = new ProgressDialog(getActivity());
-        progressdialog.setTitle(R.string.title_activity_login);
+        progressdialog.setTitle("Profil");
         progressdialog.setMessage("Loading profile");
         progressdialog.setIndeterminate(false);
         progressdialog.setCancelable(false);
@@ -60,6 +61,7 @@ public class TestFragment extends Fragment {
             paramsProfil.listener = response;
             new WebRequest().execute(paramsProfil);
         }
+
         b = (Button) view.findViewById(R.id.btnAlbum);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +69,19 @@ public class TestFragment extends Fragment {
                 onPickImage(view);
             }
         });
+
+        btnPretraga = (Button) view.findViewById(R.id.btnPrijatelji);
+        btnPretraga.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new ProfilSearchFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container352, fragment)
+                        .commit();
+            }
+        });
+
         return view;
     }
 
@@ -75,10 +90,11 @@ public class TestFragment extends Fragment {
         public void processFinish(String output) {
             //System.out.println(output);
             progressdialog.hide();
-            Toast.makeText(getActivity(), output, Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(output);
                 tvIme.setText("Ime: " + jsonObject.getString("Ime"));
+                tvPrezime.setText("Prezime: " + jsonObject.getString("Prezime"));
+                tvDob.setText("DOB: " + jsonObject.getString("Dob"));
             } catch (JSONException e) {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
             }
