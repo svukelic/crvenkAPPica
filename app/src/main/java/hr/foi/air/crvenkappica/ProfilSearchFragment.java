@@ -78,10 +78,8 @@ public class ProfilSearchFragment extends Fragment {
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
-            //System.out.println(output);
             progressdialog.hide();
-            Toast.makeText(getActivity(), output, Toast.LENGTH_LONG).show();
-            //final ArrayList<String> list = new ArrayList<String>();
+
             try {
                 JSONObject jsonObject = new JSONObject(output);
                 JSONArray jArray = jsonObject.getJSONArray("list");
@@ -91,7 +89,6 @@ public class ProfilSearchFragment extends Fragment {
                 for(int i=0; i<jArray.length(); i++) {
                     JSONObject json_data = jArray.getJSONObject(i);
                     lista[i] = json_data.getString("Username");
-                    //list.add(json_data.getString("Username"));
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
@@ -114,9 +111,6 @@ public class ProfilSearchFragment extends Fragment {
                         Fragment fragment = new ProfilDetails();
                         FragmentManager fragmentManager = getFragmentManager();
 
-                        //Bundle bundle = new Bundle();
-                        //bundle.putString("Username", itemValue);
-                        //fragment.setArguments(bundle);
                         LoginStatus.LoginInfo.setProfilSearch(itemValue);
 
                         fragmentManager.beginTransaction()

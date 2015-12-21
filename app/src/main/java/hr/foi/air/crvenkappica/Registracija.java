@@ -59,20 +59,25 @@ public class Registracija extends Activity implements View.OnClickListener {
                 data.setPassword(Pass.getText().toString());
                 data.setEmail(Email.getText().toString());
                 data.setDOB(DOB_EditText.getText().toString());
-                JSONParser j = new JSONParser(data);
-              //  GsonBuilder builder = new GsonBuilder();
-             //   Gson gson = builder.create();
-                dialog = new ProgressDialog(Registracija.this);
-                dialog.setTitle(R.string.title_activity_activity__registration);
-                dialog.setMessage("Registration in progress"); //treba provjeriti da se iz strings.xml ucitava
-                dialog.setIndeterminate(false);
-                dialog.setCancelable(false);
-                dialog.show();
-                WebParams webParamsReg = new WebParams();
-                webParamsReg.service = "reg_app.php";
-                webParamsReg.params = j.getString();
-                webParamsReg.listener = response;
-                new WebRequest().execute(webParamsReg);
+
+                if(data.getName().isEmpty() || data.getLastname().isEmpty() || data.getUsername().isEmpty() || data.getPassword().isEmpty() || data.getEmail().isEmpty() || data.getDOB().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Sva polja moraju biti popunjena", Toast.LENGTH_LONG).show();
+                } else {
+                    JSONParser j = new JSONParser(data);
+                    //  GsonBuilder builder = new GsonBuilder();
+                    //   Gson gson = builder.create();
+                    dialog = new ProgressDialog(Registracija.this);
+                    dialog.setTitle(R.string.title_activity_activity__registration);
+                    dialog.setMessage("Registration in progress"); //treba provjeriti da se iz strings.xml ucitava
+                    dialog.setIndeterminate(false);
+                    dialog.setCancelable(false);
+                    dialog.show();
+                    WebParams webParamsReg = new WebParams();
+                    webParamsReg.service = "reg_app.php";
+                    webParamsReg.params = j.getString();
+                    webParamsReg.listener = response;
+                    new WebRequest().execute(webParamsReg);
+                }
             }
         });
         DOB_EditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {

@@ -80,8 +80,6 @@ public class Login extends Activity {
 
             if(output == null || output.isEmpty()) {
                 progressdialog.hide();
-                Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
-                startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Error with internet connection", Toast.LENGTH_LONG).show();
             } else {
 
