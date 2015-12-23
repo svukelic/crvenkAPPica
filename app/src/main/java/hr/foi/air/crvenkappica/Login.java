@@ -2,8 +2,11 @@ package hr.foi.air.crvenkappica;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
@@ -26,11 +29,22 @@ public class Login extends Activity {
     private TextView register;
     private ProgressDialog progressdialog;
     private String userNameStatus;
+    public static final String loginPreference = "loginPreference";
+    private SharedPreferences preferences;
+    private boolean loggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(loginPreference,0);
+        loggedIn = sharedPreferences.getBoolean("loginKey",false);
+
+        if(loggedIn){
+            Intent intent = new Intent(Login.this,Navigacija.class);
+            startActivity(intent);
+        }
 
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -80,8 +94,6 @@ public class Login extends Activity {
 
             if(output == null || output.isEmpty()) {
                 progressdialog.hide();
-                Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
-                startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Error with internet connection", Toast.LENGTH_LONG).show();
             } else {
 
@@ -92,6 +104,7 @@ public class Login extends Activity {
                     JSONObject jsonObject = new JSONObject(output);
                     status = jsonObject.getString("Status");
                     user_id = jsonObject.getString("Id");
+
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                 }
@@ -103,7 +116,13 @@ public class Login extends Activity {
                     LoginStatus.LoginInfo.setLoginState(true);
                     LoginStatus.LoginInfo.setLoginID(user_id);
                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
+                    preferences = getSharedPreferences(loginPreference, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("loginKey",true);
+                    editor.commit();
+
                     startActivity(intent);
+                    finish();
                 }
                 if (status.equals("login_neuspjeh")) {
                     progressdialog.hide();
