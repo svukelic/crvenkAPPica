@@ -162,10 +162,13 @@
         android:id="@+id/button_reg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:background="@drawable/custom_btn1"
+        android:textColor="@color/whiteText"
+        android:text="@string/string_registerme"
         android:layout_below="@+id/textView8"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp"
-        android:text="@string/string_registerme" />
+        android:width="300dp"/>
 
     <EditText
         android:id="@+id/dob_editText"
