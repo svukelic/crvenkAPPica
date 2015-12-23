@@ -140,10 +140,6 @@ public class Login extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
     }
-
-
-
-
 }
 
 
