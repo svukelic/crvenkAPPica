@@ -19,7 +19,7 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-
+    private LoginPreference loginPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +63,9 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
                         .commit();
                 break;
             case 3:
-                SharedPreferences sharedPreferences = this.getSharedPreferences(Login.loginPreference, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.commit();
+                loginPreference = new LoginPreference(getApplicationContext());
+                loginPreference.LogOut();
+
                 Toast.makeText(getApplicationContext(),"Logout successful",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Navigacija.this,Login.class);
                 startActivity(intent);

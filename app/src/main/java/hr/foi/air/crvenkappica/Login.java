@@ -2,12 +2,8 @@ package hr.foi.air.crvenkappica;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -29,17 +25,16 @@ public class Login extends Activity {
     private TextView register;
     private ProgressDialog progressdialog;
     private String userNameStatus;
-    public static final String loginPreference = "loginPreference";
-    private SharedPreferences preferences;
     private boolean loggedIn = false;
+    private LoginPreference loginPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(loginPreference,0);
-        loggedIn = sharedPreferences.getBoolean("loginKey",false);
+        loginPreference = new LoginPreference(getApplicationContext());
+        loggedIn = loginPreference.CheckLoggedIn();
 
         if(loggedIn){
             Intent intent = new Intent(Login.this,Navigacija.class);
@@ -54,19 +49,27 @@ public class Login extends Activity {
         btnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+
                 progressdialog = new ProgressDialog(Login.this);
                 progressdialog.setTitle(R.string.title_activity_login);
-                progressdialog.setMessage("Login in progress"); //treba provjeriti da se iz strings.xml ucitava
+                progressdialog.setMessage("Login in progress");
                 progressdialog.setIndeterminate(false);
                 progressdialog.setCancelable(false);
                 progressdialog.show();
+
                 String userName = etUsername.getText().toString();
-                userNameStatus = userName;
-                if (userName.isEmpty()) userName = "empty";
                 String password = etPassword.getText().toString();
-                if (password.isEmpty()) password = "empty";
+                userNameStatus = userName;
+
+                if (userName.isEmpty())
+                    userName = "empty";
+
+                if (password.isEmpty())
+                    password = "empty";
+
                 String hash = "";
                 String type = "";
+
                 WebParams paramsLogin = new WebParams();
                 paramsLogin.params = "?UserName=" + userName + "&Password=" + password;
                 paramsLogin.service = "prijava_app.php";
@@ -89,13 +92,13 @@ public class Login extends Activity {
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
-            //System.out.println(output);
             Intent intent = new Intent(Login.this,Navigacija.class);
 
             if(output == null || output.isEmpty()) {
                 progressdialog.hide();
                 Toast.makeText(getApplicationContext(), "Error with internet connection", Toast.LENGTH_LONG).show();
-            } else {
+            }
+            else {
 
                 String status = new String();
                 String user_id = new String();
@@ -112,14 +115,10 @@ public class Login extends Activity {
                 if (status.equals("login_uspjeh")) {
                     progressdialog.hide();
                     LoginStatus.LoginInfo.setLoginName(userNameStatus);
-
                     LoginStatus.LoginInfo.setLoginState(true);
                     LoginStatus.LoginInfo.setLoginID(user_id);
-                    Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
-                    preferences = getSharedPreferences(loginPreference, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putBoolean("loginKey",true);
-                    editor.commit();
+
+                    loginPreference.Login();
 
                     startActivity(intent);
                     finish();
