@@ -18,6 +18,9 @@ import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
 
+/**
+ * Aktivnost za prijavu u aplikaciju
+ */
 public class Login extends Activity {
 
     private Button btnLogin;
@@ -28,6 +31,11 @@ public class Login extends Activity {
     private boolean loggedIn = false;
     private LoginPreference loginPreference;
 
+    /**
+     * Pokreće se pri kreiranju aktivnosti, postavlja se layout.
+     * Ukoliko je korisnik već prijavljen, otvara se nova aktivnost.
+     * Dva listenera "osluškuju" korisnikove akcije.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +54,9 @@ public class Login extends Activity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         register = (TextView) findViewById(R.id.tvRegister);
 
+        /**
+         * Listener za gumb "Login". Prikazuje se poruka za prijavu u aplikaciju i poziva web servis.
+         */
         btnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -79,6 +90,9 @@ public class Login extends Activity {
             }
         });
 
+        /**
+         * Ukoliko se korisnik želi registrirati, otvara mu se aktivnost koja mu to omogućava.
+         */
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +102,10 @@ public class Login extends Activity {
         });
     }
 
-
+    /**
+    "Listener" koji čeka odgovor web servisa i na temelju outputa korisniku se ispisuje
+    poruka za neuspjeh ili ga se preusmjera dalje u aplikaciju.
+     */
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {

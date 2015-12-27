@@ -16,6 +16,11 @@ import java.util.ArrayList;
 /**
  * Created by domagoj on 06.12.15..
  */
+
+/**
+ * Adapter za RecyclerView. Mora implementirati metode:
+ * OnCreateViewHolder,OnBindViewHolder,getItemCount.
+ */
 public class ObavijestiAdapter extends RecyclerView.Adapter<ObavijestiAdapter.ViewHolder> {
 
     private ArrayList<Obavijesti_item> items;
@@ -26,12 +31,19 @@ public class ObavijestiAdapter extends RecyclerView.Adapter<ObavijestiAdapter.Vi
         this.context = context;
     }
 
+    /**
+     * Poziva se pri svakom instanciranju ViewHolder klase.
+     * Inflate-a se layout za item.
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         return new ViewHolder(LayoutInflater.from(context)
                 .inflate(R.layout.obavijesti_items, viewGroup, false));
     }
 
+    /**
+     * Poziva se nakon što su podaci "bind-ani". Učitava podatke u UI.
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Glide.with(context)
@@ -40,11 +52,17 @@ public class ObavijestiAdapter extends RecyclerView.Adapter<ObavijestiAdapter.Vi
         holder.textView.setText(items.get(position).getDescription());
     }
 
+    /**
+     * Vraća prisutan broj item-a.
+     */
     @Override
     public int getItemCount() {
         return items.size();
     }
 
+    /**
+     * Klasa koja sadrži reference za pojedini item u RecyclerView-u.
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView textView;

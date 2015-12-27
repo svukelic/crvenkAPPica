@@ -20,7 +20,6 @@ import java.net.URL;
 public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
 
     public AsyncResponse delegate = null;
-    private Dialog progressdialog;
 
     @Override
     protected TaskResult doInBackground(WebParams... params) {

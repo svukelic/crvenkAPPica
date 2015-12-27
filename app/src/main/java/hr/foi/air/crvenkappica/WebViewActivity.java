@@ -5,11 +5,18 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+/**
+ * Klasa za prikaz WebView-a.
+ */
 public class WebViewActivity extends Activity {
 
     private String url;
     private WebView webView;
 
+    /**
+     * Poziva se pri kreiranju aktivnosti. Postavlja se layout koji sadrži webview.
+     * Učitava se proslijeđeni url u webview.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +32,11 @@ public class WebViewActivity extends Activity {
         webView.loadUrl(url);
     }
 
+    /**
+     * Potrebno je naslijediti klasu WebViewClient te overrideati metodu
+     * shouldOverrideUrlLoading (vratiti true) kako bi se omogućilo daljnje pretraživanje internetskih
+     * stranica unutar WebView-a.
+     */
     private class Browser extends WebViewClient{
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

@@ -23,6 +23,10 @@ import java.util.ArrayList;
 /**
  * Created by domagoj on 04.12.15..
  */
+
+/**
+ * Fragment za prikaz obavijesti o lovu.
+ */
 public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
 
     private ArrayList<Obavijesti_item> obavijestiList;
@@ -30,15 +34,21 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
     private LinearLayoutManager layoutManager;
     private ObavijestiAdapter adapter;
     private Obavijesti_item obavijestiItem;
-    private WebView webView;
 
-
+    /**
+     * Poziva se pri kreiranju fragmentu.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.obavijestiList = new ArrayList<Obavijesti_item>();
     }
 
+    /**
+     * Kreira te vraća view pripadnog fragmenta.
+     * Kreira se i postavlja LinearLayoutManager za pozicioniranje itema unutar RecyclerView-a.
+     * Poziva se aynctask za dohvat podataka za prikaz u obavijestima.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +62,12 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
         return view;
     }
 
+    /**
+     * Implementacija interface-a.
+     * Podaci dobiveni od strane asynctask-a (lista) spremaju se kao pojedini objekti
+     * klase Obavijesti_item, pojedini objekti pohranjuju se u listu.
+     * Naposljetku, kada je lista puna, postavlja se adapter za RecyclerView.
+     */
     public void onTaskCompleted(final ArrayList<String> list) {
 
         for (int i = 0; i <= 5; i++) {
@@ -66,11 +82,11 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onTaskCompleted2(ArrayList<ImageItem> result) {
-
-    }
-
+    /**
+     * Nakon što je aktivnost kreirana i svi podaci su prikazani, implementiran je listener
+     * za dodir na pojedini item RecyclerView-a.
+     * Dodirom na item otvara se WebView koji sadrži potpunu vijest.
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

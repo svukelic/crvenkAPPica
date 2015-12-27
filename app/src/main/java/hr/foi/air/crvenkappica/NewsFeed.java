@@ -68,7 +68,6 @@ public class NewsFeed extends AsyncTask<Void, Void, ArrayList<String>> {
 
     @Override
     protected void onPostExecute(ArrayList<String> list) {
-        //super.onPostExecute(list);
         listener.onTaskCompleted(list);
     }
 
