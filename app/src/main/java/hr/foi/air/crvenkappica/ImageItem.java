@@ -18,14 +18,14 @@ public class ImageItem {
 
     }
 
-    //public Bitmap getImage() {
-    //    return image;
-    //}
+    public Bitmap getImage() {
+       return image;
+    }
 
-    /*public void setImage(Bitmap image) {
+    public void setImage(Bitmap image) {
         this.image = image;
     }
-*/  public String getId(){
+    public String getId(){
         return id;
     }
     public void setId(String id){

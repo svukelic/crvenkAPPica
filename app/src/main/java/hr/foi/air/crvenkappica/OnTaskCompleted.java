@@ -9,4 +9,5 @@ import java.util.ArrayList;
  */
 public interface OnTaskCompleted {
     void onTaskCompleted(ArrayList<String> result);
+    void onTaskCompleted2(ArrayList<ImageItem> result);
 }

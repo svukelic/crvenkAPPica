@@ -1,5 +1,6 @@
 package hr.foi.air.crvenkappica;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -44,18 +46,21 @@ import hr.foi.air.crvenkappica.web.WebRequest;
 /**
  * Created by Mario on 20/12/2015.
  */
-public class AlbumFragment extends Fragment {
+public class AlbumFragment extends Fragment implements OnTaskCompleted {
     private static final int PICK_IMAGE_ID = 234;
     private Button b;
     private GridView gridView;
     private GridViewAdapter gridAdapter;
     private String selectedImagePath;
     private String[] lista;
+    private OnTaskCompleted o;
     String upLoadServerUri = "http://www.redtesseract.sexy/crvenkappica/upload_images.php";
     int serverResponseCode = 0;
     private Bitmap[] bitmap;
+    CustomAsyncTask c;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //c = new CustomAsyncTask(lista);
         final View view = inflater.inflate(R.layout.fragment_album,container,false);
         b = (Button) view.findViewById(R.id.odabir);
         b.setOnClickListener(new View.OnClickListener() {
@@ -69,13 +74,9 @@ public class AlbumFragment extends Fragment {
         webParamsReg.params = "?id=" +LoginStatus.LoginInfo.getLoginID();
         webParamsReg.listener = response2;
         new WebRequest().execute(webParamsReg);
-        gridView = (GridView) view.findViewById(R.id.gridView);
-        try {
-            gridAdapter = new GridViewAdapter(getActivity().getApplicationContext(), R.layout.grid_item_layout, getData());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        gridView.setAdapter(gridAdapter);
+        o = this;
+       // new CustomAsyncTask(lista,getContext(),this).execute();
+
         return view;
     }
     public void onPickImage(View view){
@@ -94,21 +95,21 @@ public class AlbumFragment extends Fragment {
                     lista[i] = json_data.getString("Link");
                     System.out.println(lista[i]);
                 }
+                //  new CustomAsyncTask(lista,getContext(),o).execute();
+                new CustomAsyncTask(lista,getContext(),o).execute();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         }
     };
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
             if (output.equals("uspjeh")) {
-
                 Toast.makeText(getActivity().getApplicationContext(), "Image upload done.", Toast.LENGTH_LONG).show();
-
             }
             if (output.equals("greska prilikom upisa")) {
-
                 Toast.makeText(getActivity().getApplicationContext(), "Error during image upload.", Toast.LENGTH_LONG).show();
             }
             if(output == null || output.isEmpty()) Toast.makeText(getActivity().getApplicationContext(), "Problem with internet connection", Toast.LENGTH_LONG).show();
@@ -147,37 +148,24 @@ public class AlbumFragment extends Fragment {
                 super.onActivityResult(requestCode,resultCode,data);
         }
     }
-    private ArrayList<ImageItem> getData() throws InterruptedException {
-        final ArrayList<ImageItem> imageItems = new ArrayList<>();
-        Bitmap mIcon11[] = new Bitmap[3];
-        for (int i=0;i<3;i++){
-            try{
-                InputStream in = new URL(lista[i]).openStream();
-                mIcon11[i] =  BitmapFactory.decodeStream(new SanInputStream(in));
-                imageItems.add(new ImageItem(mIcon11[i]));
 
-            }
 
-            catch(Exception e){}
-        }
+    @Override
+    public void onTaskCompleted(ArrayList<String> result) {
 
-        return imageItems;
     }
-    public class SanInputStream extends FilterInputStream {
-        public SanInputStream(InputStream in) {
-            super(in);
-        }
-        public long skip(long n) throws IOException {
-            long m = 0L;
-            while (m < n) {
-                long _m = in.skip(n-m);
-                if (_m == 0L) break;
-                m += _m;
-            }
 
-            return m;
-        }
+    @Override
+    public void onTaskCompleted2(ArrayList<ImageItem> result) {
+        Toast.makeText(getActivity().getApplicationContext(), "Slike bi trebale biti prikazane.", Toast.LENGTH_LONG);
+       // System.out.println("Proba:");
+        gridView = (GridView) getActivity().findViewById(R.id.gridView);
+        gridAdapter = new GridViewAdapter(getActivity().getApplicationContext(),R.layout.grid_item_layout,result);
+        gridView.setAdapter(gridAdapter);
+        gridView.refreshDrawableState();
     }
+
+
     public Bitmap getBitmapFromURL(String src) {
         try {
             URL url = new URL(src);

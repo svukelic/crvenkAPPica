@@ -48,6 +48,7 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         new NewsFeed(getActivity(),this).execute();
+
         return view;
     }
 
@@ -63,6 +64,11 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
 
         adapter = new ObavijestiAdapter(obavijestiList,getActivity());
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onTaskCompleted2(ArrayList<ImageItem> result) {
+
     }
 
     @Override

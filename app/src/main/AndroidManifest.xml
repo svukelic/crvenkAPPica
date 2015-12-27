@@ -41,11 +41,6 @@
             android:theme="@style/Base.Theme.AppCompat.Light" />
 
         <activity android:name=".WebViewActivity" />
-        
-        <activity
-            android:name=".Album2"
-            android:label="@string/title_activity_album2"
-            android:theme="@style/Base.Theme.AppCompat.Light" />
 
     </application>
 
