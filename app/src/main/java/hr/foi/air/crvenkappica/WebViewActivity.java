@@ -37,6 +37,7 @@ public class WebViewActivity extends Activity {
      * shouldOverrideUrlLoading (vratiti true) kako bi se omogućilo daljnje pretraživanje internetskih
      * stranica unutar WebView-a.
      */
+    
     private class Browser extends WebViewClient{
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
