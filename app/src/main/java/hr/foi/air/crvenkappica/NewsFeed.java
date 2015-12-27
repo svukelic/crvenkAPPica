@@ -16,6 +16,9 @@ import java.util.ArrayList;
  * Created by domagoj on 04.12.15..
  */
 
+/**
+ * Klasa za rad s asyntaskom. Služi za dohvat podataka pomoću Jsoup-a.
+ */
 public class NewsFeed extends AsyncTask<Void, Void, ArrayList<String>> {
 
     private String cssQueryText = "div.post-content p";
@@ -31,6 +34,10 @@ public class NewsFeed extends AsyncTask<Void, Void, ArrayList<String>> {
         this.context = context;
     }
 
+    /**
+     * Metoda pozvana na background dretvi. U ovom slučaju ništa ne prima kao parametre.
+     * Nakon što su podaci dohvaćeni, vraća listu stringova.
+     */
     @Override
     protected ArrayList<String> doInBackground(Void... params) {
         ArrayList<String> list = new ArrayList<String>();
@@ -66,6 +73,11 @@ public class NewsFeed extends AsyncTask<Void, Void, ArrayList<String>> {
         return list;
     }
 
+    /**
+     * Pozvana na UI dretvi nakon što su podaci dohvaćeni.
+     * Argument metode je povratni tip podataka metode doInBackground.
+     * Poziva se metoda onTaskCompleted iz interface-a.
+     */
     @Override
     protected void onPostExecute(ArrayList<String> list) {
         listener.onTaskCompleted(list);
