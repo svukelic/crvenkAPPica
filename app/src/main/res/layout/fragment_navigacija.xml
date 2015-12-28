@@ -53,19 +53,7 @@
         android:layout_alignLeft="@+id/tvIme"
         android:layout_alignStart="@+id/tvIme" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Album"
-        android:id="@+id/btnAlbum"
-        android:background="@drawable/custom_btn1"
-        android:textColor="@color/whiteText"
-        android:layout_below="@+id/tvDOB"
-        android:layout_marginTop="45dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+
 
     <TextView
         android:layout_width="wrap_content"
