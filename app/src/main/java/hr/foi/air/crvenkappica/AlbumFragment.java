@@ -2,6 +2,7 @@ package hr.foi.air.crvenkappica;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
@@ -28,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,6 +54,7 @@ uploadao. Nasljeđuje Fragment klasu te implementira OnTaskCompleted interface
  */
 public class AlbumFragment extends Fragment implements OnTaskCompleted {
     private static final int PICK_IMAGE_ID = 234;
+    private static final int CAMERA_REQUEST = 1888;
     private Button b;
     private GridView gridView;
     private GridViewAdapter gridAdapter;
@@ -60,7 +63,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
     private OnTaskCompleted o;
     private static String upLoadServerUri = "http://www.redtesseract.sexy/crvenkappica/upload_images.php";
     int serverResponseCode = 0;
-    private Bitmap[] bitmap;
+    //private Bitmap[] bitmap;
     private LoginPreference loginPreference;
     private boolean loggedIn;
     private String userId;
@@ -104,7 +107,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
     //Pri kliku na button, otvara nam se prozor na kojem biramo s kojeg "servisa" zelimo odabrati slike: kamera, galerija...
    //pokrecemo aktivnost kako bi dobili rezultat: u nasem slucaju dobivamo sliku
     public void onPickImage(View view){
-        Intent chooseImageIntent = ImagePicker.getPickImageIntent(getActivity());
+        Intent chooseImageIntent = ImagePicker.getPickImageIntent(getActivity().getApplicationContext());
         startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
     }
     /**
@@ -149,37 +152,49 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
     //Nakon sto smo odabrali sliku (s kamere, iz galerije) istu ćemo dobiti kao rezultat u kao Intent data parametar
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        switch(requestCode){
-            case PICK_IMAGE_ID:
-                //nakon odabira slike, istu uploadamo i pokrećemo webservis za spremanje u bazu
-                String id = LoginStatus.LoginInfo.getLoginID();
-                Toast.makeText(getActivity(), "Image chosen.", Toast.LENGTH_LONG).show();
-                Uri selectedImageUri = data.getData();
-                selectedImagePath = getPath(selectedImageUri);
-                File file = new File(selectedImagePath);
-                String nesto = file.getName();
-                ImageItem i = new ImageItem();
-                i.setId(id);
-                i.setTitle(nesto);
-                System.out.println(i.getId() +  i.getTitle());
-                JSONParser j = new JSONParser(i);
-                System.out.println(selectedImagePath);
-                System.out.println(nesto);
-                System.out.println(j.getString());
-                new Thread(new Runnable() {
-                    public void run() {
-                        uploadFile(selectedImagePath);
-                    }
-                }).start();
-                WebParams webParamsReg = new WebParams();
-                webParamsReg.service = "image_db.php";
-                webParamsReg.params = j.getString();
-                webParamsReg.listener = response;
-                new WebRequest().execute(webParamsReg);
-                break;
-            default:
-                super.onActivityResult(requestCode,resultCode,data);
+        try {
+            switch(requestCode) {
+                case PICK_IMAGE_ID:
+                    Bitmap bitmap = ImagePicker.getImageFromResult(getActivity(), resultCode, data);
+                    String id = userId;
+                    Uri selectedImageUri = getImageUri(getActivity(),bitmap);
+                    selectedImagePath = getPath(selectedImageUri);
+                    File file = new File(selectedImagePath);
+                    String nesto = file.getName();
+                    ImageItem i = new ImageItem();
+                    i.setId(id);
+                    i.setTitle(nesto);
+                    System.out.println(i.getId() +  i.getTitle());
+                    JSONParser j = new JSONParser(i);
+                    System.out.println(selectedImagePath);
+                    System.out.println(nesto);
+                    System.out.println(j.getString());
+                    new Thread(new Runnable() {
+                        public void run() {
+                            uploadFile(selectedImagePath);
+                        }
+                    }).start();
+                    WebParams webParamsReg = new WebParams();
+                    webParamsReg.service = "image_db.php";
+                    webParamsReg.params = j.getString();
+                    webParamsReg.listener = response;
+                    new WebRequest().execute(webParamsReg);
+                    Toast.makeText(getActivity(), "Image chosen.", Toast.LENGTH_LONG).show();
+                    break;
+                default:
+                    super.onActivityResult(requestCode, resultCode, data);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity().getApplicationContext(), "Please choose image again.", Toast.LENGTH_LONG).show();
         }
+    }
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
     @Override
     public void onTaskCompleted(ArrayList<String> result) {

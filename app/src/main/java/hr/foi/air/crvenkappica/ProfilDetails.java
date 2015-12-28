@@ -35,6 +35,7 @@ public class ProfilDetails extends Fragment  {
     public ProfilDetails(boolean Search){
         search = Search;
     }
+    public ProfilDetails(){}
 
     @Nullable
     @Override
@@ -77,7 +78,7 @@ public class ProfilDetails extends Fragment  {
             paramsProfil.listener = response;
             new WebRequest().execute(paramsProfil);
         }
-        b = (Button) view.findViewById(R.id.btnAlbum);
+       /* b = (Button) view.findViewById(R.id.btnAlbum);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +87,7 @@ public class ProfilDetails extends Fragment  {
                         .replace(R.id.container352, new AlbumFragment())
                         .commit();
             }
-        });
+        });*/
         return view;
     }
 

@@ -63,6 +63,11 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
                         .commit();
                 break;
             case 3:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container352, new AlbumFragment())
+                        .commit();
+                break;
+            case 4:
                 loginPreference = new LoginPreference(getApplicationContext());
                 loginPreference.LogOut();
 
