@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 /**
  * Created by Mario on 5.12.2015..
  */
+//Klasa za kreiranje JSON objekta iz registracijskih podataka i podataka za spremanje slike u bazu.
 public class JSONParser {
     private String JSON_object;
     public JSONParser(Registration_Data r){
@@ -17,7 +18,6 @@ public class JSONParser {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         JSON_object = "?json="+ gson.toJson(i) ;
-        System.out.println ("OVo: " + i.getId() + ", " + i.getTitle());
     }
     public String getString(){
         return JSON_object;

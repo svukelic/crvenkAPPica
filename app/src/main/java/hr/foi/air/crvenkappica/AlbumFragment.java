@@ -46,6 +46,10 @@ import hr.foi.air.crvenkappica.web.WebRequest;
 /**
  * Created by Mario on 20/12/2015.
  */
+/*
+Fragment za album korisnika, omogućava upload slika na server, te prikazuje koje slike je korisnik
+uploadao. Nasljeđuje Fragment klasu te implementira OnTaskCompleted interface
+ */
 public class AlbumFragment extends Fragment implements OnTaskCompleted {
     private static final int PICK_IMAGE_ID = 234;
     private Button b;
@@ -54,15 +58,21 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
     private String selectedImagePath;
     private String[] lista;
     private OnTaskCompleted o;
-    String upLoadServerUri = "http://www.redtesseract.sexy/crvenkappica/upload_images.php";
+    private static String upLoadServerUri = "http://www.redtesseract.sexy/crvenkappica/upload_images.php";
     int serverResponseCode = 0;
     private Bitmap[] bitmap;
-    CustomAsyncTask c;
 
+
+
+    /**
+     * Kreira te vraća view pripadnog fragmenta.
+     * Poziva se webrequest koji dohvaća listu slika koje je korisnik uploadao.
+     *
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //c = new CustomAsyncTask(lista);
         final View view = inflater.inflate(R.layout.fragment_album,container,false);
         b = (Button) view.findViewById(R.id.odabir);
+        //Listener za click na button
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,14 +85,19 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         webParamsReg.listener = response2;
         new WebRequest().execute(webParamsReg);
         o = this;
-       // new CustomAsyncTask(lista,getContext(),this).execute();
-
         return view;
     }
+    //Pri kliku na button, otvara nam se prozor na kojem biramo s kojeg "servisa" zelimo odabrati slike: kamera, galerija...
+   //pokrecemo aktivnost kako bi dobili rezultat: u nasem slucaju dobivamo sliku
     public void onPickImage(View view){
         Intent chooseImageIntent = ImagePicker.getPickImageIntent(getActivity());
         startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
     }
+    /**
+     "Listener" koji čeka odgovor web servisa i na temelju outputa parsira jsonobject
+     kako bi dobili linkove slika koje je korisnik uploadao.
+     Pokreće se customasynctask, koji postavlja pripadne slike u gridview
+     */
     AsyncResponse response2 = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
@@ -93,9 +108,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                 for(int i=0; i<jArray.length(); i++) {
                     JSONObject json_data = jArray.getJSONObject(i);
                     lista[i] = json_data.getString("Link");
-                    System.out.println(lista[i]);
                 }
-                //  new CustomAsyncTask(lista,getContext(),o).execute();
                 new CustomAsyncTask(lista,getContext(),o).execute();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -103,6 +116,10 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
 
         }
     };
+    /**
+     "Listener" koji čeka odgovor web servisa i na temelju outputa korisniku se ispisuje
+     poruka za uspješan upload ili neuspješan upload slike na server.
+     */
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
@@ -115,10 +132,12 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
             if(output == null || output.isEmpty()) Toast.makeText(getActivity().getApplicationContext(), "Problem with internet connection", Toast.LENGTH_LONG).show();
         }
     };
+    //Nakon sto smo odabrali sliku (s kamere, iz galerije) istu ćemo dobiti kao rezultat u kao Intent data parametar
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         switch(requestCode){
             case PICK_IMAGE_ID:
+                //nakon odabira slike, istu uploadamo i pokrećemo webservis za spremanje u bazu
                 String id = LoginStatus.LoginInfo.getLoginID();
                 Toast.makeText(getActivity(), "Image chosen.", Toast.LENGTH_LONG).show();
                 Uri selectedImageUri = data.getData();
@@ -148,42 +167,21 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                 super.onActivityResult(requestCode,resultCode,data);
         }
     }
-
-
     @Override
     public void onTaskCompleted(ArrayList<String> result) {
-
     }
-
-    @Override
+    /**
+     * Implementacija interface-a.
+     * Podaci dobiveni od strane asynctask-a (lista imageitem-a) prikazuju se u gridview-u
+     */
     public void onTaskCompleted2(ArrayList<ImageItem> result) {
-        Toast.makeText(getActivity().getApplicationContext(), "Slike bi trebale biti prikazane.", Toast.LENGTH_LONG);
-       // System.out.println("Proba:");
+       // Toast.makeText(getActivity().getApplicationContext(), "Slike bi trebale biti prikazane.", Toast.LENGTH_LONG);
         gridView = (GridView) getActivity().findViewById(R.id.gridView);
         gridAdapter = new GridViewAdapter(getActivity().getApplicationContext(),R.layout.grid_item_layout,result);
         gridView.setAdapter(gridAdapter);
         gridView.refreshDrawableState();
     }
-
-
-    public Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            connection.disconnect();
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-
-        }
-    }
-
+    //Metoda za dohvat putanje datoteke
     public String getPath(Uri uri) {
         String res = null;
         String[] proj = { MediaStore.Images.Media.DATA };
@@ -195,6 +193,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         cursor.close();
         return res;
     }
+    //Metoda za upload datoteke (parametar je putanja datoteke)
     public int uploadFile(String sourceFileUri) {
         String fileName = sourceFileUri;
         HttpURLConnection conn = null;
@@ -206,9 +205,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         byte[] buffer;
         int maxBufferSize = 1 * 1024 * 1024;
         File sourceFile = new File(sourceFileUri);
-
         if (!sourceFile.isFile()) {
-            //pg2.hide();
             Toast.makeText(getActivity(), "Error, choose picture again.", Toast.LENGTH_LONG).show();
             Log.e("uploadFile", "Source File not exist :" + sourceFile);
             return 0;
@@ -252,53 +249,38 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                 serverResponseCode = conn.getResponseCode();
                 String serverResponseMessage = conn.getResponseMessage();
                 Log.i("uploadFile", "HTTP Response is : "+ serverResponseMessage + ": " + serverResponseCode);
-
                 if(serverResponseCode == 200){
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            //    pg2.hide();
                             Toast.makeText(getActivity(), "Image upload complete.", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
-
                 //close the streams //
                 fileInputStream.close();
                 dos.flush();
                 dos.close();
-
             } catch (MalformedURLException ex) {
-
                 //dialog.dismiss();
                 ex.printStackTrace();
-
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
-                        //  pg2.hide();
                         Toast.makeText(getActivity(), "Error.", Toast.LENGTH_LONG).show();
                     }
                 });
-
                 Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
             } catch (Exception e) {
-
                 //dialog.dismiss();
                 e.printStackTrace();
-
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
-                        //   pg2.hide();
                         Toast.makeText(getActivity(), "Error, check logcat.", Toast.LENGTH_LONG).show();
-                        // Toast.makeText(New_annonce_act_step3.this, "Got Exception : see logcat ",
-                        //       Toast.LENGTH_SHORT).show();
                     }
                 });
                 Log.e("Upload file to server Exception", "Exception : "
                         + e.getMessage(), e);
             }
-            // dialog.dismiss();
             return serverResponseCode;
-
         } // End else block
     }
 

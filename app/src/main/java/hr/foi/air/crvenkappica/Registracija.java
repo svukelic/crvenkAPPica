@@ -18,7 +18,7 @@ import java.util.Calendar;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
-
+//Aktivnost za registraciju
 public class Registracija extends Activity implements View.OnClickListener {
     private EditText DOB_EditText, User, Pass, Email, Name, Lastname;
     private DatePickerDialog DOB_Picker;
@@ -41,7 +41,11 @@ public class Registracija extends Activity implements View.OnClickListener {
     };
 
     @Override
-
+    /**
+     * Pokreće se pri kreiranju aktivnosti, postavlja se layout.
+     * Postavljamo listener na button za registraciju
+     * Ako je sve u redu sa poljima, pozivamo webservis reg_app.php
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registracija);
@@ -59,13 +63,10 @@ public class Registracija extends Activity implements View.OnClickListener {
                 data.setPassword(Pass.getText().toString());
                 data.setEmail(Email.getText().toString());
                 data.setDOB(DOB_EditText.getText().toString());
-
                 if(data.getName().isEmpty() || data.getLastname().isEmpty() || data.getUsername().isEmpty() || data.getPassword().isEmpty() || data.getEmail().isEmpty() || data.getDOB().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Sva polja moraju biti popunjena", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Sva polja moraju biti popunjena.", Toast.LENGTH_LONG).show();
                 } else {
                     JSONParser j = new JSONParser(data);
-                    //  GsonBuilder builder = new GsonBuilder();
-                    //   Gson gson = builder.create();
                     dialog = new ProgressDialog(Registracija.this);
                     dialog.setTitle(R.string.title_activity_activity__registration);
                     dialog.setMessage("Registration in progress"); //treba provjeriti da se iz strings.xml ucitava
@@ -80,6 +81,7 @@ public class Registracija extends Activity implements View.OnClickListener {
                 }
             }
         });
+        //Prikazuje Date picker ako je isti fokusiran
         DOB_EditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -88,7 +90,7 @@ public class Registracija extends Activity implements View.OnClickListener {
             }
         });
     }
-
+    //pronalazi view identificiran pomoću id-a
     private void findViewsById() {
         DOB_EditText = (EditText) findViewById(R.id.dob_editText);
         DOB_EditText.setInputType(InputType.TYPE_NULL);
@@ -99,7 +101,7 @@ public class Registracija extends Activity implements View.OnClickListener {
         Email = (EditText) findViewById(R.id.email_editText);
         //DOB_EditText.requestFocus();
     }
-
+    //postavlja datetime polje
     private void setDateTimeField() {
         DOB_EditText.setOnClickListener(this);
         Calendar newCalendar = Calendar.getInstance();
@@ -115,6 +117,7 @@ public class Registracija extends Activity implements View.OnClickListener {
     }
 
     @Override
+    //klik na polje za datum, prikazuje se date picker
     public void onClick(View v) {
         if (v == DOB_EditText) {
             DOB_Picker.show();

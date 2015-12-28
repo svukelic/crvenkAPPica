@@ -1,5 +1,6 @@
 package hr.foi.air.crvenkappica;
 
+//Klasa za podatke registracije -> lakše kreiranje json objekta
 public class Registration_Data {
     private String Name;
     private String Lastname;

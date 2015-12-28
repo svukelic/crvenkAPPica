@@ -28,7 +28,7 @@ import java.util.List;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
-
+//Fragment za pretragu profila
 public class ProfilSearchFragment extends Fragment {
 
     private EditText etSearch;

@@ -1,6 +1,7 @@
 package hr.foi.air.crvenkappica;
 
 import android.content.Context;
+import android.media.Image;
 
 import java.util.ArrayList;
 
@@ -13,4 +14,5 @@ import java.util.ArrayList;
  */
 public interface OnTaskCompleted {
     void onTaskCompleted(ArrayList<String> result);
+    void onTaskCompleted2(ArrayList<ImageItem> result);
 }

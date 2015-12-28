@@ -58,7 +58,6 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         new NewsFeed(getActivity(),this).execute();
-
         return view;
     }
 
@@ -69,7 +68,6 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
      * Naposljetku, kada je lista puna, postavlja se adapter za RecyclerView.
      */
     public void onTaskCompleted(final ArrayList<String> list) {
-
         for (int i = 0; i <= 5; i++) {
             obavijestiItem = new Obavijesti_item();
             obavijestiItem.setDescription(list.get(i));
@@ -77,9 +75,13 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
             obavijestiItem.setLink(list.get(i+12));
             obavijestiList.add(obavijestiItem);
         }
-
         adapter = new ObavijestiAdapter(obavijestiList,getActivity());
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onTaskCompleted2(ArrayList<ImageItem> result) {
+
     }
 
     /**

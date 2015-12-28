@@ -19,7 +19,7 @@ import org.json.JSONObject;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
-
+//ProfilDetails fragment, prikazuje detalje korisnika
 public class ProfilDetails extends Fragment  {
     private TextView tvUsername;
     private TextView tvIme;

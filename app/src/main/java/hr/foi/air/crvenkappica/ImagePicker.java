@@ -24,6 +24,7 @@ import java.util.List;
  * Date: 08/09/2015
  * Email: m3ario@gmail.com
  */
+//Klasa za odabir slika, prikazuje nam se odabir (kamera, galerija i slično)
 public class ImagePicker {
 
     private static final int DEFAULT_MIN_WIDTH_QUALITY = 400;        // min pixels
@@ -35,9 +36,7 @@ public class ImagePicker {
 
     public static Intent getPickImageIntent(Context context) {
         Intent chooserIntent = null;
-
         List<Intent> intentList = new ArrayList<>();
-
         Intent pickIntent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -45,16 +44,13 @@ public class ImagePicker {
         takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(context)));
         intentList = addIntentsToList(context, intentList, pickIntent);
         intentList = addIntentsToList(context, intentList, takePhotoIntent);
-
         if (intentList.size() > 0) {
             chooserIntent = Intent.createChooser(intentList.remove(intentList.size() - 1),
                     context.getString(R.string.camerainit));
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentList.toArray(new Parcelable[]{}));
         }
-
         return chooserIntent;
     }
-
     private static List<Intent> addIntentsToList(Context context, List<Intent> list, Intent intent) {
         List<ResolveInfo> resInfo = context.getPackageManager().queryIntentActivities(intent, 0);
         for (ResolveInfo resolveInfo : resInfo) {
