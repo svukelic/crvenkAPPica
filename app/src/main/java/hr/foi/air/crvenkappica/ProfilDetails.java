@@ -33,8 +33,6 @@ public class ProfilDetails extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_navigacija,container,false);
 
-
-
         tvUsername = (TextView) view.findViewById(R.id.tvUsername);
 
         tvIme = (TextView) view.findViewById(R.id.tvIme);
@@ -52,6 +50,8 @@ public class ProfilDetails extends Fragment  {
 
         tvUsername.setText("Username: " + userName);
 
+
+        //dohvat traženog profila
         if (!userName.isEmpty()) {
             String hash = "";
             String type = "";
@@ -74,6 +74,7 @@ public class ProfilDetails extends Fragment  {
         return view;
     }
 
+    //ispis dohvaćenog profila
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {

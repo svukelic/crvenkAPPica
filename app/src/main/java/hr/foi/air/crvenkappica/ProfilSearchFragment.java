@@ -45,6 +45,7 @@ public class ProfilSearchFragment extends Fragment {
         btnSearch = (Button) view.findViewById(R.id.buttonSearch);
         listView = (ListView) view.findViewById(R.id.lvSearch);
 
+        //listener za klik na search button
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +62,8 @@ public class ProfilSearchFragment extends Fragment {
                     progressdialog.setCancelable(false);
                     progressdialog.show();
 
+
+                    //pretraga profila po unesenom imenu i/ili prezimenu
                     String hash = "";
                     String type = "";
                     WebParams paramsProfil = new WebParams();
@@ -75,6 +78,9 @@ public class ProfilSearchFragment extends Fragment {
         return view;
     }
 
+    //dohvat odgovora
+    //odgovor je u obliku JSON arraya, parsira se i ispisuje u list view
+    //klikom na item koji predstavlja neki pronađeni profil u listviewu otvaraju se detalji tog profila
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
@@ -102,10 +108,8 @@ public class ProfilSearchFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
 
-                        // ListView Clicked item index
                         int itemPosition     = position;
 
-                        // ListView Clicked item value
                         String  itemValue    = (String) listView.getItemAtPosition(position);
 
                         Fragment fragment = new ProfilDetails();

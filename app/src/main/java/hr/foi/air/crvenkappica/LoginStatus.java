@@ -2,6 +2,9 @@ package hr.foi.air.crvenkappica;
 
 public class LoginStatus {
 
+    //staticka klasa s getterima i setterima, pamti se username ulogiranog korisnika, status i id
+    //takoder se pamti koji profil se treba ucitati prilikom prikaza
+
     public static class LoginInfo{
 
         public static String loginName;
