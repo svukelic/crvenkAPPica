@@ -135,7 +135,7 @@ public class Login extends Activity {
                     LoginStatus.LoginInfo.setLoginState(true);
                     LoginStatus.LoginInfo.setLoginID(user_id);
 
-                    loginPreference.Login(userNameStatus);
+                    loginPreference.Login(userNameStatus,user_id);
 
                     startActivity(intent);
                     finish();

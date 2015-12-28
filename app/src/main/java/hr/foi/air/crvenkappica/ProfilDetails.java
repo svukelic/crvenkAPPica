@@ -30,6 +30,11 @@ public class ProfilDetails extends Fragment  {
     private Button b;
     private LoginPreference loginPreference;
     private boolean loggedIn;
+    private boolean search = false;
+
+    public ProfilDetails(boolean Search){
+        search = Search;
+    }
 
     @Nullable
     @Override
@@ -39,7 +44,7 @@ public class ProfilDetails extends Fragment  {
         loginPreference = new LoginPreference(getActivity());
         loggedIn = loginPreference.CheckLoggedIn();
 
-        if(loggedIn){
+        if(loggedIn && !search){
             userName = loginPreference.GetUsername();
         }
         else{

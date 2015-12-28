@@ -61,8 +61,9 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
     private static String upLoadServerUri = "http://www.redtesseract.sexy/crvenkappica/upload_images.php";
     int serverResponseCode = 0;
     private Bitmap[] bitmap;
-
-
+    private LoginPreference loginPreference;
+    private boolean loggedIn;
+    private String userId;
 
     /**
      * Kreira te vraća view pripadnog fragmenta.
@@ -70,6 +71,10 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
      *
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        loginPreference = new LoginPreference(getActivity());
+        loggedIn = loginPreference.CheckLoggedIn();
+
         final View view = inflater.inflate(R.layout.fragment_album,container,false);
         b = (Button) view.findViewById(R.id.odabir);
         //Listener za click na button
@@ -79,9 +84,18 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                 onPickImage(view);
             }
         });
+
         WebParams webParamsReg = new WebParams();
         webParamsReg.service = "image_list.php";
-        webParamsReg.params = "?id=" +LoginStatus.LoginInfo.getLoginID();
+
+        if(loggedIn){
+            userId = loginPreference.GetUserId();
+        }
+        else{
+            userId = LoginStatus.LoginInfo.getLoginID();
+        }
+
+        webParamsReg.params = "?id=" + userId;
         webParamsReg.listener = response2;
         new WebRequest().execute(webParamsReg);
         o = this;

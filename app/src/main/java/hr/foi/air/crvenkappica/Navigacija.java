@@ -54,7 +54,7 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
             case 1:
                 LoginStatus.LoginInfo.setProfilSearch(LoginStatus.LoginInfo.getLoginName());
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container352, new ProfilDetails())
+                        .replace(R.id.container352, new ProfilDetails(false))
                         .commit();
                 break;
             case 2:
