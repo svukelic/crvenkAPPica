@@ -23,9 +23,10 @@ public class LoginPreference {
     }
 
     //Metoda koja sprema u SharedPreference oznaku da se korisnik prijavio.
-    public void Login(){
+    public void Login(String UserName){
         editor = sharedPreferences.edit();
-        editor.putBoolean(loginString,true);
+        editor.putString("username",UserName);
+        editor.putBoolean(loginString, true);
         editor.commit();
     }
 
@@ -44,4 +45,7 @@ public class LoginPreference {
         return sharedPreferences.getBoolean(loginString,false);
     }
 
+    public String GetUsername(){
+        return sharedPreferences.getString("username","");
+    }
 }

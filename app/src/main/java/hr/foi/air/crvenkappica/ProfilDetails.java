@@ -28,10 +28,23 @@ public class ProfilDetails extends Fragment  {
     private ProgressDialog progressdialog;
     private String userName;
     private Button b;
+    private LoginPreference loginPreference;
+    private boolean loggedIn;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_navigacija,container,false);
+
+        loginPreference = new LoginPreference(getActivity());
+        loggedIn = loginPreference.CheckLoggedIn();
+
+        if(loggedIn){
+            userName = loginPreference.GetUsername();
+        }
+        else{
+            userName = LoginStatus.LoginInfo.getProfilSearch();
+        }
 
         tvUsername = (TextView) view.findViewById(R.id.tvUsername);
 
@@ -45,8 +58,6 @@ public class ProfilDetails extends Fragment  {
         progressdialog.setIndeterminate(false);
         progressdialog.setCancelable(false);
         progressdialog.show();
-
-        userName = LoginStatus.LoginInfo.getProfilSearch();
 
         tvUsername.setText("Username: " + userName);
 
