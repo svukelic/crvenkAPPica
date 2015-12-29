@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,16 +52,15 @@ uploadao. Nasljeđuje Fragment klasu te implementira OnTaskCompleted interface
  */
 public class AlbumFragment extends Fragment implements OnTaskCompleted {
     private static final int PICK_IMAGE_ID = 234;
-    private static final int CAMERA_REQUEST = 1888;
     private Button b;
     private GridView gridView;
     private GridViewAdapter gridAdapter;
     private String selectedImagePath;
+    private Fragment f;
     private String[] lista;
     private OnTaskCompleted o;
     private static String upLoadServerUri = "http://www.redtesseract.sexy/crvenkappica/upload_images.php";
     int serverResponseCode = 0;
-    //private Bitmap[] bitmap;
     private LoginPreference loginPreference;
     private boolean loggedIn;
     private String userId;
@@ -99,6 +99,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         webParamsReg.listener = response2;
         new WebRequest().execute(webParamsReg);
         o = this;
+        f= this;
         return view;
     }
     //Pri kliku na button, otvara nam se prozor na kojem biramo s kojeg "servisa" zelimo odabrati slike: kamera, galerija...
@@ -139,6 +140,8 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         public void processFinish(String output) {
             if (output.equals("uspjeh")) {
                 Toast.makeText(getActivity().getApplicationContext(), "Image upload done.", Toast.LENGTH_LONG).show();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(f).attach(f).commit();
             }
             if (output.equals("greska prilikom upisa")) {
                 Toast.makeText(getActivity().getApplicationContext(), "Error during image upload.", Toast.LENGTH_LONG).show();
