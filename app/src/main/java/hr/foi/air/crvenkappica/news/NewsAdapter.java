@@ -1,8 +1,7 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.news;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import hr.foi.air.crvenkappica.R;
+
 /**
  * Created by domagoj on 06.12.15..
  */
@@ -21,12 +22,12 @@ import java.util.ArrayList;
  * Adapter za RecyclerView. Mora implementirati metode:
  * OnCreateViewHolder,OnBindViewHolder,getItemCount.
  */
-public class ObavijestiAdapter extends RecyclerView.Adapter<ObavijestiAdapter.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private ArrayList<Obavijesti_item> items;
+    private ArrayList<NewsItem> items;
     private Context context;
 
-    public ObavijestiAdapter(ArrayList<Obavijesti_item> items, Context context) {
+    public NewsAdapter(ArrayList<NewsItem> items, Context context) {
         this.items = items;
         this.context = context;
     }

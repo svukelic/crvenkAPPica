@@ -1,4 +1,4 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.images;
 
 import android.graphics.Bitmap;
 

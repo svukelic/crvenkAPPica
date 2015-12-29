@@ -1,26 +1,27 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import hr.foi.air.crvenkappica.login.LoginPreference;
+import hr.foi.air.crvenkappica.login.LoginStatus;
+import hr.foi.air.crvenkappica.R;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
-//ProfilDetails fragment, prikazuje detalje korisnika
-public class ProfilDetails extends Fragment  {
+//ProfilDetailsFragment fragment, prikazuje detalje korisnika
+public class ProfilDetailsFragment extends Fragment  {
     private TextView tvUsername;
     private TextView tvIme;
     private TextView tvPrezime;
@@ -32,10 +33,10 @@ public class ProfilDetails extends Fragment  {
     private boolean loggedIn;
     private boolean search = false;
 
-    public ProfilDetails(boolean Search){
+    public ProfilDetailsFragment(boolean Search){
         search = Search;
     }
-    public ProfilDetails(){}
+    public ProfilDetailsFragment(){}
 
     @Nullable
     @Override

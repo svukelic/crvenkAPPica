@@ -1,4 +1,4 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.news;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -12,6 +12,8 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import hr.foi.air.crvenkappica.OnTaskCompleted;
+
 /**
  * Created by domagoj on 04.12.15..
  */
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Klasa za rad s asyntaskom. Služi za dohvat podataka pomoću Jsoup-a.
  */
-public class NewsFeed extends AsyncTask<Void, Void, ArrayList<String>> {
+public class NewsAsyncTask extends AsyncTask<Void, Void, ArrayList<String>> {
 
     private String cssQueryText = "div.post-content p";
     private String cssQueryImage = "img[class=post-image]";
@@ -29,7 +31,7 @@ public class NewsFeed extends AsyncTask<Void, Void, ArrayList<String>> {
     private Context context;
     private static final String url = "http://www.hls.com.hr/";
 
-    public NewsFeed(Context context, OnTaskCompleted listener) {
+    public NewsAsyncTask(Context context, OnTaskCompleted listener) {
         this.listener = listener;
         this.context = context;
     }

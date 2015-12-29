@@ -1,4 +1,4 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.images;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+
+import hr.foi.air.crvenkappica.R;
 
 /**
  * Author: Mario Velasco Casquero

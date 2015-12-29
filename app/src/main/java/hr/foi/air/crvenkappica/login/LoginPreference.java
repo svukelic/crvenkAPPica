@@ -1,4 +1,4 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.login;
 
 import android.content.Context;
 import android.content.SharedPreferences;

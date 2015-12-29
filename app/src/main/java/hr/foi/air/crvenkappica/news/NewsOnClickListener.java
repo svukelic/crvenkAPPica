@@ -1,4 +1,4 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.news;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 /**
  * Created by domagoj on 08.12.15..
  */
-public class ObavijestiOnClickListener implements RecyclerView.OnItemTouchListener {
+public class NewsOnClickListener implements RecyclerView.OnItemTouchListener {
 
     private OnItemClickListener itemClickListener;
     private GestureDetector gestureDetector;
@@ -19,7 +19,7 @@ public class ObavijestiOnClickListener implements RecyclerView.OnItemTouchListen
         void onItemClick(View view, int position);
     }
 
-    public ObavijestiOnClickListener(Context context, OnItemClickListener listener){
+    public NewsOnClickListener(Context context, OnItemClickListener listener){
         itemClickListener = listener;
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
             @Override

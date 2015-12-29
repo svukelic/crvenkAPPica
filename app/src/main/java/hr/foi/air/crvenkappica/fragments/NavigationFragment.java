@@ -1,8 +1,6 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -12,7 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class Navigacija extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+import hr.foi.air.crvenkappica.login.Login;
+import hr.foi.air.crvenkappica.login.LoginPreference;
+import hr.foi.air.crvenkappica.login.LoginStatus;
+import hr.foi.air.crvenkappica.R;
+
+public class NavigationFragment extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
@@ -54,7 +57,7 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
             case 1:
                 LoginStatus.LoginInfo.setProfilSearch(LoginStatus.LoginInfo.getLoginName());
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container352, new ProfilDetails(false))
+                        .replace(R.id.container352, new ProfilDetailsFragment(false))
                         .commit();
                 break;
             case 2:
@@ -72,7 +75,7 @@ public class Navigacija extends AppCompatActivity implements NavigationDrawerFra
                 loginPreference.LogOut();
 
                 Toast.makeText(getApplicationContext(),"Logout successful",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Navigacija.this,Login.class);
+                Intent intent = new Intent(NavigationFragment.this,Login.class);
                 startActivity(intent);
 
             default:

@@ -1,20 +1,18 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.images;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+
+import hr.foi.air.crvenkappica.OnTaskCompleted;
 
 /**
  * Created by Mario on 21/12/2015.

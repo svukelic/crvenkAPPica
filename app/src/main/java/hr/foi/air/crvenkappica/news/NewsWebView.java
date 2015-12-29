@@ -1,14 +1,16 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.news;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import hr.foi.air.crvenkappica.R;
+
 /**
  * Klasa za prikaz WebView-a.
  */
-public class WebViewActivity extends Activity {
+public class NewsWebView extends Activity {
 
     private String url;
     private WebView webView;

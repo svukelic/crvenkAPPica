@@ -1,4 +1,4 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,7 +18,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import hr.foi.air.crvenkappica.R;
 
 
 public class NavigationDrawerFragment extends Fragment {

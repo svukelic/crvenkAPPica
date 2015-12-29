@@ -1,7 +1,6 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,11 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+import hr.foi.air.crvenkappica.login.LoginStatus;
+import hr.foi.air.crvenkappica.R;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
@@ -112,7 +108,7 @@ public class ProfilSearchFragment extends Fragment {
 
                         String  itemValue    = (String) listView.getItemAtPosition(position);
 
-                        Fragment fragment = new ProfilDetails(true);
+                        Fragment fragment = new ProfilDetailsFragment(true);
                         FragmentManager fragmentManager = getFragmentManager();
 
                         LoginStatus.LoginInfo.setProfilSearch(itemValue);

@@ -1,23 +1,25 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.fragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+
+import hr.foi.air.crvenkappica.images.ImageItem;
+import hr.foi.air.crvenkappica.news.NewsAsyncTask;
+import hr.foi.air.crvenkappica.news.NewsAdapter;
+import hr.foi.air.crvenkappica.news.NewsOnClickListener;
+import hr.foi.air.crvenkappica.news.NewsItem;
+import hr.foi.air.crvenkappica.OnTaskCompleted;
+import hr.foi.air.crvenkappica.R;
+import hr.foi.air.crvenkappica.news.NewsWebView;
 
 
 /**
@@ -29,11 +31,11 @@ import java.util.ArrayList;
  */
 public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
 
-    private ArrayList<Obavijesti_item> obavijestiList;
+    private ArrayList<NewsItem> obavijestiList;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
-    private ObavijestiAdapter adapter;
-    private Obavijesti_item obavijestiItem;
+    private NewsAdapter adapter;
+    private NewsItem obavijestiItem;
 
     /**
      * Poziva se pri kreiranju fragmentu.
@@ -41,7 +43,7 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.obavijestiList = new ArrayList<Obavijesti_item>();
+        this.obavijestiList = new ArrayList<NewsItem>();
     }
 
     /**
@@ -57,25 +59,25 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_obavijesti);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        new NewsFeed(getActivity(),this).execute();
+        new NewsAsyncTask(getActivity(),this).execute();
         return view;
     }
 
     /**
      * Implementacija interface-a.
      * Podaci dobiveni od strane asynctask-a (lista) spremaju se kao pojedini objekti
-     * klase Obavijesti_item, pojedini objekti pohranjuju se u listu.
+     * klase NewsItem, pojedini objekti pohranjuju se u listu.
      * Naposljetku, kada je lista puna, postavlja se adapter za RecyclerView.
      */
     public void onTaskCompleted(final ArrayList<String> list) {
         for (int i = 0; i <= 5; i++) {
-            obavijestiItem = new Obavijesti_item();
+            obavijestiItem = new NewsItem();
             obavijestiItem.setDescription(list.get(i));
             obavijestiItem.setThumbnail(list.get(i + 6));
             obavijestiItem.setLink(list.get(i+12));
             obavijestiList.add(obavijestiItem);
         }
-        adapter = new ObavijestiAdapter(obavijestiList,getActivity());
+        adapter = new NewsAdapter(obavijestiList,getActivity());
         recyclerView.setAdapter(adapter);
     }
 
@@ -95,13 +97,13 @@ public class ObavijestiFragment extends Fragment implements OnTaskCompleted {
 
         recyclerView = (RecyclerView)recyclerView.findViewById(R.id.recycler_obavijesti);
         recyclerView.addOnItemTouchListener
-                (new ObavijestiOnClickListener(getActivity(), new ObavijestiOnClickListener.OnItemClickListener() {
+                (new NewsOnClickListener(getActivity(), new NewsOnClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         obavijestiItem = obavijestiList.get(position);
                         String url = obavijestiItem.getLink();
 
-                        Intent intent = new Intent(getActivity(),WebViewActivity.class);
+                        Intent intent = new Intent(getActivity(),NewsWebView.class);
                         intent.putExtra("URL",url);
                         startActivity(intent);
                     }

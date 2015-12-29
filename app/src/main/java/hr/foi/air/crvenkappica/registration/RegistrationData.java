@@ -1,7 +1,7 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.registration;
 
 //Klasa za podatke registracije -> lakše kreiranje json objekta
-public class Registration_Data {
+public class RegistrationData {
     private String Name;
     private String Lastname;
     private String Username;
@@ -9,7 +9,7 @@ public class Registration_Data {
     private String DOB;
     private String Email;
 
-    public Registration_Data() {
+    public RegistrationData() {
     }
 
     public String getName() {

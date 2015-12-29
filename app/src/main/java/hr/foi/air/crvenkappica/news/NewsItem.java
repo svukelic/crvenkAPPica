@@ -1,4 +1,4 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.news;
 
 /**
  * Created by domagoj on 06.12.15..
@@ -7,7 +7,7 @@ package hr.foi.air.crvenkappica;
 /**
  * Klasa koja sadrži podatke za pojedini item u RecylcerView-u.
  */
-public class Obavijesti_item {
+public class NewsItem {
 
     private String description;
     private String thumbnail;

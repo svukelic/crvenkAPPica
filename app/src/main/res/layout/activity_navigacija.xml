@@ -4,7 +4,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hr.foi.air.crvenkappica.Navigacija">
+    tools:context=".fragments.NavigationFragment">
 
 
     <FrameLayout
@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/navigation_drawer"
-        android:name="hr.foi.air.crvenkappica.NavigationDrawerFragment"
+        android:name="hr.foi.air.crvenkappica.fragments.NavigationDrawerFragment"
         android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"

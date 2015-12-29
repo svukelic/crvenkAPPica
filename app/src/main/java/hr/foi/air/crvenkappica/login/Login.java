@@ -1,4 +1,4 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.login;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -14,6 +14,9 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import hr.foi.air.crvenkappica.R;
+import hr.foi.air.crvenkappica.registration.Registration;
+import hr.foi.air.crvenkappica.fragments.NavigationFragment;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
@@ -45,7 +48,7 @@ public class Login extends Activity {
         loggedIn = loginPreference.CheckLoggedIn();
 
         if(loggedIn){
-            Intent intent = new Intent(Login.this,Navigacija.class);
+            Intent intent = new Intent(Login.this,NavigationFragment.class);
             startActivity(intent);
         }
 
@@ -96,7 +99,7 @@ public class Login extends Activity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Login.this, Registracija.class);
+                Intent intent = new Intent(Login.this, Registration.class);
                 startActivity(intent);
             }
         });
@@ -109,7 +112,7 @@ public class Login extends Activity {
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
-            Intent intent = new Intent(Login.this,Navigacija.class);
+            Intent intent = new Intent(Login.this,NavigationFragment.class);
 
             if(output == null || output.isEmpty()) {
                 progressdialog.hide();

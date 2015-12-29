@@ -1,9 +1,8 @@
 package hr.foi.air.crvenkappica;
 
-import android.content.Context;
-import android.media.Image;
-
 import java.util.ArrayList;
+
+import hr.foi.air.crvenkappica.images.ImageItem;
 
 /**
  * Created by domagoj on 05.12.15..

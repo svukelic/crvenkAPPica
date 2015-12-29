@@ -1,10 +1,9 @@
-package hr.foi.air.crvenkappica;
+package hr.foi.air.crvenkappica.registration;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
@@ -15,11 +14,13 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import hr.foi.air.crvenkappica.JSONParser;
+import hr.foi.air.crvenkappica.R;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
 //Aktivnost za registraciju
-public class Registracija extends Activity implements View.OnClickListener {
+public class Registration extends Activity implements View.OnClickListener {
     private EditText DOB_EditText, User, Pass, Email, Name, Lastname;
     private DatePickerDialog DOB_Picker;
     private SimpleDateFormat dateFormatter;
@@ -56,7 +57,7 @@ public class Registracija extends Activity implements View.OnClickListener {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Registration_Data data = new Registration_Data();
+                RegistrationData data = new RegistrationData();
                 data.setName(Name.getText().toString());
                 data.setLastname(Lastname.getText().toString());
                 data.setUsername(User.getText().toString());
@@ -67,7 +68,7 @@ public class Registracija extends Activity implements View.OnClickListener {
                     Toast.makeText(getApplicationContext(), "Sva polja moraju biti popunjena.", Toast.LENGTH_LONG).show();
                 } else {
                     JSONParser j = new JSONParser(data);
-                    dialog = new ProgressDialog(Registracija.this);
+                    dialog = new ProgressDialog(Registration.this);
                     dialog.setTitle(R.string.title_activity_activity__registration);
                     dialog.setMessage("Registration in progress"); //treba provjeriti da se iz strings.xml ucitava
                     dialog.setIndeterminate(false);
