@@ -1,1 +1,1 @@
-include ':app', ':web', ':sigurnost'
+include ':app', ':web'
