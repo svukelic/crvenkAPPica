@@ -76,6 +76,11 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
                         .commit();
                 break;
             case 5:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container352, new SeasonsFragment())
+                        .commit();
+                break;
+            case 6:
                 loginPreference = new LoginPreference(getApplicationContext());
                 loginPreference.LogOut();
 

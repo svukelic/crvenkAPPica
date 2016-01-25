@@ -102,7 +102,8 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section2),
                         getString(R.string.title_section3),
                         getString(R.string.title_activity_album),
-                        "Moon Phases",
+                        getString(R.string.moon_phases),
+                        getString(R.string.hunting_seasons),
                         getString(R.string.logout)
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
