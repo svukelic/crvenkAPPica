@@ -19,6 +19,8 @@ import hr.foi.air.crvenkappica.R;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
+import hr.foi.air.crvenkappica.web.WebSite;
+
 //Aktivnost za registraciju
 public class Registration extends Activity implements View.OnClickListener {
     private EditText DOB_EditText, User, Pass, Email, Name, Lastname;
@@ -75,6 +77,7 @@ public class Registration extends Activity implements View.OnClickListener {
                     dialog.setCancelable(false);
                     dialog.show();
                     WebParams webParamsReg = new WebParams();
+                    webParamsReg.adresa = WebSite.WebAdress.getAdresa();
                     webParamsReg.service = "reg_app.php";
                     webParamsReg.params = j.getString();
                     webParamsReg.listener = response;

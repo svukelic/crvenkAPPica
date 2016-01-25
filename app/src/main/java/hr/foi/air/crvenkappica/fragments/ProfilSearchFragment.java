@@ -24,6 +24,8 @@ import hr.foi.air.crvenkappica.R;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
+import hr.foi.air.crvenkappica.web.WebSite;
+
 //Fragment za pretragu profila
 public class ProfilSearchFragment extends Fragment {
 
@@ -63,6 +65,7 @@ public class ProfilSearchFragment extends Fragment {
                     String hash = "";
                     String type = "";
                     WebParams paramsProfil = new WebParams();
+                    paramsProfil.adresa = WebSite.WebAdress.getAdresa();
                     paramsProfil.params = "?ime=" + searchString;
                     paramsProfil.service = "profil_search.php";
                     paramsProfil.listener = response;

@@ -20,6 +20,8 @@ import hr.foi.air.crvenkappica.R;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
+import hr.foi.air.crvenkappica.web.WebSite;
+
 //ProfilDetailsFragment fragment, prikazuje detalje korisnika
 public class ProfilDetailsFragment extends Fragment  {
     private TextView tvUsername;
@@ -74,6 +76,7 @@ public class ProfilDetailsFragment extends Fragment  {
             String hash = "";
             String type = "";
             WebParams paramsProfil = new WebParams();
+            paramsProfil.adresa = WebSite.WebAdress.getAdresa();
             paramsProfil.params = "?UserName=" + userName;
             paramsProfil.service = "profil_dohvat.php";
             paramsProfil.listener = response;

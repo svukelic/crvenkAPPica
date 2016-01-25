@@ -20,6 +20,7 @@ import hr.foi.air.crvenkappica.fragments.NavigationFragment;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
+import hr.foi.air.crvenkappica.web.WebSite;
 
 /**
  * Aktivnost za prijavu u aplikaciju
@@ -85,6 +86,7 @@ public class Login extends Activity {
                 String type = "";
 
                 WebParams paramsLogin = new WebParams();
+                paramsLogin.adresa = WebSite.WebAdress.getAdresa();
                 paramsLogin.params = "?UserName=" + userName + "&Password=" + password;
                 paramsLogin.service = "prijava_app.php";
                 paramsLogin.listener = response;

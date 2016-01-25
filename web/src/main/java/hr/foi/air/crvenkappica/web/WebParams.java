@@ -1,6 +1,7 @@
 package hr.foi.air.crvenkappica.web;
 
 public class WebParams {
+    public String adresa;
     public String service; //prijava.php
     public String hash;
     public String type;

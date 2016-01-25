@@ -26,7 +26,8 @@ public class WebRequest extends AsyncTask<WebParams, Void, TaskResult>{
         TaskResult taskResult = new TaskResult();
         taskResult.webResult = "";
 
-        String url = WebSite.WebAdress.getAdresa();
+        String url = "";
+        url += params[0].adresa;
         url += params[0].service;
         url += params[0].params;
 

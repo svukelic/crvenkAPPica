@@ -71,6 +71,11 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
                         .commit();
                 break;
             case 4:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container352, new MoonPhaseFragment())
+                        .commit();
+                break;
+            case 5:
                 loginPreference = new LoginPreference(getApplicationContext());
                 loginPreference.LogOut();
 
