@@ -42,6 +42,7 @@ import hr.foi.air.crvenkappica.R;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
+import hr.foi.air.crvenkappica.web.WebSite;
 
 /**
  * Created by Mario on 20/12/2015.
@@ -86,6 +87,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         });
 
         WebParams webParamsReg = new WebParams();
+        webParamsReg.adresa = WebSite.WebAdress.getAdresa();
         webParamsReg.service = "image_list.php";
 
         if(loggedIn){
@@ -175,6 +177,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                         }
                     }).start();
                     WebParams webParamsReg = new WebParams();
+                    webParamsReg.adresa = WebSite.WebAdress.getAdresa();
                     webParamsReg.service = "image_db.php";
                     webParamsReg.params = j.getString();
                     webParamsReg.listener = response;
