@@ -3,13 +3,13 @@ package hr.foi.air.crvenkappica.fragments;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -17,7 +17,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import hr.foi.air.crvenkappica.R;
+import hr.foi.air.crvenkappica.calendar.CalendarAdapter;
+import hr.foi.air.crvenkappica.calendar.CalendarItem;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
@@ -28,12 +32,16 @@ public class SeasonsFragment extends Fragment {
 
     private Spinner spinner;
     private ProgressDialog progressDialog;
-    private ListView listView;
-    private ArrayAdapter<String> listAdapter;
+    private RecyclerView recyclerView;
+    private ArrayList<CalendarItem> items;
+    private LinearLayoutManager layoutManager;
+    private CalendarItem calendarItem;
+    private CalendarAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        items = new ArrayList<CalendarItem>();
     }
 
     @Override
@@ -43,9 +51,11 @@ public class SeasonsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_seasons, container, false);
+        final View view = inflater.inflate(R.layout.calendar_main, container, false);
 
-        listView = (ListView) view.findViewById(R.id.prey_list);
+        recyclerView = (RecyclerView) view.findViewById(R.id.prey_list);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
 
         spinner = (Spinner) view.findViewById(R.id.months_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.months_array, R.layout.spinner_layout);
@@ -84,19 +94,24 @@ public class SeasonsFragment extends Fragment {
         @Override
         public void processFinish(String output) {
             progressDialog.hide();
+            items = new ArrayList<CalendarItem>();
 
             try{
 
                 JSONArray jsonArray = new JSONArray(output);
-                String[] list = new String[jsonArray.length()];
 
                 for (int i=0; i<jsonArray.length();i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    list[i] = jsonObject.getString("Naziv");
+
+                    calendarItem = new CalendarItem();
+                    calendarItem.setLink(jsonObject.getString("Link"));
+                    calendarItem.setName(jsonObject.getString("Naziv"));
+
+                    items.add(calendarItem);
                 }
 
-                listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.prey_item, list);
-                listView.setAdapter(listAdapter);
+                adapter = new CalendarAdapter(items,getActivity());
+                recyclerView.setAdapter(adapter);
 
             }catch (JSONException ex){
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:layout_width="fill_parent"
     android:gravity="center"
     android:textColor="#e0e0e0"
@@ -9,5 +9,5 @@
     android:text="sample"
     android:textSize="20dp"
     android:background="@drawable/custom_btn1"
-    android:layout_marginTop="5dp">
+    android:layout_marginTop="15dp">
 </TextView>
