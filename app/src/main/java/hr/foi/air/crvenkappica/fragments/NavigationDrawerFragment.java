@@ -103,6 +103,7 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section3),
                         getString(R.string.title_activity_album),
                         getString(R.string.moon_phases),
+                        "Weather Forecast",
                         getString(R.string.hunting_seasons),
                         getString(R.string.logout)
                 }));

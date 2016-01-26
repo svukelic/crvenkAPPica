@@ -77,10 +77,15 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
                 break;
             case 5:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container352, new SeasonsFragment())
+                        .replace(R.id.container352, new WeatherForecastFragment())
                         .commit();
                 break;
             case 6:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container352, new SeasonsFragment())
+                        .commit();
+                break;
+            case 7:
                 loginPreference = new LoginPreference(getApplicationContext());
                 loginPreference.LogOut();
 
