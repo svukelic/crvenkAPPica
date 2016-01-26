@@ -29,7 +29,7 @@ public class LoginPresenterTest {
         presenter = new LoginPresenter(view,service);
 
     }
-
+    //tu prikazuje error
     @Test
     public void shouldShowErrorWhenUsernameisEmpty() throws Exception {
         when(view.getUserName()).thenReturn("");
