@@ -44,6 +44,7 @@
     <string name="title_activity_album2">Album2</string>
     <string name="moon_phases">Moon phases</string>
     <string name="hunting_seasons">Hunting calendar</string>
+    <string name="username_error" />
 
     <string-array name="months_array">
         <item>January</item>
