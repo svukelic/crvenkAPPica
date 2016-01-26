@@ -6,7 +6,18 @@
 
     <Spinner
     android:id="@+id/months_spinner"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" />
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+    </Spinner>
+
+    <ListView
+        android:id="@+id/prey_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/months_spinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    </ListView>
 
 </RelativeLayout>
