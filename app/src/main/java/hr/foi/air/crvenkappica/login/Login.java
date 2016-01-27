@@ -25,7 +25,7 @@ import hr.foi.air.crvenkappica.web.WebSite;
 /**
  * Aktivnost za prijavu u aplikaciju
  */
-public class Login extends Activity {
+public class Login extends Activity implements LoginView{
 
     private Button btnLogin;
     private EditText etUsername,etPassword;
@@ -34,6 +34,7 @@ public class Login extends Activity {
     private String userNameStatus;
     private boolean loggedIn = false;
     private LoginPreference loginPreference;
+    private LoginPresenter presenter;
 
     /**
      * Pokreće se pri kreiranju aktivnosti, postavlja se layout.
@@ -55,6 +56,7 @@ public class Login extends Activity {
 
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
+        presenter = new LoginPresenter(this,new LoginService());
         btnLogin = (Button) findViewById(R.id.btnLogin);
         register = (TextView) findViewById(R.id.tvRegister);
 
@@ -72,6 +74,7 @@ public class Login extends Activity {
                 progressdialog.setCancelable(false);
                 progressdialog.show();
 
+                presenter.onLoginClick();
                 String userName = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 userNameStatus = userName;
@@ -160,6 +163,16 @@ public class Login extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public String getUserName() {
+        return etUsername.getText().toString();
+    }
+
+    @Override
+    public void showUserNameError(int resId) {
+        etUsername.setError(getString(resId));
     }
 }
 
