@@ -72,7 +72,7 @@ public class Registration extends Activity implements View.OnClickListener {
                     JSONParser j = new JSONParser(data);
                     dialog = new ProgressDialog(Registration.this);
                     dialog.setTitle(R.string.title_activity_activity__registration);
-                    dialog.setMessage("Registration in progress"); //treba provjeriti da se iz strings.xml ucitava
+                    dialog.setMessage("Registracija u tijeku"); //treba provjeriti da se iz strings.xml ucitava
                     dialog.setIndeterminate(false);
                     dialog.setCancelable(false);
                     dialog.show();

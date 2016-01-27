@@ -48,7 +48,7 @@ public class MoonPhaseFragment extends Fragment{
 
         progressdialog = new ProgressDialog(getActivity());
         progressdialog.setTitle("Dohvat");
-        progressdialog.setMessage("In progress");
+        progressdialog.setMessage("Učitavam");
         progressdialog.setIndeterminate(false);
         progressdialog.setCancelable(false);
         progressdialog.show();

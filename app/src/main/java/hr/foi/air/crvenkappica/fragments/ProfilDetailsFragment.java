@@ -63,12 +63,12 @@ public class ProfilDetailsFragment extends Fragment  {
 
         progressdialog = new ProgressDialog(getActivity());
         progressdialog.setTitle("Profil");
-        progressdialog.setMessage("Loading profile");
+        progressdialog.setMessage("Učitavam");
         progressdialog.setIndeterminate(false);
         progressdialog.setCancelable(false);
         progressdialog.show();
 
-        tvUsername.setText("Username: " + userName);
+        tvUsername.setText("Korisničko ime: " + userName);
 
 
         //dohvat traženog profila

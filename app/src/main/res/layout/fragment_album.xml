@@ -6,7 +6,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose an image"
+        android:text="Odaberi sliku"
         android:id="@+id/odabir"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />

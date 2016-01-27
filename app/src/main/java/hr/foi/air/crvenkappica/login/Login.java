@@ -66,8 +66,8 @@ public class Login extends Activity {
             public void onClick(View v){
 
                 progressdialog = new ProgressDialog(Login.this);
-                progressdialog.setTitle(R.string.title_activity_login);
-                progressdialog.setMessage("Login in progress");
+                progressdialog.setTitle("Dohvat");
+                progressdialog.setMessage("Učitavam");
                 progressdialog.setIndeterminate(false);
                 progressdialog.setCancelable(false);
                 progressdialog.show();
@@ -147,11 +147,11 @@ public class Login extends Activity {
                 }
                 if (status.equals("login_neuspjeh")) {
                     progressdialog.hide();
-                    Toast.makeText(getApplicationContext(), "Login unsuccessful", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Prijava neuspješna", Toast.LENGTH_LONG).show();
                 }
                 if (status.equals("nepostojeci_korisnik")) {
                     progressdialog.hide();
-                    Toast.makeText(getApplicationContext(), "User doesn't exist", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Korisnik ne postoji", Toast.LENGTH_LONG).show();
                 }
             }
         }

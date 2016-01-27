@@ -53,8 +53,8 @@ public class WeatherForecastFragment extends Fragment {
                 //if (!searchString.isEmpty()) {
 
                     progressdialog = new ProgressDialog(getActivity());
-                    progressdialog.setTitle("Pretraga");
-                    progressdialog.setMessage("Dohvaćam vremensko izvješće");
+                    progressdialog.setTitle("Dohvat");
+                    progressdialog.setMessage("Učitavam");
                     progressdialog.setIndeterminate(false);
                     progressdialog.setCancelable(false);
                     progressdialog.show();
