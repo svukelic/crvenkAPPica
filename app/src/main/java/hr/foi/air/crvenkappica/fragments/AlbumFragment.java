@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,6 +31,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import hr.foi.air.crvenkappica.camera.CameraManager;
+import hr.foi.air.crvenkappica.camera.PictureItem;
 import hr.foi.air.crvenkappica.images.CustomAsyncTask;
 import hr.foi.air.crvenkappica.images.GridViewAdapter;
 import hr.foi.air.crvenkappica.images.ImageItem;
@@ -51,7 +54,7 @@ import hr.foi.air.crvenkappica.web.WebSite;
 Fragment za album korisnika, omogućava upload slika na server, te prikazuje koje slike je korisnik
 uploadao. Nasljeđuje Fragment klasu te implementira OnTaskCompleted interface
  */
-public class AlbumFragment extends Fragment implements OnTaskCompleted {
+public class AlbumFragment extends Fragment implements OnTaskCompleted, PictureItem {
     private static final int PICK_IMAGE_ID = 234;
     private Button b;
     private GridView gridView;
@@ -65,6 +68,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
     private LoginPreference loginPreference;
     private boolean loggedIn;
     private String userId;
+    CameraManager cm = null;
 
     /**
      * Kreira te vraća view pripadnog fragmenta.
@@ -75,7 +79,6 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
 
         loginPreference = new LoginPreference(getActivity());
         loggedIn = loginPreference.CheckLoggedIn();
-
         final View view = inflater.inflate(R.layout.fragment_album,container,false);
         b = (Button) view.findViewById(R.id.odabir);
         //Listener za click na button
@@ -85,29 +88,31 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                 onPickImage(view);
             }
         });
-
         WebParams webParamsReg = new WebParams();
         webParamsReg.adresa = WebSite.WebAdress.getAdresa();
         webParamsReg.service = "image_list.php";
-
         if(loggedIn){
             userId = loginPreference.GetUserId();
         }
         else{
             userId = LoginStatus.LoginInfo.getLoginID();
         }
-
         webParamsReg.params = "?id=" + userId;
         webParamsReg.listener = response2;
         new WebRequest().execute(webParamsReg);
         o = this;
         f= this;
+        cm = CameraManager.getInstance();
         return view;
     }
     //Pri kliku na button, otvara nam se prozor na kojem biramo s kojeg "servisa" zelimo odabrati slike: kamera, galerija...
    //pokrecemo aktivnost kako bi dobili rezultat: u nasem slucaju dobivamo sliku
     public void onPickImage(View view){
-        Intent chooseImageIntent = ImagePicker.getPickImageIntent(getActivity().getApplicationContext());
+       // Intent chooseImageIntent = ImagePicker.getPickImageIntent(getActivity().getApplicationContext());
+      //  startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
+        //CameraManager cm = CameraManager.getInstance();
+        cm.setDependencies(getActivity().getApplicationContext());
+        Intent chooseImageIntent = cm.getPickImageIntent();
         startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
     }
     /**
@@ -157,23 +162,19 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         try {
             switch(requestCode) {
                 case PICK_IMAGE_ID:
-                    Bitmap bitmap = ImagePicker.getImageFromResult(getActivity(), resultCode, data);
+                    Bitmap bitmap = cm.getImageFromResult(resultCode, data);
                     String id = userId;
-                    Uri selectedImageUri = getImageUri(getActivity(),bitmap);
-                    selectedImagePath = getPath(selectedImageUri);
-                    File file = new File(selectedImagePath);
+                    Uri selectedImageUri = cm.getImageUri(bitmap);
+                    selectedImagePath = cm.getPath(selectedImageUri);
+                    File file = cm.returnFile(selectedImagePath);
                     String nesto = file.getName();
                     ImageItem i = new ImageItem();
                     i.setId(id);
                     i.setTitle(nesto);
-                    System.out.println(i.getId() +  i.getTitle());
                     JSONParser j = new JSONParser(i);
-                    System.out.println(selectedImagePath);
-                    System.out.println(nesto);
-                    System.out.println(j.getString());
                     new Thread(new Runnable() {
                         public void run() {
-                            uploadFile(selectedImagePath);
+                            cm.uploadFile(selectedImagePath);
                         }
                     }).start();
                     WebParams webParamsReg = new WebParams();
@@ -193,12 +194,6 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
             Toast.makeText(getActivity().getApplicationContext(), "Please choose image again.", Toast.LENGTH_LONG).show();
         }
     }
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
     @Override
     public void onTaskCompleted(ArrayList<String> result) {
     }
@@ -207,113 +202,15 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
      * Podaci dobiveni od strane asynctask-a (lista imageitem-a) prikazuju se u gridview-u
      */
     public void onTaskCompleted2(ArrayList<ImageItem> result) {
-       // Toast.makeText(getActivity().getApplicationContext(), "Slike bi trebale biti prikazane.", Toast.LENGTH_LONG);
         gridView = (GridView) getActivity().findViewById(R.id.gridView);
         gridAdapter = new GridViewAdapter(getActivity().getApplicationContext(),R.layout.grid_item_layout,result);
         gridView.setAdapter(gridAdapter);
         gridView.refreshDrawableState();
     }
-    //Metoda za dohvat putanje datoteke
-    public String getPath(Uri uri) {
-        String res = null;
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getActivity().getContentResolver().query(uri, proj, null, null, null);
-        if(cursor.moveToFirst()){;
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
-        }
-        cursor.close();
-        return res;
+    @Override
+    public String getPicturePath() {
+        return selectedImagePath;
     }
-    //Metoda za upload datoteke (parametar je putanja datoteke)
-    public int uploadFile(String sourceFileUri) {
-        String fileName = sourceFileUri;
-        HttpURLConnection conn = null;
-        DataOutputStream dos = null;
-        String lineEnd = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "*****";
-        int bytesRead, bytesAvailable, bufferSize;
-        byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
-        File sourceFile = new File(sourceFileUri);
-        if (!sourceFile.isFile()) {
-            Toast.makeText(getActivity(), "Error, choose picture again.", Toast.LENGTH_LONG).show();
-            Log.e("uploadFile", "Source File not exist :" + sourceFile);
-            return 0;
-        }
-        else
-        {
-            try {
-                // open a URL connection to the Servlet
-                FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                URL url = new URL(upLoadServerUri);
-                // Open a HTTP  connection to  the URL
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setDoInput(true); // Allow Inputs
-                conn.setDoOutput(true); // Allow Outputs
-                conn.setUseCaches(false); // Don't use a Cached Copy
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Connection", "Keep-Alive");
-                conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                conn.setRequestProperty("uploaded_file", fileName);
-                dos = new DataOutputStream(conn.getOutputStream());
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename="+ fileName + "" + lineEnd);
-                dos.writeBytes(lineEnd);
-                // create a buffer of  maximum size
-                bytesAvailable = fileInputStream.available();
-                bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                buffer = new byte[bufferSize];
-                // read file and write it into form...
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-                while (bytesRead > 0) {
-                    dos.write(buffer, 0, bufferSize);
-                    bytesAvailable = fileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-                }
-                // send multipart form data necesssary after file data...
-                dos.writeBytes(lineEnd);
-                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-                // Responses from the server (code and message)
-                serverResponseCode = conn.getResponseCode();
-                String serverResponseMessage = conn.getResponseMessage();
-                Log.i("uploadFile", "HTTP Response is : "+ serverResponseMessage + ": " + serverResponseCode);
-                if(serverResponseCode == 200){
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getActivity(), "Image upload complete.", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-                //close the streams //
-                fileInputStream.close();
-                dos.flush();
-                dos.close();
-            } catch (MalformedURLException ex) {
-                //dialog.dismiss();
-                ex.printStackTrace();
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(getActivity(), "Error.", Toast.LENGTH_LONG).show();
-                    }
-                });
-                Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
-            } catch (Exception e) {
-                //dialog.dismiss();
-                e.printStackTrace();
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(getActivity(), "Error, check logcat.", Toast.LENGTH_LONG).show();
-                    }
-                });
-                Log.e("Upload file to server Exception", "Exception : "
-                        + e.getMessage(), e);
-            }
-            return serverResponseCode;
-        } // End else block
-    }
+
 
 }
