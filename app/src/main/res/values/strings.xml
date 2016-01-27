@@ -1,63 +1,63 @@
 <resources>
     <string name="app_name">crvenkappica</string>
-    <string name="action_settings">Settings</string>
-    <string name="name">Name:</string>
-    <string name="surname">Last name:</string>
-    <string name="username">Username:</string>
-    <string name="password">Password:</string>
-    <string name="password_rp">Repeat password:</string>
-    <string name="mail">Email address:</string>
-    <string name="date">DOB:</string>
-    <string name="name_hint">Enter your name</string>
-    <string name="surname_hint">Enter your last name</string>
-    <string name="username_hint">Enter desired username</string>
-    <string name="password_hint">Enter desired password</string>
-    <string name="password_rp_hint">Repeat password</string>
-    <string name="mail_hint">Enter Your email address</string>
-    <string name="date_hint">Date of birth</string>
-    <string name="title_activity_activity__registration">Registration</string>
-    <string name="title_activity_login">Login</string>
-    <string name="strUser">Username</string>
-    <string name="strPass">Password</string>
-    <string name="strLogin">Login</string>
-    <string name="strRegister">Register here</string>
-    <string name="title_activity_logon">Logon</string>
-    <string name="string_registerme">Register me</string>
-    <string name="string_registration_progress">Registration in progress...</string>
+    <string name="action_settings">Postavke</string>
+    <string name="name">Ime:</string>
+    <string name="surname">Prezime:</string>
+    <string name="username">Korisničko ime:</string>
+    <string name="password">Lozinka:</string>
+    <string name="password_rp">Ponovi lozinku:</string>
+    <string name="mail">Email adresa:</string>
+    <string name="date">Datum rođenja:</string>
+    <string name="name_hint">Unesi ime</string>
+    <string name="surname_hint">Unesi prezime</string>
+    <string name="username_hint">Unesi korisničko ime</string>
+    <string name="password_hint">Unesi lozinku</string>
+    <string name="password_rp_hint">Ponovi lozinku</string>
+    <string name="mail_hint">Unesi email adresu</string>
+    <string name="date_hint">Datum rođenja</string>
+    <string name="title_activity_activity__registration">Registracija</string>
+    <string name="title_activity_login">Prijava</string>
+    <string name="strUser">Korisničko ime</string>
+    <string name="strPass">Lozinka</string>
+    <string name="strLogin">Prijava</string>
+    <string name="strRegister">Registracija</string>
+    <string name="title_activity_logon">Prijava</string>
+    <string name="string_registerme">Registriraj me</string>
+    <string name="string_registration_progress">Registracija u tijeku</string>
     <string name="title_activity_index">Index</string>
 
     <string name="title_activity_navigacija">Navigacija</string>
 
-    <string name="title_section1">News feed</string>
-    <string name="title_section2">Profile</string>
-    <string name="title_section3">Search</string>
-    <string name="logout">Logout</string>
+    <string name="title_section1">Obavijesti</string>
+    <string name="title_section2">Profil</string>
+    <string name="title_section3">Pretraga</string>
+    <string name="logout">Odjava</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Otvori navigaciju</string>
+    <string name="navigation_drawer_close">Zatvori navigaciju</string>
 
     <string name="action_example">Example action</string>
-    <string name="camerainit">Choose a picture from:</string>
+    <string name="camerainit">Odaberi sliku:</string>
     <string name="title_activity_activity_album">activity_album</string>
     <string name="title_activity_album">Album</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_album2">Album2</string>
-    <string name="moon_phases">Moon phases</string>
-    <string name="hunting_seasons">Hunting calendar</string>
+    <string name="moon_phases">Mjesečeve faze</string>
+    <string name="hunting_seasons">Sezone lova</string>
 
     <string-array name="months_array">
-        <item>January</item>
-        <item>February</item>
-        <item>March</item>
-        <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
-        <item>August</item>
-        <item>September</item>
-        <item>October</item>
-        <item>November</item>
-        <item>December</item>
+        <item>Siječanj</item>
+        <item>Veljača</item>
+        <item>Ožujak</item>
+        <item>Travanj</item>
+        <item>Svibanj</item>
+        <item>Lipanj</item>
+        <item>Srpanj</item>
+        <item>Kolovoz</item>
+        <item>Rujan</item>
+        <item>Listopad</item>
+        <item>Studeni</item>
+        <item>Prosinac</item>
     </string-array>
 
 </resources>

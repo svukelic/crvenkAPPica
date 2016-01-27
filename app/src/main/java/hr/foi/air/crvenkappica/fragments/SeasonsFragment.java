@@ -67,8 +67,8 @@ public class SeasonsFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 progressDialog = new ProgressDialog(getActivity());
-                progressDialog.setTitle("Hunting seasons");
-                progressDialog.setMessage("Downloading data...");
+                progressDialog.setTitle("Dohvat");
+                progressDialog.setMessage("Učitavam");
                 progressDialog.setIndeterminate(false);
                 progressDialog.setCancelable(false);
                 progressDialog.show();

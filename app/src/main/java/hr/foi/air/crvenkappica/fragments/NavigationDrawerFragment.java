@@ -103,8 +103,9 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section3),
                         getString(R.string.title_activity_album),
                         getString(R.string.moon_phases),
-                        "Weather Forecast",
+                        "Vremensko izvješće",
                         getString(R.string.hunting_seasons),
+                        "Lovišta",
                         getString(R.string.logout)
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);

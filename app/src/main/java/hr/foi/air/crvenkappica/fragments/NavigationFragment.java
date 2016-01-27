@@ -86,6 +86,11 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
                         .commit();
                 break;
             case 7:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container352, new LovistaFragment())
+                        .commit();
+                break;
+            case 8:
                 loginPreference = new LoginPreference(getApplicationContext());
                 loginPreference.LogOut();
 
