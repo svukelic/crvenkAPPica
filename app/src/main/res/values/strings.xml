@@ -31,7 +31,8 @@
     <string name="title_section1">Obavijesti</string>
     <string name="title_section2">Profil</string>
     <string name="title_section3">Pretraga</string>
-    <string name="logout">Odjava</string>
+    <string name="lovista">Lovišta</string>
+    <string name="vrijeme">Vremensko izvješće</string>
 
     <string name="navigation_drawer_open">Otvori navigaciju</string>
     <string name="navigation_drawer_close">Zatvori navigaciju</string>

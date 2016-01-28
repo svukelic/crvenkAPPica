@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import hr.foi.air.crvenkappica.login.Login;
-import hr.foi.air.crvenkappica.login.LoginPreference;
 import hr.foi.air.crvenkappica.login.LoginStatus;
 import hr.foi.air.crvenkappica.R;
 
@@ -22,7 +21,6 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private LoginPreference loginPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,13 +88,6 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
                         .replace(R.id.container352, new LovistaFragment())
                         .commit();
                 break;
-            case 8:
-                loginPreference = new LoginPreference(getApplicationContext());
-                loginPreference.LogOut();
-
-                Toast.makeText(getApplicationContext(),"Logout successful",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(NavigationFragment.this,Login.class);
-                startActivity(intent);
 
             default:
                 break;

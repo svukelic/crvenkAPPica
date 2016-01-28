@@ -33,9 +33,7 @@ public class Login extends Activity implements LoginView{
     private ProgressDialog progressdialog;
     private String userNameStatus;
     private boolean loggedIn = false;
-    private LoginPreference loginPreference;
     private LoginPresenter presenter;
-
     /**
      * Pokreće se pri kreiranju aktivnosti, postavlja se layout.
      * Ukoliko je korisnik već prijavljen, otvara se nova aktivnost.
@@ -45,14 +43,6 @@ public class Login extends Activity implements LoginView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        loginPreference = new LoginPreference(getApplicationContext());
-        loggedIn = loginPreference.CheckLoggedIn();
-
-        if(loggedIn){
-            Intent intent = new Intent(Login.this,NavigationFragment.class);
-            startActivity(intent);
-        }
 
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -142,8 +132,6 @@ public class Login extends Activity implements LoginView{
                     LoginStatus.LoginInfo.setLoginName(userNameStatus);
                     LoginStatus.LoginInfo.setLoginState(true);
                     LoginStatus.LoginInfo.setLoginID(user_id);
-
-                    loginPreference.Login(userNameStatus,user_id);
 
                     startActivity(intent);
                     finish();

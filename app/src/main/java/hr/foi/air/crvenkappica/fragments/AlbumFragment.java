@@ -32,7 +32,6 @@ import hr.foi.air.crvenkappica.images.CustomAsyncTask;
 import hr.foi.air.crvenkappica.images.GridViewAdapter;
 import hr.foi.air.crvenkappica.images.ImageItem;
 import hr.foi.air.crvenkappica.JSONParser;
-import hr.foi.air.crvenkappica.login.LoginPreference;
 import hr.foi.air.crvenkappica.login.LoginStatus;
 import hr.foi.air.crvenkappica.OnTaskCompleted;
 import hr.foi.air.crvenkappica.R;
@@ -60,7 +59,6 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
     private OnTaskCompleted o;
     private static String upLoadServerUri = "http://www.redtesseract.sexy/crvenkappica/upload_images.php";
     int serverResponseCode = 0;
-    private LoginPreference loginPreference;
     private boolean loggedIn;
     private String userId;
     /**
@@ -69,8 +67,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
      *
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        loginPreference = new LoginPreference(getActivity());
-        loggedIn = loginPreference.CheckLoggedIn();
+
         final View view = inflater.inflate(R.layout.fragment_album,container,false);
         b = (Button) view.findViewById(R.id.kamera);
         b2 = (Button) view.findViewById(R.id.album);
@@ -90,12 +87,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         WebParams webParamsReg = new WebParams();
         webParamsReg.adresa = WebSite.WebAdress.getAdresa();
         webParamsReg.service = "image_list.php";
-        if(loggedIn){
-            userId = loginPreference.GetUserId();
-        }
-        else{
-            userId = LoginStatus.LoginInfo.getLoginID();
-        }
+        userId = LoginStatus.LoginInfo.getLoginID();
         webParamsReg.params = "?id=" + userId;
         webParamsReg.listener = response2;
         new WebRequest().execute(webParamsReg);

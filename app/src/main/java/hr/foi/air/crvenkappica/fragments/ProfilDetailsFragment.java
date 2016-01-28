@@ -14,7 +14,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import hr.foi.air.crvenkappica.login.LoginPreference;
 import hr.foi.air.crvenkappica.login.LoginStatus;
 import hr.foi.air.crvenkappica.R;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
@@ -31,7 +30,6 @@ public class ProfilDetailsFragment extends Fragment  {
     private ProgressDialog progressdialog;
     private String userName;
     private Button b;
-    private LoginPreference loginPreference;
     private boolean loggedIn;
     private boolean search = false;
 
@@ -45,16 +43,7 @@ public class ProfilDetailsFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_navigacija,container,false);
 
-        loginPreference = new LoginPreference(getActivity());
-        loggedIn = loginPreference.CheckLoggedIn();
-
-        if(loggedIn && !search){
-            userName = loginPreference.GetUsername();
-        }
-        else{
-            userName = LoginStatus.LoginInfo.getProfilSearch();
-        }
-
+        userName = LoginStatus.LoginInfo.getProfilSearch();
         tvUsername = (TextView) view.findViewById(R.id.tvUsername);
 
         tvIme = (TextView) view.findViewById(R.id.tvIme);
