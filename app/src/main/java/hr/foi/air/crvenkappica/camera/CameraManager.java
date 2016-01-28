@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -27,6 +28,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 import hr.foi.air.crvenkappica.R;
 
