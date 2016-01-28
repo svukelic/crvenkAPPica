@@ -9,7 +9,7 @@ import hr.foi.air.crvenkappica.core.OnImageReturn;
 /**
  * Created by Mario on 28.01.2016..
  */
-public class getRotationFromCamera implements OnImageReturn {
+public class RotationFromCamera {
     public static int getRotationFromCamera(Context context, Uri imageFile) {
         int rotate = 0;
         try {
@@ -33,10 +33,5 @@ public class getRotationFromCamera implements OnImageReturn {
             e.printStackTrace();
         }
         return rotate;
-    }
-
-    @Override
-    public String GetPath() {
-        return null;
     }
 }

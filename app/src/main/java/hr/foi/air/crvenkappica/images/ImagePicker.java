@@ -68,7 +68,7 @@ public class ImagePicker {
 
     public static Bitmap getImageFromResult(Context context, int resultCode,
                                             Intent imageReturnedIntent) {
-        Log.d(TAG, "getImageFromResult, resultCode: " + resultCode);
+        Log.d(TAG, "ImageFromResultCamera, resultCode: " + resultCode);
         Bitmap bm = null;
         File imageFile = getTempFile(context);
         if (resultCode == Activity.RESULT_OK) {

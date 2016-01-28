@@ -93,7 +93,7 @@ public class CameraManager {
     @SuppressWarnings("unused")
     public  Bitmap getImageFromResult( int resultCode,
                                             Intent imageReturnedIntent) {
-        Log.d(TAG, "getImageFromResult, resultCode: " + resultCode);
+        Log.d(TAG, "ImageFromResultCamera, resultCode: " + resultCode);
         Bitmap bm = null;
         File imageFile = getTempFile(con);
         if (resultCode == Activity.RESULT_OK) {

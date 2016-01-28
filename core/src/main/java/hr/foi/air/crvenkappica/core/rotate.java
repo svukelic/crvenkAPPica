@@ -1,4 +1,4 @@
-package hr.foi.air.crvenkappica.cam;
+package hr.foi.air.crvenkappica.core;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -8,7 +8,7 @@ import hr.foi.air.crvenkappica.core.OnImageReturn;
 /**
  * Created by Mario on 28.01.2016..
  */
-public class rotate implements OnImageReturn {
+public class rotate  {
     public static Bitmap rotate(Bitmap bm, int rotation) {
         if (rotation != 0) {
             Matrix matrix = new Matrix();
@@ -17,10 +17,5 @@ public class rotate implements OnImageReturn {
             return bmOut;
         }
         return bm;
-    }
-
-    @Override
-    public String GetPath() {
-        return null;
     }
 }

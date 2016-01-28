@@ -1,4 +1,4 @@
-package hr.foi.air.crvenkappica.cam;
+package hr.foi.air.crvenkappica.core;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import hr.foi.air.crvenkappica.core.OnImageReturn;
 /**
  * Created by Mario on 28.01.2016..
  */
-public  class addIntentsToList implements OnImageReturn {
+public  class IntentsToList {
     public static List<Intent> addIntentsToList(Context context, List<Intent> list, Intent intent) {
         List<ResolveInfo> resInfo = context.getPackageManager().queryIntentActivities(intent, 0);
         for (ResolveInfo resolveInfo : resInfo) {
@@ -23,9 +23,5 @@ public  class addIntentsToList implements OnImageReturn {
             //Log.d(TAG, "Intent: " + intent.getAction() + " package: " + packageName);
         }
         return list;
-    }
-    @Override
-    public String GetPath() {
-        return null;
     }
 }

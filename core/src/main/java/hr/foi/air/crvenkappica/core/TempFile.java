@@ -1,4 +1,4 @@
-package hr.foi.air.crvenkappica.cam;
+package hr.foi.air.crvenkappica.core;
 
 import android.content.Context;
 
@@ -9,14 +9,10 @@ import hr.foi.air.crvenkappica.core.OnImageReturn;
 /**
  * Created by Mario on 28.01.2016..
  */
-public class getTempFile implements OnImageReturn {
+public class TempFile {
     public static File getTempFile(Context context) {
         File imageFile = new File(context.getExternalCacheDir(), "temp_image");
         imageFile.getParentFile().mkdirs();
         return imageFile;
-    }
-    @Override
-    public String GetPath() {
-        return null;
     }
 }

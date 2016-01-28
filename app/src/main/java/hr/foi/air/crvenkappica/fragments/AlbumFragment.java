@@ -4,13 +4,9 @@ package hr.foi.air.crvenkappica.fragments;
 import android.content.Intent;
 
 import android.graphics.Bitmap;
-import android.graphics.Camera;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +22,15 @@ import java.io.File;
 
 import java.util.ArrayList;
 
-import hr.foi.air.crvenkappica.camera.CameraManager;
-import hr.foi.air.crvenkappica.camera.PictureItem;
+import hr.foi.air.crvenkappica.core.FileMan;
+import hr.foi.air.crvenkappica.cam.ImageFromResultCamera;
+import hr.foi.air.crvenkappica.cam.PickImageIntentCamera;
 import hr.foi.air.crvenkappica.core.OnImageReturn;
+import hr.foi.air.crvenkappica.gal.ImageFromResultGallery;
+import hr.foi.air.crvenkappica.gal.PickImageIntentGallery;
 import hr.foi.air.crvenkappica.images.CustomAsyncTask;
 import hr.foi.air.crvenkappica.images.GridViewAdapter;
 import hr.foi.air.crvenkappica.images.ImageItem;
-import hr.foi.air.crvenkappica.images.ImagePicker;
 import hr.foi.air.crvenkappica.JSONParser;
 import hr.foi.air.crvenkappica.login.LoginPreference;
 import hr.foi.air.crvenkappica.login.LoginStatus;
@@ -50,9 +48,10 @@ import hr.foi.air.crvenkappica.web.WebSite;
 Fragment za album korisnika, omogućava upload slika na server, te prikazuje koje slike je korisnik
 uploadao. Nasljeđuje Fragment klasu te implementira OnTaskCompleted interface
  */
-public class AlbumFragment extends Fragment implements OnTaskCompleted, PictureItem {
-    private static final int PICK_IMAGE_ID = 234;
-    private Button b;
+public class AlbumFragment extends Fragment implements OnTaskCompleted {
+    private static final int CAMERA = 1;
+    private static final int ALBUM = 2;
+    private Button b, b2;
     private GridView gridView;
     private GridViewAdapter gridAdapter;
     private String selectedImagePath;
@@ -64,24 +63,28 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted, PictureI
     private LoginPreference loginPreference;
     private boolean loggedIn;
     private String userId;
-    CameraManager cm = null;
-
     /**
      * Kreira te vraća view pripadnog fragmenta.
      * Poziva se webrequest koji dohvaća listu slika koje je korisnik uploadao.
      *
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         loginPreference = new LoginPreference(getActivity());
         loggedIn = loginPreference.CheckLoggedIn();
         final View view = inflater.inflate(R.layout.fragment_album,container,false);
-        b = (Button) view.findViewById(R.id.odabir);
+        b = (Button) view.findViewById(R.id.kamera);
+        b2 = (Button) view.findViewById(R.id.album);
         //Listener za click na button
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPickImage(view);
+                onPickCamera(view);
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPickAlbum(view);
             }
         });
         WebParams webParamsReg = new WebParams();
@@ -98,19 +101,20 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted, PictureI
         new WebRequest().execute(webParamsReg);
         o = this;
         f= this;
-        cm = CameraManager.getInstance();
         return view;
     }
     //Pri kliku na button, otvara nam se prozor na kojem biramo s kojeg "servisa" zelimo odabrati slike: kamera, galerija...
    //pokrecemo aktivnost kako bi dobili rezultat: u nasem slucaju dobivamo sliku
-    public void onPickImage(View view){
-       // Intent chooseImageIntent = ImagePicker.getPickImageIntent(getActivity().getApplicationContext());
+    public void onPickCamera(View view){
+       // Intent chooseImageIntent = ImagePicker.PickImageIntentCamera(getActivity().getApplicationContext());
       //  startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
-        //CameraManager cm = CameraManager.getInstance();
-        //cm.setDependencies(getActivity().getApplicationContext());
-        Intent chooseImageIntent = cm.getPickImageIntent();
-
-        startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
+        Intent chooseImageIntent = PickImageIntentCamera.getPickImageIntent(getActivity().getApplicationContext());
+        startActivityForResult(chooseImageIntent, CAMERA);
+    }
+    public void onPickAlbum(View view){
+        //
+        Intent chooseImageIntent = PickImageIntentGallery.getPickImageIntent(getActivity().getApplicationContext());
+        startActivityForResult(chooseImageIntent, ALBUM);
     }
     /**
      "Listener" koji čeka odgovor web servisa i na temelju outputa parsira jsonobject
@@ -158,20 +162,21 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted, PictureI
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         try {
             switch(requestCode) {
-                case PICK_IMAGE_ID:
-                    Bitmap bitmap = cm.getImageFromResult(resultCode, data);
+                case CAMERA:
+                    Bitmap bitmap = ImageFromResultCamera.getImageFromResult(getActivity().getApplicationContext(), resultCode, data);
+                    OnImageReturn o = new ImageFromResultCamera();
+                    selectedImagePath = o.GetPath(bitmap, getActivity().getApplicationContext());
                     String id = userId;
-                    Uri selectedImageUri = cm.getImageUri(bitmap);
-                    selectedImagePath = cm.getPath(selectedImageUri);
-                    File file = cm.returnFile(selectedImagePath);
-                    String nesto = file.getName();
+                   // Uri selectedImageUri = cm.getImageUri(bitmap);
+                   // selectedImagePath = cm.getPath(selectedImageUri);
+                    File file = FileMan.returnFile(selectedImagePath);
                     ImageItem i = new ImageItem();
                     i.setId(id);
-                    i.setTitle(nesto);
+                    i.setTitle(file.getName());
                     JSONParser j = new JSONParser(i);
                     new Thread(new Runnable() {
                         public void run() {
-                            cm.uploadFile(selectedImagePath);
+                            FileMan.uploadFile(getActivity().getApplicationContext(), selectedImagePath);
                         }
                     }).start();
                     WebParams webParamsReg = new WebParams();
@@ -180,6 +185,29 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted, PictureI
                     webParamsReg.params = j.getString();
                     webParamsReg.listener = response;
                     new WebRequest().execute(webParamsReg);
+                    Toast.makeText(getActivity(), "Image chosen.", Toast.LENGTH_LONG).show();
+                    break;
+                case ALBUM:
+                    Bitmap bitmap2 = ImageFromResultGallery.getImageFromResult(getActivity().getApplicationContext(), resultCode, data);
+                    OnImageReturn o2 = new ImageFromResultGallery();
+                    selectedImagePath = o2.GetPath(bitmap2, getActivity().getApplicationContext());
+                    String id2 = userId;
+                    File file2 = FileMan.returnFile(selectedImagePath);
+                    ImageItem i2 = new ImageItem();
+                    i2.setId(id2);
+                    i2.setTitle(file2.getName());
+                    JSONParser j2 = new JSONParser(i2);
+                    new Thread(new Runnable() {
+                        public void run() {
+                            FileMan.uploadFile(getActivity().getApplicationContext(), selectedImagePath);
+                        }
+                    }).start();
+                    WebParams webParamsReg2 = new WebParams();
+                    webParamsReg2.adresa = WebSite.WebAdress.getAdresa();
+                    webParamsReg2.service = "image_db.php";
+                    webParamsReg2.params = j2.getString();
+                    webParamsReg2.listener = response;
+                    new WebRequest().execute(webParamsReg2);
                     Toast.makeText(getActivity(), "Image chosen.", Toast.LENGTH_LONG).show();
                     break;
                 default:
@@ -203,10 +231,6 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted, PictureI
         gridAdapter = new GridViewAdapter(getActivity().getApplicationContext(),R.layout.grid_item_layout,result);
         gridView.setAdapter(gridAdapter);
         gridView.refreshDrawableState();
-    }
-    @Override
-    public String getPicturePath() {
-        return selectedImagePath;
     }
 
 

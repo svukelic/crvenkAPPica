@@ -6,10 +6,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Odaberi sliku"
-        android:id="@+id/odabir"
+        android:text="Kamera"
+        android:id="@+id/kamera"
+        android:layout_marginLeft="98dp"
+        android:layout_marginStart="98dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignLeft="@+id/gridView"
+        android:layout_alignStart="@+id/gridView" />
     <GridView
         android:id="@+id/gridView"
         android:layout_width="fill_parent"
@@ -25,5 +28,14 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_below="@+id/odabir" />
+        android:layout_below="@+id/kamera" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Album"
+        android:id="@+id/album"
+        android:layout_alignBottom="@+id/kamera"
+        android:layout_toRightOf="@+id/kamera"
+        android:layout_toEndOf="@+id/kamera" />
 </RelativeLayout>
