@@ -1,8 +1,8 @@
 package hr.foi.air.crvenkappica.fragments;
 
-import android.content.Context;
+
 import android.content.Intent;
-import android.database.Cursor;
+
 import android.graphics.Bitmap;
 import android.graphics.Camera;
 import android.net.Uri;
@@ -22,17 +22,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+
 import java.util.ArrayList;
 
 import hr.foi.air.crvenkappica.camera.CameraManager;
 import hr.foi.air.crvenkappica.camera.PictureItem;
+import hr.foi.air.crvenkappica.core.OnImageReturn;
 import hr.foi.air.crvenkappica.images.CustomAsyncTask;
 import hr.foi.air.crvenkappica.images.GridViewAdapter;
 import hr.foi.air.crvenkappica.images.ImageItem;
@@ -111,8 +107,9 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted, PictureI
        // Intent chooseImageIntent = ImagePicker.getPickImageIntent(getActivity().getApplicationContext());
       //  startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
         //CameraManager cm = CameraManager.getInstance();
-        cm.setDependencies(getActivity().getApplicationContext());
+        //cm.setDependencies(getActivity().getApplicationContext());
         Intent chooseImageIntent = cm.getPickImageIntent();
+
         startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
     }
     /**
