@@ -106,8 +106,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
     //Pri kliku na button, otvara nam se prozor na kojem biramo s kojeg "servisa" zelimo odabrati slike: kamera, galerija...
    //pokrecemo aktivnost kako bi dobili rezultat: u nasem slucaju dobivamo sliku
     public void onPickCamera(View view){
-       // Intent chooseImageIntent = ImagePicker.PickImageIntentCamera(getActivity().getApplicationContext());
-      //  startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
+
         Intent chooseImageIntent = PickImageIntentCamera.getPickImageIntent(getActivity().getApplicationContext());
         startActivityForResult(chooseImageIntent, CAMERA);
     }
