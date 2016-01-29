@@ -1,21 +1,14 @@
 package hr.foi.air.crvenkappica.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,12 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import hr.foi.air.crvenkappica.R;
-import hr.foi.air.crvenkappica.login.LoginStatus;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
-import hr.foi.air.crvenkappica.web.GPSTracker;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
-import hr.foi.air.crvenkappica.web.WebSite;
 
 public class MoonPhaseFragment extends Fragment{
 
