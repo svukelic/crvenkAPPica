@@ -38,9 +38,11 @@ public class ImageFromResultCamera implements OnImageReturn {
         return bm;
     }
     @Override
-    public String GetPath(Bitmap b, Context c) {
-        Uri image = ImageURI.getImageUri(c, b);
-        String selectedImagePath = Path.getPath(c, image);
+    public String GetPath(Context context, int resultCode,
+                          Intent imageReturnedIntent) {
+        Bitmap b = getImageFromResult(context, resultCode, imageReturnedIntent);
+        Uri image = ImageURI.getImageUri(context, b);
+        String selectedImagePath = Path.getPath(context, image);
         return selectedImagePath;
     }
 }

@@ -8,5 +8,6 @@ import android.graphics.Bitmap;
  * Created by domagoj on 28.01.16..
  */
 public interface OnImageReturn {
-    public String GetPath(Bitmap b, Context c);
+    public String GetPath(Context context, int resultCode,
+                          Intent imageReturnedIntent);
 }
