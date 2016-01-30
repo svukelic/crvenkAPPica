@@ -32,10 +32,10 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+                R.id.navigation_drawer, drawerLayout);
 
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
@@ -46,8 +46,6 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {
@@ -60,7 +58,7 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
             case 1:
                 LoginStatus.LoginInfo.setProfilSearch(LoginStatus.LoginInfo.getLoginName());
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container352, new ProfilDetailsFragment(false))
+                        .replace(R.id.container352, new ProfilDetailsFragment())
                         .commit();
                 drawerLayout.closeDrawers();
                 break;

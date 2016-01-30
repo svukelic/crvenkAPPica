@@ -111,7 +111,7 @@ public class ProfilSearchFragment extends Fragment {
 
                         String  itemValue    = (String) listView.getItemAtPosition(position);
 
-                        Fragment fragment = new ProfilDetailsFragment(true);
+                        Fragment fragment = new ProfilDetailsFragment();
                         FragmentManager fragmentManager = getFragmentManager();
 
                         LoginStatus.LoginInfo.setProfilSearch(itemValue);

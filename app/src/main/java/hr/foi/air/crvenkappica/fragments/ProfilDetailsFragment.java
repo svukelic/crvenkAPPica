@@ -30,25 +30,21 @@ public class ProfilDetailsFragment extends Fragment  {
     private ProgressDialog progressdialog;
     private String userName;
     private Button b;
-    private boolean loggedIn;
-    private boolean search = false;
 
-    public ProfilDetailsFragment(boolean Search){
-        search = Search;
+    public ProfilDetailsFragment(){
+
     }
-    public ProfilDetailsFragment(){}
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_navigacija,container,false);
 
         userName = LoginStatus.LoginInfo.getProfilSearch();
-        tvUsername = (TextView) view.findViewById(R.id.tvUsername);
+        tvUsername = (TextView) view.findViewById(R.id.username);
 
-        tvIme = (TextView) view.findViewById(R.id.tvIme);
-        tvPrezime = (TextView) view.findViewById(R.id.tvPrezime);
-        tvDob = (TextView) view.findViewById(R.id.tvDOB);
+        tvIme = (TextView)view.findViewById(R.id.ime);
+        tvPrezime = (TextView) view.findViewById(R.id.prezime);
+        tvDob = (TextView) view.findViewById(R.id.datum_rodenja);
 
         progressdialog = new ProgressDialog(getActivity());
         progressdialog.setTitle("Profil");
@@ -57,13 +53,12 @@ public class ProfilDetailsFragment extends Fragment  {
         progressdialog.setCancelable(false);
         progressdialog.show();
 
-        tvUsername.setText("Korisničko ime: " + userName);
+        tvUsername.setText(userName);
 
 
         //dohvat traženog profila
         if (!userName.isEmpty()) {
-            String hash = "";
-            String type = "";
+
             WebParams paramsProfil = new WebParams();
             paramsProfil.adresa = WebSite.WebAdress.getAdresa();
             paramsProfil.params = "?UserName=" + userName;
@@ -78,13 +73,16 @@ public class ProfilDetailsFragment extends Fragment  {
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
-            //System.out.println(output);
+
             progressdialog.hide();
+
             try {
+
                 JSONObject jsonObject = new JSONObject(output);
-                tvIme.setText("Ime: " + jsonObject.getString("Ime"));
-                tvPrezime.setText("Prezime: " + jsonObject.getString("Prezime"));
-                tvDob.setText("DOB: " + jsonObject.getString("Dob"));
+                tvIme.setText(jsonObject.getString("Ime"));
+                tvPrezime.setText(jsonObject.getString("Prezime"));
+                tvDob.setText(jsonObject.getString("Dob"));
+
             } catch (JSONException e) {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
             }
