@@ -104,12 +104,12 @@ public class ProfilSearchFragment extends Fragment {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view,
-                                            int position, long id) {
 
-                        int itemPosition     = position;
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        String  itemValue    = (String) listView.getItemAtPosition(position);
+                        int itemPosition = position;
+
+                        String  itemValue = (String) listView.getItemAtPosition(position);
 
                         Fragment fragment = new ProfilDetailsFragment();
                         FragmentManager fragmentManager = getFragmentManager();
@@ -119,12 +119,6 @@ public class ProfilSearchFragment extends Fragment {
                         fragmentManager.beginTransaction()
                                 .replace(R.id.container352, fragment)
                                 .commit();
-
-                        /* Show Alert
-                        Toast.makeText(getActivity(),
-                                "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
-                                .show();*/
-
                     }
 
                 });

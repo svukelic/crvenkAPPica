@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">crvenkappica</string>
     <string name="action_settings">Postavke</string>
-    <string name="name">Ime:</string>
-    <string name="surname">Prezime:</string>
-    <string name="username">Korisničko ime:</string>
+    <string name="name">Ime</string>
+    <string name="surname">Prezime</string>
+    <string name="username">Korisničko ime</string>
     <string name="password">Lozinka:</string>
     <string name="password_rp">Ponovi lozinku:</string>
-    <string name="mail">Email adresa:</string>
-    <string name="date">Datum rođenja:</string>
+    <string name="mail">Email adresa</string>
+    <string name="date">Datum rođenja</string>
     <string name="name_hint">Unesi ime</string>
     <string name="surname_hint">Unesi prezime</string>
     <string name="username_hint">Unesi korisničko ime</string>
@@ -25,7 +25,6 @@
     <string name="string_registerme">Registriraj me</string>
     <string name="string_registration_progress">Registracija u tijeku</string>
     <string name="title_activity_index">Index</string>
-
     <string name="title_activity_navigacija">Navigacija</string>
 
     <string name="title_section1">Obavijesti</string>
@@ -61,4 +60,5 @@
         <item>Prosinac</item>
     </string-array>
 
+    <string name="album">Album</string>
 </resources>

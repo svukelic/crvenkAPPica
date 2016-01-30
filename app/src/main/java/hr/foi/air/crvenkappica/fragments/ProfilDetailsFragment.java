@@ -29,16 +29,18 @@ public class ProfilDetailsFragment extends Fragment  {
     private TextView tvDob;
     private ProgressDialog progressdialog;
     private String userName;
-    private Button b;
+    private Button buttonAlbum;
 
     public ProfilDetailsFragment(){
 
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_navigacija,container,false);
+        final View view = inflater.inflate(R.layout.fragment_navigacija, container, false);
 
+        buttonAlbum = (Button)view.findViewById(R.id.button_album);
         userName = LoginStatus.LoginInfo.getProfilSearch();
         tvUsername = (TextView) view.findViewById(R.id.username);
 
@@ -66,6 +68,15 @@ public class ProfilDetailsFragment extends Fragment  {
             paramsProfil.listener = response;
             new WebRequest().execute(paramsProfil);
         }
+
+
+        buttonAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return view;
     }
 
@@ -88,4 +99,5 @@ public class ProfilDetailsFragment extends Fragment  {
             }
         }
     };
+
 }
