@@ -21,6 +21,7 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,51 +46,59 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {
             case 0:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new ObavijestiFragment())
                         .commit();
+                drawerLayout.closeDrawers();
                 break;
             case 1:
                 LoginStatus.LoginInfo.setProfilSearch(LoginStatus.LoginInfo.getLoginName());
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new ProfilDetailsFragment(false))
                         .commit();
+                drawerLayout.closeDrawers();
                 break;
             case 2:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new ProfilSearchFragment())
                         .commit();
+                drawerLayout.closeDrawers();
                 break;
             case 3:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new AlbumFragment())
                         .commit();
+                drawerLayout.closeDrawers();
                 break;
             case 4:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new MoonPhaseFragment())
                         .commit();
+                drawerLayout.closeDrawers();
                 break;
             case 5:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new WeatherForecastFragment())
                         .commit();
+                drawerLayout.closeDrawers();
                 break;
             case 6:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new SeasonsFragment())
                         .commit();
+                drawerLayout.closeDrawers();
                 break;
             case 7:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container352, new LovistaFragment())
                         .commit();
-                break;
-
-            default:
+                drawerLayout.closeDrawers();
                 break;
         }
     }
