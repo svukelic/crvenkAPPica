@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -29,10 +32,7 @@ import hr.foi.air.crvenkappica.web.WebSite;
 //Fragment za pretragu profila
 public class ProfilSearchFragment extends Fragment {
 
-    private EditText etSearch;
-    private Button btnSearch;
-    private ProgressDialog progressdialog;
-    private String searchString;
+    private SearchView searchView;
     private ListView listView;
 
     @Nullable
@@ -40,39 +40,15 @@ public class ProfilSearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_search,container,false);
 
-        btnSearch = (Button) view.findViewById(R.id.buttonSearch);
         listView = (ListView) view.findViewById(R.id.lvSearch);
+        searchView = (SearchView) view.findViewById(R.id.searchView);
 
-        //listener za klik na search button
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                etSearch = (EditText) view.findViewById(R.id.etSearch);
-                searchString = etSearch.getText().toString();
-
-                if (!searchString.isEmpty()) {
-
-                    progressdialog = new ProgressDialog(getActivity());
-                    progressdialog.setTitle("Pretraga");
-                    progressdialog.setMessage("Pretražujem profile");
-                    progressdialog.setIndeterminate(false);
-                    progressdialog.setCancelable(false);
-                    progressdialog.show();
-
-
-                    //pretraga profila po unesenom imenu i/ili prezimenu
-                    String hash = "";
-                    String type = "";
-                    WebParams paramsProfil = new WebParams();
-                    paramsProfil.adresa = WebSite.WebAdress.getAdresa();
-                    paramsProfil.params = "?ime=" + searchString;
-                    paramsProfil.service = "profil_search.php";
-                    paramsProfil.listener = response;
-                    new WebRequest().execute(paramsProfil);
-                }
-            }
-        });
+        WebParams paramsProfil = new WebParams();
+        paramsProfil.adresa = WebSite.WebAdress.getAdresa();
+        paramsProfil.params = "";
+        paramsProfil.service = "profil_sve.php";
+        paramsProfil.listener = response;
+        new WebRequest().execute(paramsProfil);
 
         return view;
     }
@@ -83,7 +59,6 @@ public class ProfilSearchFragment extends Fragment {
     AsyncResponse response = new AsyncResponse() {
         @Override
         public void processFinish(String output) {
-            progressdialog.hide();
 
             try {
                 JSONObject jsonObject = new JSONObject(output);
@@ -107,8 +82,6 @@ public class ProfilSearchFragment extends Fragment {
 
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        int itemPosition = position;
-
                         String  itemValue = (String) listView.getItemAtPosition(position);
 
                         Fragment fragment = new ProfilDetailsFragment();
@@ -128,6 +101,5 @@ public class ProfilSearchFragment extends Fragment {
             }
         }
     };
-
 
 }
