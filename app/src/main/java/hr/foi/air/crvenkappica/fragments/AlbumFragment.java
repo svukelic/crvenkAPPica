@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -66,9 +67,24 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_album,container,false);
+        gridView = (GridView) view.findViewById(R.id.gridView);
         b = (Button) view.findViewById(R.id.kamera);
         b2 = (Button) view.findViewById(R.id.album);
         //Listener za click na button
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ImageFragment imageFragment = new ImageFragment();
+                ImageItem item = (ImageItem) parent.getItemAtPosition(position);
+                Bundle data = new Bundle();
+                data.putString("title", item.getTitle());
+                data.putParcelable("image", item.getImage());
+                imageFragment.setArguments(data);
+                getFragmentManager().beginTransaction()
+                        .add(R.id.container352, imageFragment).addToBackStack(null)
+                        .commit();
+            }
+        });
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +116,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         new WebRequest().execute(webParamsReg);
         o = this;
         f= this;
+
         return view;
     }
     //Pri kliku na button, otvara nam se prozor na kojem biramo s kojeg "servisa" zelimo odabrati slike: kamera, galerija...
@@ -126,11 +143,18 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                 JSONObject jsonObject = new JSONObject(output);
                 JSONArray jArray = jsonObject.getJSONArray("List");
                 lista = new String[jArray.length()];
-                for(int i=0; i<jArray.length(); i++) {
-                    JSONObject json_data = jArray.getJSONObject(i);
-                    lista[i] = json_data.getString("Link");
+                if(lista.length <1){
+                    Toast.makeText(getActivity().getApplicationContext(), "Korisnik nema slika u albumu.", Toast.LENGTH_LONG).show();
                 }
-                new CustomAsyncTask(lista,getContext(),o).execute();
+                else{
+                    Toast.makeText(getActivity().getApplicationContext(), "Učitavam slike.", Toast.LENGTH_SHORT).show();
+                    for(int i=0; i<jArray.length(); i++) {
+                        JSONObject json_data = jArray.getJSONObject(i);
+                        lista[i] = json_data.getString("Link");
+                    }
+                    new CustomAsyncTask(lista,getContext(),o).execute();
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

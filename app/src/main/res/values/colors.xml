@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="greyEdge">#272020</color>
     <color name="whiteText">#e5cfcf</color>
+    <color name="blue">#00abea</color>
+    <color name="white">#ffffff</color>
 </resources>
