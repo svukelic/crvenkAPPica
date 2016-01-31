@@ -22,6 +22,7 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private DrawerLayout drawerLayout;
+    private FragmentManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,9 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer, drawerLayout);
 
-        FragmentManager manager = getSupportFragmentManager();
+        manager = getSupportFragmentManager();
         manager.beginTransaction()
-                .add(R.id.container352, new ObavijestiFragment())
+                .replace(R.id.container352, new ObavijestiFragment())
                 .commit();
 
     }
@@ -47,53 +48,52 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {
             case 0:
-                fragmentManager.beginTransaction()
+                manager.beginTransaction()
                         .replace(R.id.container352, new ObavijestiFragment())
                         .commit();
                 drawerLayout.closeDrawers();
                 break;
             case 1:
                 LoginStatus.LoginInfo.setProfilSearch(LoginStatus.LoginInfo.getLoginName());
-                fragmentManager.beginTransaction()
+                manager.beginTransaction()
                         .replace(R.id.container352, new ProfilDetailsFragment())
                         .commit();
                 drawerLayout.closeDrawers();
                 break;
             case 2:
-                fragmentManager.beginTransaction()
+                manager.beginTransaction()
                         .replace(R.id.container352, new ProfilSearchFragment())
                         .commit();
                 drawerLayout.closeDrawers();
                 break;
             case 3:
-                fragmentManager.beginTransaction()
+                manager.beginTransaction()
                         .replace(R.id.container352, new AlbumFragment())
                         .commit();
                 drawerLayout.closeDrawers();
                 break;
             case 4:
-                fragmentManager.beginTransaction()
+                manager.beginTransaction()
                         .replace(R.id.container352, new MoonPhaseFragment())
                         .commit();
                 drawerLayout.closeDrawers();
                 break;
             case 5:
-                fragmentManager.beginTransaction()
+                manager.beginTransaction()
                         .replace(R.id.container352, new WeatherForecastFragment())
                         .commit();
                 drawerLayout.closeDrawers();
                 break;
             case 6:
-                fragmentManager.beginTransaction()
+                manager.beginTransaction()
                         .replace(R.id.container352, new SeasonsFragment())
                         .commit();
                 drawerLayout.closeDrawers();
                 break;
             case 7:
-                fragmentManager.beginTransaction()
+                manager.beginTransaction()
                         .replace(R.id.container352, new LovistaFragment())
                         .commit();
                 drawerLayout.closeDrawers();
