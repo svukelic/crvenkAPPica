@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +19,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import hr.foi.air.crvenkappica.R;
+import hr.foi.air.crvenkappica.calendar.CalendarAdapter;
+import hr.foi.air.crvenkappica.calendar.CalendarItem;
+import hr.foi.air.crvenkappica.calendar.MoonLinks;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
 import hr.foi.air.crvenkappica.web.WebParams;
 import hr.foi.air.crvenkappica.web.WebRequest;
@@ -29,12 +35,21 @@ public class MoonPhaseFragment extends Fragment{
     private ListView listView;
     private ProgressDialog progressdialog;
 
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+    private ArrayList<CalendarItem> items;
+    private CalendarItem calendarItem;
+    private CalendarAdapter adapter;
+    private String moonIcon;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_moon,container,false);
 
-        listView = (ListView) view.findViewById(R.id.listViewMoon);
+        recyclerView = (RecyclerView) view.findViewById(R.id.moon_list);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
 
         progressdialog = new ProgressDialog(getActivity());
         progressdialog.setTitle("Dohvat");
@@ -64,6 +79,7 @@ public class MoonPhaseFragment extends Fragment{
         public void processFinish(String output) {
 
             progressdialog.hide();
+            items = new ArrayList<CalendarItem>();
 
             try {
                 JSONObject jsonObject = new JSONObject(output);
@@ -81,27 +97,26 @@ public class MoonPhaseFragment extends Fragment{
                     date[i] = json_data.getString("date");
                     time[i] = json_data.getString("time");
 
+                    String phaseType = "new";
+
+                    if(phase[i].equals("Full Moon")) phaseType = "full";
+                    if(phase[i].equals("New Moon")) phaseType = "new";
+                    if(phase[i].equals("First Quarter")) phaseType = "first";
+                    if(phase[i].equals("Last Quarter")) phaseType = "last";
+
+                    moonIcon = MoonLinks.MoonIcons.getLink(phaseType);
+
                     list[i] = phase[i] + "\n" + date[i]  + "\n" + time[i];
+
+                    calendarItem = new CalendarItem();
+                    calendarItem.setLink(moonIcon);
+                    calendarItem.setName(list[i]);
+
+                    items.add(calendarItem);
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_list_item_1, android.R.id.text1, list);
-
-                listView.setAdapter(adapter);
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view,
-                                            int position, long id) {
-
-                        int itemPosition     = position;
-
-                        String  itemValue    = (String) listView.getItemAtPosition(position);
-
-                    }
-
-                });
+                adapter = new CalendarAdapter(items,getActivity());
+                recyclerView.setAdapter(adapter);
 
             } catch (JSONException e) {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
