@@ -22,6 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hr.foi.air.crvenkappica.login.LoginStatus;
 import hr.foi.air.crvenkappica.R;
 import hr.foi.air.crvenkappica.web.AsyncResponse;
@@ -34,6 +37,8 @@ public class ProfilSearchFragment extends Fragment {
 
     private SearchView searchView;
     private ListView listView;
+    List<String> listUsers;
+    private ArrayAdapter<String> adapter;
 
     @Nullable
     @Override
@@ -50,6 +55,22 @@ public class ProfilSearchFragment extends Fragment {
         paramsProfil.listener = response;
         new WebRequest().execute(paramsProfil);
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.length()>0)
+                    return setFilteredList(newText);
+
+                setDefaultList();
+                return false;
+            }
+        });
+
         return view;
     }
 
@@ -64,17 +85,14 @@ public class ProfilSearchFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject(output);
                 JSONArray jArray = jsonObject.getJSONArray("list");
 
-                String[] lista = new String[jArray.length()];
+                listUsers = new ArrayList<String>();
 
                 for(int i=0; i<jArray.length(); i++) {
                     JSONObject json_data = jArray.getJSONObject(i);
-                    lista[i] = json_data.getString("Username");
+                    listUsers.add(json_data.getString("Username"));
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_list_item_1, android.R.id.text1, lista);
-
-                listView.setAdapter(adapter);
+                setDefaultList();
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -102,4 +120,31 @@ public class ProfilSearchFragment extends Fragment {
         }
     };
 
+    public boolean setFilteredList(String searchString){
+
+        searchString =  searchString.toLowerCase();
+        ArrayList<String> filterList = new ArrayList<String>();
+
+
+        for(String item:listUsers){
+            if(item.toLowerCase().contains(searchString)){
+                filterList.add(item);
+            }
+        }
+
+        adapter = new ArrayAdapter<String>(getActivity(),
+                  android.R.layout.simple_list_item_1, android.R.id.text1, filterList);
+
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        return true;
+    }
+
+    public void setDefaultList(){
+        adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, listUsers);
+
+        listView.setAdapter(adapter);
+    }
 }
