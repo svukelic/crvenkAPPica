@@ -31,6 +31,7 @@ public class NewsWebView extends Activity {
 
         webView = (WebView)findViewById(R.id.webView_hls);
         webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
     }
 

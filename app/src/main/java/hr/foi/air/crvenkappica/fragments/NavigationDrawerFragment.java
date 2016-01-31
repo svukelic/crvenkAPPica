@@ -106,6 +106,7 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.vrijeme),
                         getString(R.string.hunting_seasons),
                         getString(R.string.lovista),
+                        "Mapa"
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;

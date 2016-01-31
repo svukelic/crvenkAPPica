@@ -13,6 +13,7 @@ import android.widget.Toast;
 import hr.foi.air.crvenkappica.login.Login;
 import hr.foi.air.crvenkappica.login.LoginStatus;
 import hr.foi.air.crvenkappica.R;
+import hr.foi.air.crvenkappica.news.NewsWebView;
 
 public class NavigationFragment extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -95,6 +96,12 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
             case 7:
                 manager.beginTransaction()
                         .replace(R.id.container352, new LovistaFragment())
+                        .commit();
+                drawerLayout.closeDrawers();
+                break;
+            case 8:
+                manager.beginTransaction()
+                        .replace(R.id.container352, new LovistaMapFragment())
                         .commit();
                 drawerLayout.closeDrawers();
                 break;
