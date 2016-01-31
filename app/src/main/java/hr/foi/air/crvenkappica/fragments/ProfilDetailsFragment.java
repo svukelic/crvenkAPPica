@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,9 @@ public class ProfilDetailsFragment extends Fragment  {
     private TextView tvPrezime;
     private TextView tvDob;
     private ProgressDialog progressdialog;
-    private String userName;
+    private String userName, id_korisnik;
     private Button buttonAlbum;
+
 
     public ProfilDetailsFragment(){
 
@@ -57,10 +59,8 @@ public class ProfilDetailsFragment extends Fragment  {
 
         tvUsername.setText(userName);
 
-
         //dohvat traženog profila
         if (!userName.isEmpty()) {
-
             WebParams paramsProfil = new WebParams();
             paramsProfil.adresa = WebSite.WebAdress.getAdresa();
             paramsProfil.params = "?UserName=" + userName;
@@ -68,15 +68,19 @@ public class ProfilDetailsFragment extends Fragment  {
             paramsProfil.listener = response;
             new WebRequest().execute(paramsProfil);
         }
-
-
-        buttonAlbum.setOnClickListener(new View.OnClickListener() {
-            @Override
+        buttonAlbum.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-
+                Bundle data = new Bundle();
+                data.putString("ID", id_korisnik);
+                System.out.println("ID korisnika profil: "+ id_korisnik);
+                AlbumFragment albumFragment = new AlbumFragment();
+                albumFragment.setArguments(data);
+                FragmentManager fm = getFragmentManager();
+                fm.beginTransaction()
+                        .replace(R.id.container352, albumFragment)
+                        .commit();
             }
         });
-
         return view;
     }
 
@@ -88,12 +92,12 @@ public class ProfilDetailsFragment extends Fragment  {
             progressdialog.hide();
 
             try {
-
-                JSONObject jsonObject = new JSONObject(output);
+                final JSONObject jsonObject = new JSONObject(output);
                 tvIme.setText(jsonObject.getString("Ime"));
                 tvPrezime.setText(jsonObject.getString("Prezime"));
                 tvDob.setText(jsonObject.getString("Dob"));
-
+                id_korisnik = jsonObject.getString("id");
+                System.out.println("ID korisnika: " + jsonObject.getString("id"));
             } catch (JSONException e) {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
             }
