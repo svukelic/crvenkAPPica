@@ -15,11 +15,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import hr.foi.air.crvenkappica.R;
 import hr.foi.air.crvenkappica.calendar.CalendarAdapter;
@@ -31,7 +40,7 @@ import hr.foi.air.crvenkappica.web.WebRequest;
 public class WeatherForecastFragment extends Fragment {
 
     private EditText etSearch;
-    private Button btnSearch;
+    private Button btnSearch, btnList, btnTrend;
     private ProgressDialog progressdialog;
     private String searchString;
     private RecyclerView recyclerView;
@@ -40,6 +49,8 @@ public class WeatherForecastFragment extends Fragment {
     private CalendarItem calendarItem;
     private CalendarAdapter adapter;
     private String weatherCode;
+    private GraphView graph;
+    private Date d1, d2, d3;
 
     @Nullable
     @Override
@@ -47,6 +58,24 @@ public class WeatherForecastFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_weatherforecast,container,false);
 
         btnSearch = (Button) view.findViewById(R.id.buttonSearchWeather);
+        btnList = (Button) view.findViewById(R.id.buttonList);
+        btnTrend = (Button) view.findViewById(R.id.buttonTrend);
+
+        graph = (GraphView) view.findViewById(R.id.graph);
+
+        /*Calendar calendar = Calendar.getInstance();
+        d1 = calendar.getTime();
+        calendar.add(Calendar.DATE, 1);
+        d2 = calendar.getTime();
+        calendar.add(Calendar.DATE, 1);
+        d3 = calendar.getTime();
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 2),
+                new DataPoint(2, 3),
+        });
+        graph.addSeries(series);*/
 
         recyclerView = (RecyclerView) view.findViewById(R.id.weather_list);
         layoutManager = new LinearLayoutManager(getActivity());
@@ -84,6 +113,46 @@ public class WeatherForecastFragment extends Fragment {
             }
         });
 
+        graph.setVisibility(View.INVISIBLE);
+
+        btnList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                graph.getHandler().post(new Runnable() {
+                    public void run() {
+                        graph.setVisibility(View.INVISIBLE);
+                    }
+                });
+
+                recyclerView.getHandler().post(new Runnable() {
+                    public void run() {
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                });
+
+            }
+        });
+
+        btnTrend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                graph.getHandler().post(new Runnable() {
+                    public void run() {
+                        graph.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                recyclerView.getHandler().post(new Runnable() {
+                    public void run() {
+                        recyclerView.setVisibility(View.INVISIBLE);
+                    }
+                });
+
+            }
+        });
+
         return view;
     }
 
@@ -101,6 +170,7 @@ public class WeatherForecastFragment extends Fragment {
                 JSONArray jArray = jsonObject.getJSONArray("list");
 
                 String[] lista = new String[jArray.length()];
+                Date[] datum = new Date[jArray.length()];
 
                 for(int i=0; i<jArray.length(); i++) {
                     JSONObject json_data = jArray.getJSONObject(i);
@@ -122,7 +192,24 @@ public class WeatherForecastFragment extends Fragment {
 
                     items.add(calendarItem);
 
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    try {
+                        datum[i] = format.parse(json_data.getString("dt_txt"));
+                    } catch (ParseException e) {
+                    }
+
+                    LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                            new DataPoint(datum[i], Double.parseDouble(main.getString("temp"))),
+                    });
+                    graph.addSeries(series);
                 }
+
+                graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+                graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+
+                graph.getViewport().setMinX(datum[0].getTime());
+                graph.getViewport().setMaxX(datum[jArray.length()-1].getTime());
+                graph.getViewport().setXAxisBoundsManual(true);
 
                 adapter = new CalendarAdapter(items,getActivity());
                 recyclerView.setAdapter(adapter);

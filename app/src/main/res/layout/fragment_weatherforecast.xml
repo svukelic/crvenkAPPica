@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/relative1">
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,13 +54,57 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="16dp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/weather_list"
-        android:layout_width="match_parent"
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/relative1"
+        android:id="@+id/layout1"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/viewLine"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_gravity="top"
+        >
+
+        <Button
+            android:layout_width="186dp"
+            android:layout_height="wrap_content"
+            android:text="Lista"
+            android:id="@+id/buttonList"
+            android:layout_below="@+id/viewLine"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trend"
+            android:id="@+id/buttonTrend"
+            android:layout_below="@+id/viewLine"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1"
+        android:id="@+id/relative2">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/weather_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </android.support.v7.widget.RecyclerView>
+
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:id="@+id/graph" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
