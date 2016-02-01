@@ -9,25 +9,24 @@
         android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown"
+        android:background="#424242"
         android:spinnerMode="dropdown" />
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="2dp"
+        android:layout_height="5dp"
         android:background="@color/colorPrimary"
         android:id="@+id/view"
-        android:layout_below="@+id/spinner1"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp" />
+        android:layout_alignParentStart="true" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lvLovista"
-        android:layout_below="@+id/view"
+        android:background="#fafafa"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/spinner1" />
 
 </RelativeLayout>

@@ -4,6 +4,9 @@
     android:layout_height="match_parent"
     android:choiceMode="singleChoice"
     android:divider="@android:color/transparent"
-    android:dividerHeight="0dp"
-    android:background="#212121"
-    tools:context=".fragments.NavigationDrawerFragment" />
+    android:dividerHeight="5dp"
+    android:background="#ee2a2a2a"
+    tools:context=".fragments.NavigationDrawerFragment"
+    android:clickable="true"
+    android:drawSelectorOnTop="true"
+    android:theme="@style/Base.V7.Theme.AppCompat.Light" />
