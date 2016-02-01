@@ -192,35 +192,37 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                     OnImageReturn onImageReturn1 = new ImageFromResultGallery();
                     selectedImagePath = onImageReturn1.GetPath(getActivity().getApplicationContext(), resultCode, data);
                     break;
+
                 default:
                     super.onActivityResult(requestCode, resultCode, data);
                     break;
+            }
+            if(!selectedImagePath.isEmpty()){
+                String id = userId;
+                File file = FileMan.returnFile(selectedImagePath);
+                ImageItem i = new ImageItem();
+                i.setId(id);
+                i.setTitle(file.getName());
+                JSONParser j = new JSONParser(i);
+                new Thread(new Runnable() {
+                    public void run() {
+                        FileMan.uploadFile(getActivity().getApplicationContext(), selectedImagePath);
+                    }
+                }).start();
+                WebParams webParamsReg = new WebParams();
+                webParamsReg.adresa = WebSite.WebAdress.getAdresa();
+                webParamsReg.service = "image_db.php";
+                webParamsReg.params = j.getString();
+                webParamsReg.listener = response;
+                new WebRequest().execute(webParamsReg);
+                Toast.makeText(getActivity(), "Slika odabrana.", Toast.LENGTH_LONG).show();
             }
         }
         catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getActivity().getApplicationContext(), "Molimo odaberite sliku ponovo.", Toast.LENGTH_LONG).show();
         }
-        if(!selectedImagePath.isEmpty()){
-            String id = userId;
-            File file = FileMan.returnFile(selectedImagePath);
-            ImageItem i = new ImageItem();
-            i.setId(id);
-            i.setTitle(file.getName());
-            JSONParser j = new JSONParser(i);
-            new Thread(new Runnable() {
-                public void run() {
-                    FileMan.uploadFile(getActivity().getApplicationContext(), selectedImagePath);
-                }
-            }).start();
-            WebParams webParamsReg = new WebParams();
-            webParamsReg.adresa = WebSite.WebAdress.getAdresa();
-            webParamsReg.service = "image_db.php";
-            webParamsReg.params = j.getString();
-            webParamsReg.listener = response;
-            new WebRequest().execute(webParamsReg);
-            Toast.makeText(getActivity(), "Slika odabrana.", Toast.LENGTH_LONG).show();
-        }
+
     }
     @Override
     public void onTaskCompleted(ArrayList<String> result) {
