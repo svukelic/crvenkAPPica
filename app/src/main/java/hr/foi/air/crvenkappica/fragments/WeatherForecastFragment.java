@@ -63,20 +63,6 @@ public class WeatherForecastFragment extends Fragment {
 
         graph = (GraphView) view.findViewById(R.id.graph);
 
-        /*Calendar calendar = Calendar.getInstance();
-        d1 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        d2 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        d3 = calendar.getTime();
-
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 2),
-                new DataPoint(2, 3),
-        });
-        graph.addSeries(series);*/
-
         recyclerView = (RecyclerView) view.findViewById(R.id.weather_list);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -93,6 +79,8 @@ public class WeatherForecastFragment extends Fragment {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                 //if (!searchString.isEmpty()) {
+
+                graph.removeAllSeries();
 
                     progressdialog = new ProgressDialog(getActivity());
                     progressdialog.setTitle("Dohvat");
@@ -172,13 +160,52 @@ public class WeatherForecastFragment extends Fragment {
                 String[] lista = new String[jArray.length()];
                 Date[] datum = new Date[jArray.length()];
 
+                int dan = 0;
+                Date[] date = new Date[jArray.length()];
+                double[] temperatura = new double[jArray.length()];
+                double[] prosjek = new double[jArray.length()];
+                int[] prebroj = new int[jArray.length()];
+                String prethodni = "";
+                String priv;
+                Date tempDate;
+
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat outputDate = new SimpleDateFormat("yyyy-MM-dd");
+
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
+
+                });
+
+                for(int i=0; i<jArray.length(); i++){
+                    prebroj[i] = 0;
+                }
+
                 for(int i=0; i<jArray.length(); i++) {
                     JSONObject json_data = jArray.getJSONObject(i);
                     JSONObject main = json_data.getJSONObject("main");
                     JSONArray weatherArray = json_data.getJSONArray("weather");
                     JSONObject weather = weatherArray.getJSONObject(0);
 
+                    priv = json_data.getString("dt_txt");
+                    try{
+                        tempDate = format.parse(priv);
+                        priv = outputDate.format(tempDate);
+                    } catch (ParseException e) {
+                    }
+
                     weatherCode = weather.getString("icon");
+
+                    if(!priv.equals(prethodni)){
+                        try{
+                            date[dan] = outputDate.parse(prethodni);
+                        } catch (ParseException e) {
+                        }
+                        prethodni = priv;
+                        dan++;
+                    }
+
+                    temperatura[dan] += Double.parseDouble(main.getString("temp"));
+                    prebroj[dan]++;
 
                     lista[i] = "Datum: " + json_data.getString("dt_txt") + "\n" +
                             "Vrijeme: " + weather.getString("main") + "\n" +
@@ -192,23 +219,23 @@ public class WeatherForecastFragment extends Fragment {
 
                     items.add(calendarItem);
 
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    try {
-                        datum[i] = format.parse(json_data.getString("dt_txt"));
-                    } catch (ParseException e) {
-                    }
-
-                    LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                            new DataPoint(datum[i], Double.parseDouble(main.getString("temp"))),
-                    });
-                    graph.addSeries(series);
                 }
+
+                for(int i=1; i<dan; i++) {
+
+                    prosjek[i] = temperatura[i] / prebroj[i];
+
+                    series.appendData(new DataPoint(date[i], prosjek[i]), false, 10);
+
+                }
+
+                graph.addSeries(series);
 
                 graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
                 graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
-                graph.getViewport().setMinX(datum[0].getTime());
-                graph.getViewport().setMaxX(datum[jArray.length()-1].getTime());
+                graph.getViewport().setMinX(date[1].getTime());
+                graph.getViewport().setMaxX(date[dan-1].getTime());
                 graph.getViewport().setXAxisBoundsManual(true);
 
                 adapter = new CalendarAdapter(items,getActivity());
