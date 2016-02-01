@@ -7,6 +7,4 @@
     android:dividerHeight="5dp"
     android:background="#ee2a2a2a"
     tools:context=".fragments.NavigationDrawerFragment"
-    android:clickable="true"
-    android:drawSelectorOnTop="true"
-    android:theme="@style/Base.V7.Theme.AppCompat.Light" />
+     />

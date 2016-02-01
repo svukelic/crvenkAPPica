@@ -73,7 +73,8 @@
             android:id="@+id/buttonList"
             android:layout_below="@+id/viewLine"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_gravity="left"/>
 
         <Button
             android:layout_width="match_parent"
@@ -82,7 +83,8 @@
             android:id="@+id/buttonTrend"
             android:layout_below="@+id/viewLine"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_gravity="right"/>
 
     </LinearLayout>
 

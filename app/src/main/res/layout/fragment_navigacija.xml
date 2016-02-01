@@ -95,13 +95,43 @@
             android:textSize="22dp"
             android:textColor="#090909" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textSize="15dp"
+            android:layout_marginTop="25dp"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout1"
+            android:id="@+id/relative2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22dp"
+                android:id="@+id/status"
+                android:textColor="#090909"
+                android:onClick="onClick"
+                android:clickable="true"/>
+
+            <EditText
+                android:id="@+id/etStatus"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
         <Button
             android:id="@+id/button_album"
             android:layout_width="141dp"
             android:layout_height="wrap_content"
             android:text="@string/album"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="@color/colorPrimary"
             android:textColor="#f9f7f7"/>
     </LinearLayout>
