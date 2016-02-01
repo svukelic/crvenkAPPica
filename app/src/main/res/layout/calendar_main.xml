@@ -2,13 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hr.foi.air.crvenkappica.fragments.SeasonsFragment">
+    tools:context="hr.foi.air.crvenkappica.fragments.SeasonsFragment"
+    android:layout_marginTop="10dp">
 
     <Spinner
     android:id="@+id/months_spinner"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+        android:background="#efebe9"
+        android:layout_marginBottom="10dp">
     </Spinner>
 
     <android.support.v7.widget.RecyclerView
