@@ -1,6 +1,4 @@
 package hr.foi.air.crvenkappica.fragments;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -8,12 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import hr.foi.air.crvenkappica.login.Login;
-import hr.foi.air.crvenkappica.login.LoginStatus;
 import hr.foi.air.crvenkappica.R;
-import hr.foi.air.crvenkappica.news.NewsWebView;
+import hr.foi.air.crvenkappica.login.LoginStatus;
 
 public class NavigationFragment extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
