@@ -185,12 +185,12 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         try {
             switch(requestCode) {
                 case CAMERA:
-                    OnImageReturn o = new ImageFromResultCamera();
-                    selectedImagePath = o.GetPath(getActivity().getApplicationContext(), resultCode, data);
+                    OnImageReturn onImageReturn = new ImageFromResultCamera();
+                    selectedImagePath = onImageReturn.GetPath(getActivity().getApplicationContext(), resultCode, data);
                     break;
                 case ALBUM:
-                    OnImageReturn o2 = new ImageFromResultGallery();
-                    selectedImagePath = o2.GetPath(getActivity().getApplicationContext(), resultCode, data);
+                    OnImageReturn onImageReturn1 = new ImageFromResultGallery();
+                    selectedImagePath = onImageReturn1.GetPath(getActivity().getApplicationContext(), resultCode, data);
                     break;
                 default:
                     super.onActivityResult(requestCode, resultCode, data);
