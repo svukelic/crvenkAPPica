@@ -147,7 +147,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                     Toast.makeText(getActivity().getApplicationContext(), "Korisnik nema slika u albumu.", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(getActivity().getApplicationContext(), "Učitavam slike.", Toast.LENGTH_SHORT).show();
+
                     for(int i=0; i<jArray.length(); i++) {
                         JSONObject json_data = jArray.getJSONObject(i);
                         lista[i] = json_data.getString("Link");
@@ -169,14 +169,14 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         @Override
         public void processFinish(String output) {
             if (output.equals("uspjeh")) {
-                Toast.makeText(getActivity().getApplicationContext(), "Image upload done.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Uspješan upload.", Toast.LENGTH_LONG).show();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(f).attach(f).commit();
             }
             if (output.equals("greska prilikom upisa")) {
-                Toast.makeText(getActivity().getApplicationContext(), "Error during image upload.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Greška prilikom uploada.", Toast.LENGTH_LONG).show();
             }
-            if(output == null || output.isEmpty()) Toast.makeText(getActivity().getApplicationContext(), "Problem with internet connection", Toast.LENGTH_LONG).show();
+            if(output == null || output.isEmpty()) Toast.makeText(getActivity().getApplicationContext(), "Problem sa internetskom vezom.", Toast.LENGTH_LONG).show();
         }
     };
     //Nakon sto smo odabrali sliku (s kamere, iz galerije) istu ćemo dobiti kao rezultat u kao Intent data parametar
@@ -185,12 +185,12 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         try {
             switch(requestCode) {
                 case CAMERA:
-                    OnImageReturn o = new ImageFromResultCamera();
-                    selectedImagePath = o.GetPath(getActivity().getApplicationContext(), resultCode, data);
+                    OnImageReturn onImageReturn = new ImageFromResultCamera();
+                    selectedImagePath = onImageReturn.GetPath(getActivity().getApplicationContext(), resultCode, data);
                     break;
                 case ALBUM:
-                    OnImageReturn o2 = new ImageFromResultGallery();
-                    selectedImagePath = o2.GetPath(getActivity().getApplicationContext(), resultCode, data);
+                    OnImageReturn onImageReturn1 = new ImageFromResultGallery();
+                    selectedImagePath = onImageReturn1.GetPath(getActivity().getApplicationContext(), resultCode, data);
                     break;
                 default:
                     super.onActivityResult(requestCode, resultCode, data);
@@ -199,7 +199,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         }
         catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getActivity().getApplicationContext(), "Please choose image again.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Molimo odaberite sliku ponovo.", Toast.LENGTH_LONG).show();
         }
         if(!selectedImagePath.isEmpty()){
             String id = userId;
@@ -219,7 +219,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
             webParamsReg.params = j.getString();
             webParamsReg.listener = response;
             new WebRequest().execute(webParamsReg);
-            Toast.makeText(getActivity(), "Image chosen.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Slika odabrana.", Toast.LENGTH_LONG).show();
         }
     }
     @Override
