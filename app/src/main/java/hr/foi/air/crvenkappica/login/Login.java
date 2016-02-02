@@ -32,7 +32,6 @@ public class Login extends Activity implements LoginView{
     private TextView register;
     private ProgressDialog progressdialog;
     private String userNameStatus;
-    private boolean loggedIn = false;
     private LoginPresenter presenter;
     /**
      * Pokreće se pri kreiranju aktivnosti, postavlja se layout.
@@ -148,10 +147,6 @@ public class Login extends Activity implements LoginView{
         }
     };
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     public String getUserName() {

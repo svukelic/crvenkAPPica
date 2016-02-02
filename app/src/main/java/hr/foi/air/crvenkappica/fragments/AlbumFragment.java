@@ -231,7 +231,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
      * Podaci dobiveni od strane asynctask-a (lista imageitem-a) prikazuju se u gridview-u
      */
     public void onTaskCompleted2(ArrayList<ImageItem> result) {
-        gridView = (GridView) getActivity().findViewById(R.id.gridView);
+        gridView = (GridView)getActivity().findViewById(R.id.gridView);
         gridAdapter = new GridViewAdapter(getActivity().getApplicationContext(),R.layout.grid_item_layout,result);
         gridView.setAdapter(gridAdapter);
         gridView.refreshDrawableState();
