@@ -4,6 +4,7 @@ package hr.foi.air.crvenkappica.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,8 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
     private String[] lista;
     private OnTaskCompleted o;
     private String userId;
+    private MyDialogFragment myDialogFragment;
+    private FragmentManager fm;
     /**
      * Kreira te vraća view pripadnog fragmenta.
      * Poziva se webrequest koji dohvaća listu slika koje je korisnik uploadao.
@@ -68,6 +71,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         gridView = (GridView) view.findViewById(R.id.gridView);
         b = (Button) view.findViewById(R.id.kamera);
         b2 = (Button) view.findViewById(R.id.album);
+        fm = getFragmentManager();
         //Listener za click na button
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -78,7 +82,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                 data.putString("title", item.getTitle());
                 data.putParcelable("image", item.getImage());
                 imageFragment.setArguments(data);
-                getFragmentManager().beginTransaction()
+                fm.beginTransaction()
                         .add(R.id.container352, imageFragment).addToBackStack(null)
                         .commit();
             }
@@ -114,6 +118,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         new WebRequest().execute(webParamsReg);
         o = this;
         f= this;
+        myDialogFragment = new MyDialogFragment();
 
         return view;
     }
@@ -145,7 +150,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                     Toast.makeText(getActivity().getApplicationContext(), "Korisnik nema slika u albumu.", Toast.LENGTH_LONG).show();
                 }
                 else{
-
+                    myDialogFragment.show(fm, "Album Fragment");
                     for(int i=0; i<jArray.length(); i++) {
                         JSONObject json_data = jArray.getJSONObject(i);
                         lista[i] = json_data.getString("Link");
