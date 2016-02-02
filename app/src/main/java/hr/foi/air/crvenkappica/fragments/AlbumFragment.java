@@ -142,7 +142,7 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
                 JSONArray jArray = jsonObject.getJSONArray("List");
                 lista = new String[jArray.length()];
                 if(lista.length <1){
-                    //Toast.makeText(getActivity().getApplicationContext(), "Korisnik nema slika u albumu.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Korisnik nema slika u albumu.", Toast.LENGTH_LONG).show();
                 }
                 else{
 
