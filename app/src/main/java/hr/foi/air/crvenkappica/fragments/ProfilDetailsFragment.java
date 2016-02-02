@@ -37,6 +37,7 @@ public class ProfilDetailsFragment extends Fragment  {
     private ProgressDialog progressdialog;
     private String userName, id_korisnik;
     private Button buttonAlbum;
+    private Button buttonStatus;
 
     private ProgressDialog dialog;
 
@@ -51,6 +52,7 @@ public class ProfilDetailsFragment extends Fragment  {
         final View view = inflater.inflate(R.layout.fragment_navigacija, container, false);
 
         buttonAlbum = (Button)view.findViewById(R.id.button_album);
+        buttonStatus = (Button)view.findViewById(R.id.button_status);
         userName = LoginStatus.LoginInfo.getProfilSearch();
         tvUsername = (TextView) view.findViewById(R.id.username);
 
@@ -61,6 +63,7 @@ public class ProfilDetailsFragment extends Fragment  {
         etStatus = (EditText) view.findViewById(R.id.etStatus);
 
         etStatus.setVisibility(View.INVISIBLE);
+        buttonStatus.setVisibility(View.INVISIBLE);
 
         progressdialog = new ProgressDialog(getActivity());
         progressdialog.setTitle("Profil");
@@ -110,6 +113,12 @@ public class ProfilDetailsFragment extends Fragment  {
                             tvStatus.setVisibility(View.INVISIBLE);
                         }
                     });
+
+                    buttonStatus.getHandler().post(new Runnable() {
+                        public void run() {
+                            buttonStatus.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
             }
         });
@@ -121,42 +130,27 @@ public class ProfilDetailsFragment extends Fragment  {
                     // If the event is a key-down event on the "enter" button
                     if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                             (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        // Perform action on key press
 
                         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
-                    /*dialog = new ProgressDialog(getActivity());
-                    dialog.setTitle("Status");
-                    dialog.setMessage("Osvježavanje statusa u tijeku"); //treba provjeriti da se iz strings.xml ucitava
-                    dialog.setIndeterminate(false);
-                    dialog.setCancelable(false);
-                    dialog.show();*/
-                        WebParams webParamsReg = new WebParams();
-                        webParamsReg.adresa = WebSite.WebAdress.getAdresa();
-                        webParamsReg.service = "status_update.php";
-                        webParamsReg.params = "?Username=" + LoginStatus.LoginInfo.getLoginName() + "&Status=" + etStatus.getText();
-                        webParamsReg.listener = response;
-                        new WebRequest().execute(webParamsReg);
-
-                        tvStatus.setText(etStatus.getText());
-
-                        etStatus.getHandler().post(new Runnable() {
-                            public void run() {
-                                etStatus.setVisibility(View.INVISIBLE);
-                            }
-                        });
-
-                        tvStatus.getHandler().post(new Runnable() {
-                            public void run() {
-                                tvStatus.setVisibility(View.VISIBLE);
-                            }
-                        });
+                        StatusUpdate();
 
                         return true;
                     }
                 }
-                    return false;
+                return false;
+            }
+        });
+
+        buttonStatus.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+                StatusUpdate();
+
             }
         });
 
@@ -188,19 +182,34 @@ public class ProfilDetailsFragment extends Fragment  {
         }
     };
 
-    /*AsyncResponse response2 = new AsyncResponse() {
-        @Override
-        public void processFinish(String output) {
+    void StatusUpdate(){
 
-            dialog.hide();
+        WebParams webParamsReg = new WebParams();
+        webParamsReg.adresa = WebSite.WebAdress.getAdresa();
+        webParamsReg.service = "status_update.php";
+        webParamsReg.params = "?Username=" + LoginStatus.LoginInfo.getLoginName() + "&Status=" + etStatus.getText();
+        webParamsReg.listener = response;
+        new WebRequest().execute(webParamsReg);
 
-            try {
-                final JSONObject jsonObject = new JSONObject(output);
-                if(!output.equals("uspjeh")) Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
-            } catch (JSONException e) {
-                Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
+        tvStatus.setText(etStatus.getText());
+
+        etStatus.getHandler().post(new Runnable() {
+            public void run() {
+                etStatus.setVisibility(View.INVISIBLE);
             }
-        }
-    };*/
+        });
+
+        tvStatus.getHandler().post(new Runnable() {
+            public void run() {
+                tvStatus.setVisibility(View.VISIBLE);
+            }
+        });
+
+        buttonStatus.getHandler().post(new Runnable() {
+            public void run() {
+                buttonStatus.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
 
 }

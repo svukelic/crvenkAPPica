@@ -104,7 +104,7 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="54dp"
             android:layout_below="@+id/layout1"
             android:id="@+id/relative2">
 
@@ -117,11 +117,30 @@
                 android:onClick="onClick"
                 android:clickable="true"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/etStatus"
                 android:padding="@dimen/activity_horizontal_margin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="194dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.57" />
+
+            <Button
+                android:id="@+id/button_status"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Završi"
+                android:layout_gravity="right"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorPrimary"
+                android:textColor="#f9f7f7"/>
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -131,7 +150,7 @@
             android:layout_height="wrap_content"
             android:text="@string/album"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:background="@color/colorPrimary"
             android:textColor="#f9f7f7"/>
     </LinearLayout>

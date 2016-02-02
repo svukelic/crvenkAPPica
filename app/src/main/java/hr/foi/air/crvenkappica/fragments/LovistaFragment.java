@@ -136,7 +136,7 @@ public class LovistaFragment extends Fragment {
                 });
 
             } catch (JSONException e) {
-                Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
             }
 
         }
