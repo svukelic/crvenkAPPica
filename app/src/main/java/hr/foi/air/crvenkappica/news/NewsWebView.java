@@ -34,19 +34,6 @@ public class NewsWebView extends Activity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
     }
-
-    /**
-     * Potrebno je naslijediti klasu WebViewClient te overrideati metodu
-     * shouldOverrideUrlLoading (vratiti true) kako bi se omogućilo daljnje pretraživanje internetskih
-     * stranica unutar WebView-a.
-     */
-
-    private class Browser extends WebViewClient{
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            webView.loadUrl(url);
-            return true;
-        }
-    }
+    
 }
 
