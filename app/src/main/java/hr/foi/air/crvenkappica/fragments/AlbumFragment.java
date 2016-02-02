@@ -182,21 +182,22 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
     //Nakon sto smo odabrali sliku (s kamere, iz galerije) istu ćemo dobiti kao rezultat u kao Intent data parametar
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+        OnImageReturn onImageReturn = null;
         try {
             switch(requestCode) {
                 case CAMERA:
-                    OnImageReturn onImageReturn = new ImageFromResultCamera();
-                    selectedImagePath = onImageReturn.GetPath(getActivity().getApplicationContext(), resultCode, data);
+                    onImageReturn = new ImageFromResultCamera();
                     break;
                 case ALBUM:
-                    OnImageReturn onImageReturn1 = new ImageFromResultGallery();
-                    selectedImagePath = onImageReturn1.GetPath(getActivity().getApplicationContext(), resultCode, data);
+                    onImageReturn = new ImageFromResultGallery();
                     break;
 
                 default:
                     super.onActivityResult(requestCode, resultCode, data);
                     break;
             }
+            selectedImagePath = onImageReturn.GetPath(getActivity().getApplicationContext(), resultCode, data);
+
             if(!selectedImagePath.isEmpty()){
                 String id = userId;
                 File file = FileMan.returnFile(selectedImagePath);
