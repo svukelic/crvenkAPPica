@@ -3,7 +3,6 @@ package hr.foi.air.crvenkappica.news;
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import hr.foi.air.crvenkappica.R;
 
@@ -34,6 +33,6 @@ public class NewsWebView extends Activity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
     }
-    
+
 }
 

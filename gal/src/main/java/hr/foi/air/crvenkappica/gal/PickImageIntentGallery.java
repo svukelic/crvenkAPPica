@@ -2,16 +2,12 @@ package hr.foi.air.crvenkappica.gal;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
 import hr.foi.air.crvenkappica.core.IntentsToList;
-import hr.foi.air.crvenkappica.core.TempFile;
+
 
 
 /**

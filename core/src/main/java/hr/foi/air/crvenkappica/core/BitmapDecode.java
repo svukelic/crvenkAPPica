@@ -5,11 +5,8 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.Log;
-
 import java.io.FileNotFoundException;
 
-import hr.foi.air.crvenkappica.core.OnImageReturn;
 
 /**
  * Created by Mario on 28.01.2016..

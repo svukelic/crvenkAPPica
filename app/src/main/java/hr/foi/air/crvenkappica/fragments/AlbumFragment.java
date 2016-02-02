@@ -2,8 +2,6 @@ package hr.foi.air.crvenkappica.fragments;
 
 
 import android.content.Intent;
-
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
