@@ -3,7 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-
+    packagingOptions{
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE.txt'
+    }
 
     defaultConfig {
         applicationId "hr.foi.air.crvenkappica"
@@ -32,7 +35,6 @@ dependencies {
     compile project(':core')
     compile project(':gal')
     compile project(':cam')
-    compile "com.android.support:appcompat-v7:21.0.+"
     compile 'com.android.support:design:23.1.1'
     compile 'com.google.code.gson:gson:2.4'
     compile 'org.jsoup:jsoup:1.8.3'
@@ -44,14 +46,19 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.4-alpha1'
     compile 'joda-time:joda-time:2.7'
     compile 'com.jjoe64:graphview:4.0.1'
+
+
 }
 
 dependencies {
     compile 'com.android.support:support-v4:23.+'
 }
 dependencies {
-    compile 'com.android.support:support-v4:23.+'
+    compile 'com.android.support:appcompat-v7:23.+'
+    compile 'org.osmdroid:osmdroid-android:5.1@aar'
+    compile 'com.github.MKergall.osmbonuspack:OSMBonusPack:v5.7'
 }
+
 dependencies {
     androidTestCompile fileTree(dir: 'libs', include: ['robotium-solo-5.5.3.jar'])
 }

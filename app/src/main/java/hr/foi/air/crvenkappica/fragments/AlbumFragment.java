@@ -108,8 +108,11 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         if(bundle != null){
             String id_user = bundle.getString("ID", null);
             webParamsReg.params = "?id=" + id_user;
-            b.setVisibility(View.GONE);
-            b2.setVisibility(View.GONE);
+            userId = LoginStatus.LoginInfo.getLoginID();
+            if(!id_user.equals(userId)){
+                b.setVisibility(View.GONE);
+                b2.setVisibility(View.GONE);
+            }
         }
         else{
             webParamsReg.params = "?id=" + userId;
@@ -119,7 +122,6 @@ public class AlbumFragment extends Fragment implements OnTaskCompleted {
         o = this;
         f= this;
         myDialogFragment = new MyDialogFragment();
-
         return view;
     }
     //Pri kliku na button, otvara nam se prozor na kojem biramo s kojeg "servisa" zelimo odabrati slike: kamera, galerija...
