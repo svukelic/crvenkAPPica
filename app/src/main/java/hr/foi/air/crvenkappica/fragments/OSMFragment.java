@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 
 
 import org.osmdroid.api.IMapController;
-import org.osmdroid.api.Marker;
+import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -21,9 +22,9 @@ import hr.foi.air.crvenkappica.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AirMapViewFragment extends Fragment {
+public class OSMFragment extends Fragment {
 
-    public AirMapViewFragment() {
+    public OSMFragment() {
         // Required empty public constructor
     }
 
@@ -34,22 +35,28 @@ public class AirMapViewFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_air_map_view, container, false);
         MapView map = (MapView) view.findViewById(R.id.map);
+        GeoPoint startPoint = new GeoPoint(46.310834, 16.089587);
+        GeoPoint point2 = new GeoPoint(46.336756, 16.147521);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
-        org.osmdroid.bonuspack.overlays.Marker startMarker = new org.osmdroid.bonuspack.overlays.Marker(map);
         IMapController mapController = map.getController();
         mapController.setZoom(14);
-        GeoPoint startPoint = new GeoPoint(46.307727, 16.338072);
         mapController.setCenter(startPoint);
-
-
+        Marker startMarker = new Marker(map);
         startMarker.setPosition(startPoint);
-        startMarker.setAnchor(org.osmdroid.bonuspack.overlays.Marker.ANCHOR_CENTER, org.osmdroid.bonuspack.overlays.Marker.ANCHOR_BOTTOM);
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        startMarker.setTitle("Lovište Voća");
+        startMarker.setSubDescription("Površina: 3886 ha, zajedničko lovište.");
         map.getOverlays().add(startMarker);
+        Marker marker2 = new Marker(map);
+        marker2.setPosition(point2);
+        marker2.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        marker2.setTitle("Lovište Vinica");
+        marker2.setSubDescription("Površina: 2663 ha, zajedničko lovište.");
+        map.getOverlays().add(startMarker);
+        map.getOverlays().add(marker2);
         map.invalidate();
-
-
         return view;
     }
 

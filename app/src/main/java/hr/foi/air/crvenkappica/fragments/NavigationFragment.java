@@ -99,7 +99,7 @@ public class NavigationFragment extends AppCompatActivity implements NavigationD
                 break;
             case 9:
                 manager.beginTransaction()
-                        .replace(R.id.container352, new AirMapViewFragment())
+                        .replace(R.id.container352, new OSMFragment())
                         .commit();
                 drawerLayout.closeDrawers();
                 break;

@@ -107,7 +107,7 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.hunting_seasons),
                         getString(R.string.lovista),
                         "Mapa",
-                        "AirMap"
+                        "OSM Maps"
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
